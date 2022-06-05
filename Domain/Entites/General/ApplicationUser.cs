@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Entites.General
 {
@@ -11,6 +8,7 @@ namespace Domain.Entites.General
     {
         public string FullName { get; set; }
         public bool IsActive { get; set; }
+        public string? BusinessName { get; set; }
 
 
         public virtual ICollection<ApplicationRole> UserRoles { get; set; } = new List<ApplicationRole>();

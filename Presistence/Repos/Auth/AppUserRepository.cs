@@ -16,11 +16,10 @@ namespace Presistence.Repos.Auth
     public class AppUserRepository : IAppUserRepository
     {
         private UserManager<ApplicationUser> _userManager;
-        protected readonly ApplicationDbContext _dbContext;
-        public AppUserRepository(UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext)
+
+        public AppUserRepository(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
-            _dbContext = dbContext;
         }
     
         public async Task AddRoleToUser(ApplicationUser user, string Role)
@@ -29,11 +28,11 @@ namespace Presistence.Repos.Auth
 
         }
 
-        //public async Task<List<ApplicationUser>> GetAllBussinusOwner()
-        //{
-        //    var user = await _userManager.Users.Where(a => a.CompanyName != "").Include(a => a.UserRoles).ToListAsync();
-        //    return user;
-        //}
+        public async Task<List<ApplicationUser>> GetAllBussinusOwner()
+        {
+            var user = await _userManager.Users.Where(a => a.BusinessName != "").Include(a => a.UserRoles).ToListAsync();
+            return user;
+        }
 
         public async Task<TokenEntity> GetToken(string userName, string password, string topSecretKey, string issuer, string audience)
         {
@@ -83,9 +82,14 @@ namespace Presistence.Repos.Auth
             }
         }
 
-        public async Task<ApplicationUser> GetUserByEmail(string email)
+        public async Task<ApplicationUser> GetUserByEmailAsync(string email)
         {
             var User = await _userManager.Users.Where(x => x.Email == email).FirstOrDefaultAsync();
+            return User;
+        }
+        public  ApplicationUser GetUserByEmail(string email)
+        {
+            var User =  _userManager.Users.Where(x => x.Email == email).FirstOrDefault();
             return User;
         }
 
