@@ -50,7 +50,7 @@ namespace Application.Services.Auth
                     return new ServiceResponse<TokenDto> { Success = false, Data = null, Message = "user name or password is Empty" };
 
                 var token = await _appUserRepository.
-                    GetToken(loginDto.UserName, loginDto.Password, "HiringSuperSecretPassword", "PetKeeper.com", "PetKeeper.com");
+                    GetToken(loginDto.UserName, loginDto.Password, "SuperSecretPassword", "PetKeeper.com", "PetKeeper.com");
                 if (token == null)
                     return new ServiceResponse<TokenDto> { Success = false, Data = null, Message = "Invaild Login" };
                 if(!token.IsActive)

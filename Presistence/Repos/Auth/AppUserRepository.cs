@@ -38,7 +38,7 @@ namespace Presistence.Repos.Auth
         {
             try
             {
-                var user = await _userManager.Users.Include(q => q.UserRoles).Where(q => q.UserName == userName).FirstOrDefaultAsync();
+                var user =  _userManager.Users.Include(q => q.UserRoles).Where(q => q.UserName == userName).FirstOrDefault();
                 if (user != null && await _userManager.CheckPasswordAsync(user, password))
                 {
                     var claims = new[]{
