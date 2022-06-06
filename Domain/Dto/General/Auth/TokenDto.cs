@@ -17,7 +17,6 @@ namespace Domain.Dto.General.Auth
     public class ApplicationUserDto
     {
         public string? UserName { get; set;}
-        public string? BusinessName { get; set; }
         public string? FullName { get; set; }
         public string? ProfilePicture { get; set; }
     }

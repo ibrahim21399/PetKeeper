@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Presistence;
 
@@ -11,9 +12,10 @@ using Presistence;
 namespace Presistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220605204322_cityArea")]
+    partial class cityArea
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,21 +39,6 @@ namespace Presistence.Migrations
                     b.ToTable("ApplicationRoleApplicationUser");
                 });
 
-            modelBuilder.Entity("BusinessService", b =>
-                {
-                    b.Property<Guid>("BusinessesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ServicesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("BusinessesId", "ServicesId");
-
-                    b.HasIndex("ServicesId");
-
-                    b.ToTable("BusinessService");
-                });
-
             modelBuilder.Entity("Domain.Entites.Area", b =>
                 {
                     b.Property<int>("Id")
@@ -72,46 +59,6 @@ namespace Presistence.Migrations
                     b.HasIndex("CityId");
 
                     b.ToTable("Areas");
-                });
-
-            modelBuilder.Entity("Domain.Entites.Business", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("AreaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("BusinessDesc")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("BusinessName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("BusinessRate")
-                        .HasColumnType("real");
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Created_Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("DocID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AreaId");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("DocID");
-
-                    b.ToTable("Businesses");
                 });
 
             modelBuilder.Entity("Domain.Entites.City", b =>
@@ -167,6 +114,9 @@ namespace Presistence.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("BusinessName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -275,24 +225,6 @@ namespace Presistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Attachments");
-                });
-
-            modelBuilder.Entity("Domain.Entites.Service", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Created_Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ServiceTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Services");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -413,21 +345,6 @@ namespace Presistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BusinessService", b =>
-                {
-                    b.HasOne("Domain.Entites.Business", null)
-                        .WithMany()
-                        .HasForeignKey("BusinessesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entites.Service", null)
-                        .WithMany()
-                        .HasForeignKey("ServicesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Domain.Entites.Area", b =>
                 {
                     b.HasOne("Domain.Entites.City", "City")
@@ -435,33 +352,6 @@ namespace Presistence.Migrations
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("City");
-                });
-
-            modelBuilder.Entity("Domain.Entites.Business", b =>
-                {
-                    b.HasOne("Domain.Entites.Area", "Area")
-                        .WithMany()
-                        .HasForeignKey("AreaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entites.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entites.General.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("DocID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("Area");
 
                     b.Navigation("City");
                 });

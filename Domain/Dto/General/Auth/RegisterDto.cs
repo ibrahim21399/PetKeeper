@@ -20,10 +20,9 @@ namespace Domain.Dto.General.Auth
         [Required]
         [Compare("Password", ErrorMessage = "Password Not Match")]
         public string? ConfirmPassword { get; set; }
-        [Required]
-        public string? Role { get; set; }
+        //[Required]
+        //public string? Role { get; set; }
         public bool IsActive { get; set; }
-        public string? BusinessName { get; set; }
         public string?PhoneNumber { get; set; }
     }
 }

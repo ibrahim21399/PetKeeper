@@ -17,10 +17,6 @@ namespace Application.Services
             return new ServiceResponse<T> { Success = false, Data = data, Message = ex.Message };
         }
 
-        public static string GetCurrentLanguage()
-        {
-            return System.Threading.Thread.CurrentThread.CurrentCulture.ToString();
-        }
 
     }
 }

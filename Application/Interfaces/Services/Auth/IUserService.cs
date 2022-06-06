@@ -10,6 +10,6 @@ namespace Application.Interfaces.Services.Auth
     public interface IUserService
     {
         Task<ServiceResponse<TokenDto>> Token(LoginDto loginDto);
-        Task<ServiceResponse<int>> RegisterAccounUser(RegisterDto registerAccountUserDto);
+        Task<ServiceResponse<int>> RegisterAccounUser(RegisterDto registerAccountUserDto,bool status);
     }
 }

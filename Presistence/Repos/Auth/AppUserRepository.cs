@@ -28,11 +28,11 @@ namespace Presistence.Repos.Auth
 
         }
 
-        public async Task<List<ApplicationUser>> GetAllBussinusOwner()
-        {
-            var user = await _userManager.Users.Where(a => a.BusinessName != "").Include(a => a.UserRoles).ToListAsync();
-            return user;
-        }
+        //public async Task<List<ApplicationUser>> GetAllBussinusOwner()
+        //{
+        //    var user = await _userManager.Users.Where(a => a.BusinessName != "").Include(a => a.UserRoles).ToListAsync();
+        //    return user;
+        //}
 
         public async Task<TokenEntity> GetToken(string userName, string password, string topSecretKey, string issuer, string audience)
         {

@@ -1,8 +1,11 @@
 using Application;
-using Application.Interfaces.Repos;
 using Application.Interfaces.Repos.Auth;
+using Application.Interfaces.Repos.General;
 using Application.Interfaces.Services.Auth;
+using Application.Interfaces.Services.General;
 using Application.Services.Auth;
+using Application.Services.General;
+using Domain.Entites;
 using Domain.Entites.General;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using Presistence;
 using Presistence.Interfaces.Repos;
 using Presistence.Repos.Auth;
+using Presistence.Repos.General;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -63,9 +67,9 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidateIssuerSigningKey = true,
         ValidateLifetime = true,
-        ValidIssuer = "Hiring.com",
-        ValidAudience = "Hiring.com",
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("HiringSuperSecretPassword"))
+        ValidIssuer = "PetKeeper.com",
+        ValidAudience = "PetKeeper.com",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretPassword"))
     };
 });
 #endregion
@@ -75,15 +79,22 @@ builder.Services.AddCors(c =>
 {
     c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
 });
+
+
+
 #region Repositories
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAppUserRepository, AppUserRepository>();
+builder.Services.AddScoped<ICityAreaRepository<Area>, CityAreaRepository<Area>>();
+builder.Services.AddScoped<ICityAreaRepository<City>, CityAreaRepository<City>>();
+
 
 
 #endregion
 
 #region Services
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICitiesAreasService,CitiesAreasService>();
 
 #endregion
 
@@ -101,6 +112,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 
 app.UseHttpsRedirection();
 

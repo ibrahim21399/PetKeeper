@@ -66,7 +66,7 @@ namespace Application.Services.Auth
             }
         }
 
-        public async Task<ServiceResponse<int>> RegisterAccounUser(RegisterDto registerAccountUserDto)
+        public async Task<ServiceResponse<int>> RegisterAccounUser(RegisterDto registerAccountUserDto, bool status)
         {
             try
             {
@@ -76,17 +76,38 @@ namespace Application.Services.Auth
                 #endregion
                 var user = _Mapper.Map<ApplicationUser>(registerAccountUserDto);
                 user.UserName = registerAccountUserDto.Email;
-                if (registerAccountUserDto.Role == RolesName.BusinessOwner.ToString())
+                //if (registerAccountUserDto.Role == RolesName.BusinessOwner.ToString())
+                //{
+                //    registerAccountUserDto.IsActive = false;
+                //}
+                //else
+                if (status== true)
                 {
-                    registerAccountUserDto.IsActive = false;
-                    user.BusinessName= registerAccountUserDto.BusinessName;
-                }
-                else
                     registerAccountUserDto.IsActive = true;
+                }else
+                    registerAccountUserDto.IsActive = user.IsActive = false;
+                    
+
+             
+                     
+                        
+
                 var result = await _userManager.CreateAsync(user, registerAccountUserDto.Password);
                 if (!result.Succeeded) return new ServiceResponse<int> { Success = false, Message = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description)) };
-                await _appUserRepository.AddRoleToUser(user, registerAccountUserDto.Role);
-                var res=await _unitOfWork.CommitAsync();
+                //await _appUserRepository.AddRoleToUser(user, registerAccountUserDto.Role);
+                if (status == true)//client
+                {
+                    await _appUserRepository.AddRoleToUser(user, RolesName.Client.ToString());
+                    
+                }
+                else
+                {
+                    await _appUserRepository.AddRoleToUser(user, RolesName.BusinessOwner.ToString());
+                   
+                }
+
+
+                var res =await _unitOfWork.CommitAsync();
                 return new ServiceResponse<int> { Success = true, Data = 1,Message="Your are Registered Succsfully" };
             }
             catch (Exception ex)
@@ -94,6 +115,8 @@ namespace Application.Services.Auth
                  return await LogError<int>(ex, 0);
             }
         }
+
+
 
 
         //private async Task<bool> CheckIfWorkUnitEmployeeActiveAsync(ApplicationUser user)

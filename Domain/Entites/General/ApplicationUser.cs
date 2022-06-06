@@ -8,7 +8,7 @@ namespace Domain.Entites.General
     {
         public string FullName { get; set; }
         public bool IsActive { get; set; }
-        public string? BusinessName { get; set; }
+       
 
 
         public virtual ICollection<ApplicationRole> UserRoles { get; set; } = new List<ApplicationRole>();

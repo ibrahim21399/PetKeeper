@@ -1,23 +1,23 @@
-﻿{
+{
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:64118",
-      "sslPort": 44396
+      "applicationUrl": "http://localhost:61829/",
+      "sslPort": 44316
     }
   },
   "profiles": {
     "PetKeeper": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:7293;http://localhost:5293",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "https://localhost:7293;http://localhost:5293",
+      "dotnetRunMessages": true
     },
     "IIS Express": {
       "commandName": "IISExpress",

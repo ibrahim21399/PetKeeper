@@ -13,7 +13,7 @@ namespace Application.Mapping.Auth
         public Authprofile()
         {
             CreateMap<ApplicationUser, RegisterDto>()
-                .ForMember(c => c.Role, c => c.Ignore())
+                //.ForMember(c => c.Role, c => c.Ignore())
               .ForMember(c => c.ConfirmPassword, c => c.Ignore())
               .ReverseMap();
             CreateMap<TokenEntity, TokenDto>().ReverseMap();
