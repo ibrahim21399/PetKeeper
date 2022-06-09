@@ -5,7 +5,7 @@ namespace Domain.Entites.General
 {
     public class ApplicationRole:IdentityRole<Guid>
     {
-        public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; } = new List<ApplicationUser>();
+        //public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; } = new List<ApplicationUser>();
 
     }
 }

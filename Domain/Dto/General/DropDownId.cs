@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Dto.General
 {
-    public class DropDown
+    public class DropDownId
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
+        public int Id { get; set; } 
+        public string Name { get; set; }    
     }
 }

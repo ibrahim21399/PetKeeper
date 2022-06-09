@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Presistence;
 
@@ -11,9 +12,10 @@ using Presistence;
 namespace Presistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220608005050_5d")]
+    partial class _5d
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +23,51 @@ namespace Presistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("ApplicationRoleApplicationUser", b =>
+                {
+                    b.Property<Guid>("ApplicationUsersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserRolesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ApplicationUsersId", "UserRolesId");
+
+                    b.HasIndex("UserRolesId");
+
+                    b.ToTable("ApplicationRoleApplicationUser");
+                });
+
+            modelBuilder.Entity("ApplicationUserBusiness", b =>
+                {
+                    b.Property<Guid>("ApplicationUsersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BusinessesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ApplicationUsersId", "BusinessesId");
+
+                    b.HasIndex("BusinessesId");
+
+                    b.ToTable("ApplicationUserBusiness");
+                });
+
+            modelBuilder.Entity("BusinessService", b =>
+                {
+                    b.Property<Guid>("BusinessesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ServicesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("BusinessesId", "ServicesId");
+
+                    b.HasIndex("ServicesId");
+
+                    b.ToTable("BusinessService");
+                });
 
             modelBuilder.Entity("Domain.Entites.Area", b =>
                 {
@@ -50,9 +97,6 @@ namespace Presistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ApplicationUserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("AreaId")
                         .HasColumnType("int");
 
@@ -67,43 +111,25 @@ namespace Presistence.Migrations
                     b.Property<float>("BusinessRate")
                         .HasColumnType("real");
 
-                    b.Property<string>("BusinussPhone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("CityId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Created_Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("DocID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("AreaId");
 
                     b.HasIndex("CityId");
 
                     b.ToTable("Businesses");
-                });
-
-            modelBuilder.Entity("Domain.Entites.BusinessService", b =>
-                {
-                    b.Property<Guid>("ServiceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BusinessId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ServiceId", "BusinessId");
-
-                    b.HasIndex("BusinessId");
-
-                    b.ToTable("BusinessServices");
                 });
 
             modelBuilder.Entity("Domain.Entites.City", b =>
@@ -129,9 +155,6 @@ namespace Presistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ApplicationUserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -145,8 +168,6 @@ namespace Presistence.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
@@ -392,6 +413,51 @@ namespace Presistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ApplicationRoleApplicationUser", b =>
+                {
+                    b.HasOne("Domain.Entites.General.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("ApplicationUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entites.General.ApplicationRole", null)
+                        .WithMany()
+                        .HasForeignKey("UserRolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ApplicationUserBusiness", b =>
+                {
+                    b.HasOne("Domain.Entites.General.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("ApplicationUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entites.Business", null)
+                        .WithMany()
+                        .HasForeignKey("BusinessesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BusinessService", b =>
+                {
+                    b.HasOne("Domain.Entites.Business", null)
+                        .WithMany()
+                        .HasForeignKey("BusinessesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entites.Service", null)
+                        .WithMany()
+                        .HasForeignKey("ServicesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Domain.Entites.Area", b =>
                 {
                     b.HasOne("Domain.Entites.City", null)
@@ -403,12 +469,6 @@ namespace Presistence.Migrations
 
             modelBuilder.Entity("Domain.Entites.Business", b =>
                 {
-                    b.HasOne("Domain.Entites.General.ApplicationUser", null)
-                        .WithMany("Businesses")
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Entites.Area", "Area")
                         .WithMany()
                         .HasForeignKey("AreaId")
@@ -424,32 +484,6 @@ namespace Presistence.Migrations
                     b.Navigation("Area");
 
                     b.Navigation("City");
-                });
-
-            modelBuilder.Entity("Domain.Entites.BusinessService", b =>
-                {
-                    b.HasOne("Domain.Entites.Business", "Business")
-                        .WithMany("BusinessServices")
-                        .HasForeignKey("BusinessId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entites.Service", "Service")
-                        .WithMany("BusinesseServicess")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Business");
-
-                    b.Navigation("Service");
-                });
-
-            modelBuilder.Entity("Domain.Entites.General.ApplicationRole", b =>
-                {
-                    b.HasOne("Domain.Entites.General.ApplicationUser", null)
-                        .WithMany("UserRoles")
-                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -503,26 +537,9 @@ namespace Presistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Entites.Business", b =>
-                {
-                    b.Navigation("BusinessServices");
-                });
-
             modelBuilder.Entity("Domain.Entites.City", b =>
                 {
                     b.Navigation("Areas");
-                });
-
-            modelBuilder.Entity("Domain.Entites.General.ApplicationUser", b =>
-                {
-                    b.Navigation("Businesses");
-
-                    b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("Domain.Entites.Service", b =>
-                {
-                    b.Navigation("BusinesseServicess");
                 });
 #pragma warning restore 612, 618
         }

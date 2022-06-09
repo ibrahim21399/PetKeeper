@@ -10,7 +10,6 @@ namespace Domain.Entites
     public class Service:BaseEntity
     {
         public string ServiceTitle { get; set; }
-        public virtual ICollection<Business> Businesses { get; set; } = new List<Business>();
-
+        public virtual ICollection<BusinessService> BusinesseServicess { get; set; } = new List<BusinessService>();  
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Presistence;
 
@@ -11,9 +12,10 @@ using Presistence;
 namespace Presistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220608231426_22")]
+    partial class _22
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,15 +95,23 @@ namespace Presistence.Migrations
 
             modelBuilder.Entity("Domain.Entites.BusinessService", b =>
                 {
-                    b.Property<Guid>("ServiceId")
+                    b.Property<Guid>("ServicesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BusinessesId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("BusinessId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("ServiceId", "BusinessId");
+                    b.Property<Guid>("ServiceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ServicesId", "BusinessesId");
 
                     b.HasIndex("BusinessId");
+
+                    b.HasIndex("ServiceId");
 
                     b.ToTable("BusinessServices");
                 });

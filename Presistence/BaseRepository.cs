@@ -17,9 +17,10 @@ namespace Presistence
 
         public BaseRepository(ApplicationDbContext dbContext)
         {
+
             _dbContext = dbContext;
         }
-
+        
         public T GetById(Guid id)
         {
             return _dbContext.Set<T>().FirstOrDefault(z => z.Id == id);
@@ -36,6 +37,14 @@ namespace Presistence
                 return await _dbContext.Set<T>().ToListAsync();
             else
                 return await _dbContext.Set<T>().Where(predicate).ToListAsync();
+        }
+
+        public  List<T> GetAll(Expression<Func<T, bool>> predicate = null)
+        {
+            if (predicate == null)
+                return  _dbContext.Set<T>().ToList();
+            else
+                return  _dbContext.Set<T>().Where(predicate).ToList();
         }
 
 
@@ -65,6 +74,8 @@ namespace Presistence
         public virtual void Delete(Guid id)
         {
             T existing = _dbContext.Set<T>().Find(id);
+            if(existing != null)
+                _dbContext.Set<T>().Remove(existing);
         }
 
         public void Update(T obj, params string[] excludedFields)

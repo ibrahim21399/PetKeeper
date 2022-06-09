@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Presistence;
 
@@ -11,9 +12,10 @@ using Presistence;
 namespace Presistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220608210258_ee")]
+    partial class ee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +23,21 @@ namespace Presistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("BusinessService", b =>
+                {
+                    b.Property<Guid>("BusinessesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ServicesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("BusinessesId", "ServicesId");
+
+                    b.HasIndex("ServicesId");
+
+                    b.ToTable("BusinessService");
+                });
 
             modelBuilder.Entity("Domain.Entites.Area", b =>
                 {
@@ -89,21 +106,6 @@ namespace Presistence.Migrations
                     b.HasIndex("CityId");
 
                     b.ToTable("Businesses");
-                });
-
-            modelBuilder.Entity("Domain.Entites.BusinessService", b =>
-                {
-                    b.Property<Guid>("ServiceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BusinessId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ServiceId", "BusinessId");
-
-                    b.HasIndex("BusinessId");
-
-                    b.ToTable("BusinessServices");
                 });
 
             modelBuilder.Entity("Domain.Entites.City", b =>
@@ -392,6 +394,21 @@ namespace Presistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("BusinessService", b =>
+                {
+                    b.HasOne("Domain.Entites.Business", null)
+                        .WithMany()
+                        .HasForeignKey("BusinessesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entites.Service", null)
+                        .WithMany()
+                        .HasForeignKey("ServicesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Domain.Entites.Area", b =>
                 {
                     b.HasOne("Domain.Entites.City", null)
@@ -424,25 +441,6 @@ namespace Presistence.Migrations
                     b.Navigation("Area");
 
                     b.Navigation("City");
-                });
-
-            modelBuilder.Entity("Domain.Entites.BusinessService", b =>
-                {
-                    b.HasOne("Domain.Entites.Business", "Business")
-                        .WithMany("BusinessServices")
-                        .HasForeignKey("BusinessId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entites.Service", "Service")
-                        .WithMany("BusinesseServicess")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Business");
-
-                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("Domain.Entites.General.ApplicationRole", b =>
@@ -503,11 +501,6 @@ namespace Presistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Entites.Business", b =>
-                {
-                    b.Navigation("BusinessServices");
-                });
-
             modelBuilder.Entity("Domain.Entites.City", b =>
                 {
                     b.Navigation("Areas");
@@ -518,11 +511,6 @@ namespace Presistence.Migrations
                     b.Navigation("Businesses");
 
                     b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("Domain.Entites.Service", b =>
-                {
-                    b.Navigation("BusinesseServicess");
                 });
 #pragma warning restore 612, 618
         }

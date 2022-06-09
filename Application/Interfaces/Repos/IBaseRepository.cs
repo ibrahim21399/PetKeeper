@@ -12,6 +12,7 @@ namespace Application.Interfaces.Repos
         T GetById(Guid id);  
         Task<T> GetByIdAsync(Guid id);
         Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null);
+        List<T> GetAll(Expression<Func<T, bool>> predicate = null);
         Task<int> Count(Expression<Func<T, bool>> predicate = null);
         void Create(T obj);
         Task CreateRangeAsync(IEnumerable<T> objList);

@@ -11,7 +11,7 @@ namespace PetKeeper.Controllers
         {
             get
             {
-                return User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                return User.FindFirst(ClaimTypes.NameIdentifier).Value.ToString();
             }
         }
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Presistence;
 
@@ -11,9 +12,10 @@ using Presistence;
 namespace Presistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220608164611_AAA")]
+    partial class AAA
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,7 +52,7 @@ namespace Presistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ApplicationUserId")
+                    b.Property<Guid?>("ApplicationUserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AreaId")
@@ -80,6 +82,9 @@ namespace Presistence.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
@@ -89,21 +94,6 @@ namespace Presistence.Migrations
                     b.HasIndex("CityId");
 
                     b.ToTable("Businesses");
-                });
-
-            modelBuilder.Entity("Domain.Entites.BusinessService", b =>
-                {
-                    b.Property<Guid>("ServiceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BusinessId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ServiceId", "BusinessId");
-
-                    b.HasIndex("BusinessId");
-
-                    b.ToTable("BusinessServices");
                 });
 
             modelBuilder.Entity("Domain.Entites.City", b =>
@@ -277,6 +267,9 @@ namespace Presistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("BusinessId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("Created_Date")
                         .HasColumnType("datetime2");
 
@@ -285,6 +278,8 @@ namespace Presistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BusinessId");
 
                     b.ToTable("Services");
                 });
@@ -405,9 +400,7 @@ namespace Presistence.Migrations
                 {
                     b.HasOne("Domain.Entites.General.ApplicationUser", null)
                         .WithMany("Businesses")
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ApplicationUserId");
 
                     b.HasOne("Domain.Entites.Area", "Area")
                         .WithMany()
@@ -426,30 +419,18 @@ namespace Presistence.Migrations
                     b.Navigation("City");
                 });
 
-            modelBuilder.Entity("Domain.Entites.BusinessService", b =>
-                {
-                    b.HasOne("Domain.Entites.Business", "Business")
-                        .WithMany("BusinessServices")
-                        .HasForeignKey("BusinessId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entites.Service", "Service")
-                        .WithMany("BusinesseServicess")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Business");
-
-                    b.Navigation("Service");
-                });
-
             modelBuilder.Entity("Domain.Entites.General.ApplicationRole", b =>
                 {
                     b.HasOne("Domain.Entites.General.ApplicationUser", null)
                         .WithMany("UserRoles")
                         .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("Domain.Entites.Service", b =>
+                {
+                    b.HasOne("Domain.Entites.Business", null)
+                        .WithMany("Services")
+                        .HasForeignKey("BusinessId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -505,7 +486,7 @@ namespace Presistence.Migrations
 
             modelBuilder.Entity("Domain.Entites.Business", b =>
                 {
-                    b.Navigation("BusinessServices");
+                    b.Navigation("Services");
                 });
 
             modelBuilder.Entity("Domain.Entites.City", b =>
@@ -518,11 +499,6 @@ namespace Presistence.Migrations
                     b.Navigation("Businesses");
 
                     b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("Domain.Entites.Service", b =>
-                {
-                    b.Navigation("BusinesseServicess");
                 });
 #pragma warning restore 612, 618
         }

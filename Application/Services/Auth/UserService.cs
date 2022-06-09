@@ -18,7 +18,7 @@ namespace Application.Services.Auth
     public class UserService : ServiceBase, IUserService
     {
         private readonly IMapper _Mapper;
-        private readonly UserManager<ApplicationUser> _userManager;
+            private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUnitOfWork _unitOfWork;
         //private readonly IEmailSender _emailSender;
         //private readonly IHttpContextAccessor _httpContextAccessor;
@@ -53,8 +53,8 @@ namespace Application.Services.Auth
                     GetToken(loginDto.UserName, loginDto.Password, "SuperSecretPassword", "PetKeeper.com", "PetKeeper.com");
                 if (token == null)
                     return new ServiceResponse<TokenDto> { Success = false, Data = null, Message = "Invaild Login" };
-                if(!token.IsActive)
-                    return new ServiceResponse<TokenDto> { Success = false, Data = null, Message = "you are not accepted by admin Yet" };
+                //if(!token.IsActive)
+                //    return new ServiceResponse<TokenDto> { Success = false, Data = null, Message = "you are not accepted by admin Yet" };
 
                 var tokenModel = _Mapper.Map<TokenDto>(token);
                 
@@ -81,11 +81,11 @@ namespace Application.Services.Auth
                 //    registerAccountUserDto.IsActive = false;
                 //}
                 //else
-                if (status== true)
-                {
-                    registerAccountUserDto.IsActive = true;
-                }else
-                    registerAccountUserDto.IsActive = user.IsActive = false;
+                //if (status== true)
+                //{
+                //    registerAccountUserDto.IsActive = true;
+                //}else
+                //    registerAccountUserDto.IsActive = user.IsActive = false;
                     
 
              

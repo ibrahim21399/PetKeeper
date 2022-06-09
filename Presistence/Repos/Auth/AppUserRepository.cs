@@ -30,7 +30,7 @@ namespace Presistence.Repos.Auth
 
         //public async Task<List<ApplicationUser>> GetAllBussinusOwner()
         //{
-        //    var user = await _userManager.Users.Where(a => a.BusinessName != "").Include(a => a.UserRoles).ToListAsync();
+        //    var user = await _userManager.Users.Where(a => a != "").Include(a => a.UserRoles).ToListAsync();
         //    return user;
         //}
 
@@ -47,13 +47,6 @@ namespace Presistence.Repos.Auth
                     new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString())
                 };
 
-
-                    if (!user.IsActive)
-                        return new TokenEntity
-                        {
-                            IsActive = false
-                        };
-
                     var superSecretPassword = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(topSecretKey));
 
                     var token = new JwtSecurityToken(
@@ -69,7 +62,6 @@ namespace Presistence.Repos.Auth
                         Token = new JwtSecurityTokenHandler().WriteToken(token),
                         Expiration = token.ValidTo,
                         CurrentUser = user,
-                        IsActive = user.IsActive
                     };
                 }
 

@@ -1,9 +1,13 @@
 using Application;
 using Application.Interfaces.Repos.Auth;
+using Application.Interfaces.Repos.BusinessOwner;
 using Application.Interfaces.Repos.General;
+using Application.Interfaces.Repositories.General;
 using Application.Interfaces.Services.Auth;
+using Application.Interfaces.Services.BusinessOwner;
 using Application.Interfaces.Services.General;
 using Application.Services.Auth;
+using Application.Services.BusinussOwner;
 using Application.Services.General;
 using Domain.Entites;
 using Domain.Entites.General;
@@ -11,9 +15,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Persistence.Repositories.General;
 using Presistence;
 using Presistence.Interfaces.Repos;
 using Presistence.Repos.Auth;
+using Presistence.Repos.BusinessOwner;
 using Presistence.Repos.General;
 using System.Text;
 
@@ -26,6 +32,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 
 #region IdentityCoreAuth
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
@@ -87,6 +95,10 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAppUserRepository, AppUserRepository>();
 builder.Services.AddScoped<ICityAreaRepository<Area>, CityAreaRepository<Area>>();
 builder.Services.AddScoped<ICityAreaRepository<City>, CityAreaRepository<City>>();
+builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
+builder.Services.AddScoped<IBusinessRepository,BusinessRepository>();
+builder.Services.AddScoped<IServicesRepository, ServicesRepository>();
+
 
 
 
@@ -94,7 +106,10 @@ builder.Services.AddScoped<ICityAreaRepository<City>, CityAreaRepository<City>>(
 
 #region Services
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<ICitiesAreasService,CitiesAreasService>();
+builder.Services.AddScoped<IServicesService, ServicesService>();
+builder.Services.AddScoped<ICreateBusinessService, CreateBusinessService>();
 
 #endregion
 
@@ -115,6 +130,7 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 
 app.UseAuthorization();
 
