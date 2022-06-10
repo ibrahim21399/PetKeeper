@@ -15,14 +15,11 @@ namespace Domain.Dto.General.Auth
         [EmailAddress(ErrorMessage = "Email dosn't match")]
         public string? Email { get; set; }
         [Required(ErrorMessage = "Password is Requried")]
-        
-        public string? Password { get; set; }
+        [StringLength(255, ErrorMessage = "Must be between 6 and 255 characters", MinimumLength = 6)]
+        public string? Password   { get; set; }
         [Required]
         [Compare("Password", ErrorMessage = "Password Not Match")]
         public string? ConfirmPassword { get; set; }
-        //[Required]
-        //public string? Role { get; set; }
-        //public bool IsActive { get; set; }
         public string?PhoneNumber { get; set; }
     }
 }

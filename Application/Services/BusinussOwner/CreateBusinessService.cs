@@ -163,7 +163,7 @@ namespace Application.Services.BusinussOwner
                 var map = _mapper.Map<Business>(createBusinessDto);
 
                 //var userid = _userManager.GetUserId(_signInManager.Context.User);
-                map.ApplicationUserId = Guid.Parse("1B175170-D256-4B29-9266-08DA47602B1A");
+                //map.ApplicationUserId = Guid.Parse(userid);
                 map.IsActive = false;
                 _businussRepository.Create(map);
                 await _fileService.UploadFile(map.Id, null, new List<IFormFile> { createBusinessDto.BusinessPic }, nameof(map), "000", "BussnuisPic", 500000);

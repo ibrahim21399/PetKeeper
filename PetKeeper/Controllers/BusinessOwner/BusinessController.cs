@@ -1,5 +1,7 @@
 ﻿using Application.Interfaces.Services.BusinessOwner;
+using Domain.Common;
 using Domain.Dto.Business;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -8,7 +10,7 @@ namespace PetKeeper.Controllers.BusinessOwner
 {
     [ApiController]
     [Route("[Controller]/[Action]")]
-
+    [Authorize (Roles ="Admin")]
     public class BusinessController : ApiBaseController
     {
         private readonly ICreateBusinessService _createBusinessService;
@@ -36,10 +38,11 @@ namespace PetKeeper.Controllers.BusinessOwner
             var res = await _createBusinessService.GetAreas(cityId);
             return Ok(res);
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateBusiness(CreateBusinessDto createBusinessDto)
         {
-            createBusinessDto.ApplicationUserId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            createBusinessDto.ApplicationUserId =Guid.Parse(CurrentUserId);
             var res = await _createBusinessService.CreateBusiness(createBusinessDto);
             return Ok(res); 
 

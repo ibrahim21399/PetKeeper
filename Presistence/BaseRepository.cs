@@ -75,8 +75,7 @@ namespace Presistence
         {
             T existing = _dbContext.Set<T>().Find(id);
             if(existing != null)
-                _dbContext.Set<T>().Remove(existing);
-        }
+                _dbContext.Set<T>().Remove(existing);        }
 
         public void Update(T obj, params string[] excludedFields)
         {
