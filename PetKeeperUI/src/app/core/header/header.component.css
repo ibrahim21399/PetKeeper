@@ -1,0 +1,11 @@
+.navbar li a {
+    margin-top: 0px;
+ }
+ 
+ @media screen and (max-width: 875px) {
+ .navbar.responsive li.navbar_items {
+     display: block;
+     padding: 0px;
+     font-size: 25px;
+ }
+ }
