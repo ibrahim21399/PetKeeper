@@ -8,8 +8,11 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces.Services.General
 {
-    public interface IServicesService
+    public interface IHomeService
     {
-        Task<ServiceResponse<List<Service>>> GetBusinussServices();
+        Task<ServiceResponse<List<DropDownId>>> GetCities();
+        Task<ServiceResponse<List<DropDownId>>> GetAreas(int cityId);
+        Task<ServiceResponse<List<DropDownGuid>>> GetServices();
+
     }
 }

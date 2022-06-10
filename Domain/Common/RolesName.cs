@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Common
 {
-    public enum RolesName
+    public class RolesName
     {
-        Admin,
-        Client,
-        BusinessOwner,
+        public const string  Admin = "Admin";
+        public const string Client  = "Client";
+        public const string BusinessOwner  = "BusinessOwner";
     }
 }

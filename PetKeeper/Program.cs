@@ -108,8 +108,8 @@ builder.Services.AddScoped<IServicesRepository, ServicesRepository>();
 #region Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFileService, FileService>();
-builder.Services.AddScoped<ICitiesAreasService,CitiesAreasService>();
-builder.Services.AddScoped<IServicesService, ServicesService>();
+builder.Services.AddScoped<IHomeService,HomeService>();
+//builder.Services.AddScoped<IServicesService, ServicesService>();
 builder.Services.AddScoped<ICreateBusinessService, CreateBusinessService>();
 
 #endregion

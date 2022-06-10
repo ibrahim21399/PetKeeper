@@ -10,33 +10,13 @@ namespace PetKeeper.Controllers.BusinessOwner
 {
     [ApiController]
     [Route("[Controller]/[Action]")]
-    [Authorize (Roles ="Admin")]
+    [Authorize (Roles =RolesName.BusinessOwner)]
     public class BusinessController : ApiBaseController
     {
         private readonly ICreateBusinessService _createBusinessService;
         public BusinessController(ICreateBusinessService createBusinessService)
         {
             _createBusinessService = createBusinessService;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetServices()
-        {
-           var res = await _createBusinessService.GetServices();
-            return Ok(res); 
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetCities()
-        {
-            var res = await _createBusinessService.GetCities();
-            return Ok(res);
-        }
-        [HttpGet]
-        public async Task<IActionResult> GetAreas(int cityId)
-        {
-            var res = await _createBusinessService.GetAreas(cityId);
-            return Ok(res);
         }
 
         [HttpPost]

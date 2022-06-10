@@ -10,9 +10,7 @@ namespace Application.Interfaces.Services.BusinessOwner
 {
     public interface ICreateBusinessService
     {
-        Task<ServiceResponse<List<DropDownId>>> GetCities();
-        Task<ServiceResponse<List<DropDownId>>> GetAreas(int cityId);
-        Task<ServiceResponse<List<DropDownGuid>>> GetServices();
+
         Task<ServiceResponse<List<GetBusinessDto>>> GetBusinuss(Guid userId);
 
         Task<ServiceResponse<int>> CreateBusiness(CreateBusinessDto createBusinessDto);

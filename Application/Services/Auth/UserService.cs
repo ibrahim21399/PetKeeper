@@ -97,12 +97,12 @@ namespace Application.Services.Auth
                 //await _appUserRepository.AddRoleToUser(user, registerAccountUserDto.Role);
                 if (status == true)//client
                 {
-                    await _appUserRepository.AddRoleToUser(user, RolesName.Client.ToString());
+                    await _appUserRepository.AddRoleToUser(user, RolesName.Client);
                     
                 }
                 else
                 {
-                    await _appUserRepository.AddRoleToUser(user, RolesName.BusinessOwner.ToString());
+                    await _appUserRepository.AddRoleToUser(user, RolesName.BusinessOwner);
                    
                 }
 
