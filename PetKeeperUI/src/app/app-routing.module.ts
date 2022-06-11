@@ -4,11 +4,12 @@ import { HomeComponent } from './core/home/home.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { LoginComponent } from './sign/login/login.component';
 import { LogoutComponent } from './sign/logout/logout.component';
+import { RegisterComponent } from './sign/register/register.component';
 
 const routes: Routes = [
   {path:'home',component:HomeComponent},
   {path:"login",component:LoginComponent},
-  {path:"logout",component:LogoutComponent},
+  {path:"register",component:RegisterComponent},
 
   {path:"business",loadChildren:()=>import('./business/business.module').then(m=>m.BusinessModule)},
   {path:"businessowner",loadChildren:()=>import('./businessowner/businessowner.module').then(m=>m.BusinessownerModule)},
