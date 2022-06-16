@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Presistence;
 
@@ -11,9 +12,10 @@ using Presistence;
 namespace Presistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220616165622_schdule")]
+    partial class schdule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,7 +274,7 @@ namespace Presistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("BusinessId")
+                    b.Property<Guid>("BusId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Created_Date")
@@ -282,17 +284,18 @@ namespace Presistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EndTime")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("StartTime")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("businessId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BusinessId");
+                    b.HasIndex("businessId");
 
                     b.ToTable("schedules");
                 });
@@ -473,11 +476,13 @@ namespace Presistence.Migrations
 
             modelBuilder.Entity("Domain.Entites.Schedule", b =>
                 {
-                    b.HasOne("Domain.Entites.Business", null)
-                        .WithMany("Schedules")
-                        .HasForeignKey("BusinessId")
+                    b.HasOne("Domain.Entites.Business", "business")
+                        .WithMany()
+                        .HasForeignKey("businessId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("business");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -534,8 +539,6 @@ namespace Presistence.Migrations
             modelBuilder.Entity("Domain.Entites.Business", b =>
                 {
                     b.Navigation("BusinessServices");
-
-                    b.Navigation("Schedules");
                 });
 
             modelBuilder.Entity("Domain.Entites.City", b =>

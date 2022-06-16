@@ -10,7 +10,7 @@ namespace PetKeeper.Controllers.BusinessOwner
 {
     [ApiController]
     [Route("[Controller]/[Action]")]
-    [Authorize (Roles =RolesName.BusinessOwner)]
+    //[Authorize (Roles =RolesName.BusinessOwner)]
     public class BusinessController : ApiBaseController
     {
         private readonly ICreateBusinessService _createBusinessService;

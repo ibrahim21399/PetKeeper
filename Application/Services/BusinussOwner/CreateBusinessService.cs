@@ -62,14 +62,17 @@ namespace Application.Services.BusinussOwner
                 if (createBusinessDto == null) return new ServiceResponse<int> { Success = false, Message = "Data Is null", Data = 0 };
                 var map = _mapper.Map<Business>(createBusinessDto);
 
-                //var userid = _userManager.GetUserId(_signInManager.Context.User);
+                var userid = _userManager.GetUserId(_signInManager.Context.User);
                 //map.ApplicationUserId = Guid.Parse(userid);
                 map.IsActive = false;
+               
                 _businussRepository.Create(map);
                 await _fileService.UploadFile(map.Id, null, new List<IFormFile> { createBusinessDto.BusinessPic }, nameof(map), "000", "BussnuisPic", 500000);
                 await _fileService.UploadFile(map.Id, null, new List<IFormFile> { createBusinessDto.LicencePic }, nameof(map), "000", "BussnuisLincPic", 500000);
                 await _unitOfWork.CommitAsync();
                 await _businussRepository.AddServicesToBusinessAsync(map.Id, createBusinessDto.ServiceId);
+                
+
 
                 var res = await _unitOfWork.CommitAsync();
                 return new ServiceResponse<int>
@@ -158,8 +161,8 @@ namespace Application.Services.BusinussOwner
 
             for (int i = 0; i < map.Count; i++)
             {
-                //var x = (await _attachmentRepository.GetAllAsync(p => p.Row_Id == map[i].Id.ToString())).FirstOrDefault().File_Path;
-                //map[i].BusinessPic = x;
+                var x = (await _attachmentRepository.GetAllAsync(p => p.Row_Id == map[i].Id.ToString())).FirstOrDefault().File_Path;
+                map[i].BusinessPic = x;
                 map[i].CityName = _cityRepository.GetById(business[i].CityId).Name;
                 map[i].AreaName = _AreaRepository.GetById(business[i].AreaId).Name;
                 map[i].Services = await _businussRepository.GetServicesNameAsync(map[i].Id);
