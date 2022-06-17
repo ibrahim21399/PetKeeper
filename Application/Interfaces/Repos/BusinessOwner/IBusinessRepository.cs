@@ -10,6 +10,7 @@ namespace Application.Interfaces.Repos.BusinessOwner
     public interface IBusinessRepository:IBaseRepository<Business>
     {
         Task AddServicesToBusinessAsync(Guid BusId, ICollection<Guid> SerID);
-        Task<List<string>> GetServicesNameAsync(Guid BusId); 
+        Task<List<string>> GetServicesNameAsync(Guid BusId);
+        string GetBusinessNameAsync(Guid BusId);
     }
 }

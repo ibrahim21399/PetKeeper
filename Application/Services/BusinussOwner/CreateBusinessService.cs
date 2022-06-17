@@ -61,9 +61,6 @@ namespace Application.Services.BusinussOwner
             {
                 if (createBusinessDto == null) return new ServiceResponse<int> { Success = false, Message = "Data Is null", Data = 0 };
                 var map = _mapper.Map<Business>(createBusinessDto);
-
-                var userid = _userManager.GetUserId(_signInManager.Context.User);
-                //map.ApplicationUserId = Guid.Parse(userid);
                 map.IsActive = false;
                
                 _businussRepository.Create(map);

@@ -15,7 +15,8 @@ namespace Domain.Entites
       public string EndTime { get; set; }
     
       public Guid BusinessId { get; set; }
-
+     
+      //public Booking SceduleBooking { get; set; }
 
 
     }

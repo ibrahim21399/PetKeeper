@@ -9,6 +9,8 @@ namespace Domain.Entites.General
         public string FullName { get; set; }
 
         public virtual ICollection<Business> Businesses { get; set; } = new List<Business>();
+        public ICollection<Booking> Bookings { get; set; }
+
         //public virtual ICollection<ApplicationRole> AspNetUserRoles { get; set; } = new List<ApplicationRole>();
 
 

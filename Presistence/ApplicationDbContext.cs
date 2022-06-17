@@ -19,7 +19,8 @@ namespace Presistence
         public DbSet<Business> Businesses { get; set; }
         public DbSet<Service>  Services { get; set; }
         public DbSet<BusinessService> BusinessServices { get; set; }
-        public DbSet<Schedule> schedules { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

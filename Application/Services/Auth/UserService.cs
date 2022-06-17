@@ -18,7 +18,8 @@ namespace Application.Services.Auth
     public class UserService : ServiceBase, IUserService
     {
         private readonly IMapper _Mapper;
-            private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager ;
         private readonly IUnitOfWork _unitOfWork;
         //private readonly IEmailSender _emailSender;
         //private readonly IHttpContextAccessor _httpContextAccessor;
@@ -27,7 +28,7 @@ namespace Application.Services.Auth
         private readonly IAppUserRepository _appUserRepository;
 
         public UserService(
-
+            SignInManager<ApplicationUser> signInManager,   
             IMapper mapper,
             UserManager<ApplicationUser> userManager,
             IUnitOfWork unitOfWork
@@ -40,6 +41,7 @@ namespace Application.Services.Auth
             _unitOfWork = unitOfWork;
             _roleManager = roleManager;
             _appUserRepository = appUserRepository;
+            _signInManager = signInManager;
         }
 
         public async Task<ServiceResponse<TokenDto>> Token(LoginDto loginDto)
@@ -114,6 +116,26 @@ namespace Application.Services.Auth
             {
                  return await LogError<int>(ex, 0);
             }
+        }
+
+  
+        public async Task<ServiceResponse<int>> SigOutAsync()
+        {
+            try
+            {
+                var res = _signInManager.SignOutAsync();
+                return new ServiceResponse<int> { Success = true, Data = 1, Message = "Your are Loged Out Succsfully" };
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return await LogError<int>(ex, 0);
+            }
+
+        
+      
         }
 
 

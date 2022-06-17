@@ -24,6 +24,12 @@ namespace Presistence.Repos.BusinessOwner
             }   
        }
 
+        public string GetBusinessNameAsync(Guid BusId)
+        {
+            var BusName = _dbContext.Businesses.FirstOrDefault(a=>a.Id==BusId);
+            return BusName.BusinessName;
+        }
+
         public async Task<List<string>> GetServicesNameAsync(Guid BusId)
         {
             List<Guid>ser = _dbContext.BusinessServices.Where(a=>a.BusinessId==BusId).Select(a=>a.ServiceId).ToList();

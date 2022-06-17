@@ -44,6 +44,44 @@ namespace Presistence.Migrations
                     b.ToTable("Areas");
                 });
 
+            modelBuilder.Entity("Domain.Entites.Booking", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ApplicationUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("BookDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("BusinessId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Created_Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsCanceled")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ScheduleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("BusinessId");
+
+                    b.HasIndex("ScheduleId");
+
+                    b.ToTable("Bookings");
+                });
+
             modelBuilder.Entity("Domain.Entites.Business", b =>
                 {
                     b.Property<Guid>("Id")
@@ -294,7 +332,7 @@ namespace Presistence.Migrations
 
                     b.HasIndex("BusinessId");
 
-                    b.ToTable("schedules");
+                    b.ToTable("Schedules");
                 });
 
             modelBuilder.Entity("Domain.Entites.Service", b =>
@@ -427,6 +465,29 @@ namespace Presistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.Entites.Booking", b =>
+                {
+                    b.HasOne("Domain.Entites.General.ApplicationUser", null)
+                        .WithMany("Bookings")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entites.Business", null)
+                        .WithMany("Bookings")
+                        .HasForeignKey("BusinessId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entites.Schedule", "Schedule")
+                        .WithMany()
+                        .HasForeignKey("ScheduleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Schedule");
+                });
+
             modelBuilder.Entity("Domain.Entites.Business", b =>
                 {
                     b.HasOne("Domain.Entites.General.ApplicationUser", null)
@@ -533,6 +594,8 @@ namespace Presistence.Migrations
 
             modelBuilder.Entity("Domain.Entites.Business", b =>
                 {
+                    b.Navigation("Bookings");
+
                     b.Navigation("BusinessServices");
 
                     b.Navigation("Schedules");
@@ -545,6 +608,8 @@ namespace Presistence.Migrations
 
             modelBuilder.Entity("Domain.Entites.General.ApplicationUser", b =>
                 {
+                    b.Navigation("Bookings");
+
                     b.Navigation("Businesses");
                 });
 
