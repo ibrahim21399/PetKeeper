@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces.Services.BusinessOwner;
+using Application.Interfaces.Services.CLient;
 using Domain.Common;
 using Domain.Dto.Business;
 using Microsoft.AspNetCore.Authorization;
@@ -14,9 +15,11 @@ namespace PetKeeper.Controllers.BusinessOwner
     public class BusinessController : ApiBaseController
     {
         private readonly IBusinessService _createBusinessService;
-        public BusinessController(IBusinessService createBusinessService)
+        private readonly IBookingService _bookingService;
+        public BusinessController(IBusinessService createBusinessService,IBookingService bookingService)
         {
             _createBusinessService = createBusinessService;
+            _bookingService = bookingService;
         }
 
         [HttpPost]
@@ -31,7 +34,7 @@ namespace PetKeeper.Controllers.BusinessOwner
         [HttpGet]
         public async Task<IActionResult> GetBusiness()
         {
-            var res = await _createBusinessService.GetBusinuss(Guid.Parse("1b175170d2564b29926608da47602b1a"));
+            var res = await _createBusinessService.GetBusinuss(Guid.Parse(CurrentUserId));
             return Ok(res);
 
         }
@@ -41,6 +44,27 @@ namespace PetKeeper.Controllers.BusinessOwner
         {
             var res = await _createBusinessService.DeleteBusiness(Id);
             return Ok(res);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAllAppoientments()
+        {
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AcceptBooking(Guid BookId)
+        {
+            var res = await _bookingService.AcceptBooking(BookId);
+            return Ok(res);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CancelBooking(Guid BookId)
+        {
+            var res = await _bookingService.CancelBooking(BookId);
+            return Ok(res);
+
         }
 
 

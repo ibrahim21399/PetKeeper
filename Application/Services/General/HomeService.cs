@@ -145,8 +145,13 @@ namespace Application.Services.General
         {
             try
             {
-                List<GetBusinessDto> res;
-                if (CityId == null && AreaId == null)
+                List<GetBusinessDto> res=null;
+                if (CityId==null&&AreaId==null&&ServiceId==null)
+                {
+                    var businesses = _businessRepository.GetAll(a => a.IsActive == true);
+                    res = await _businessService.GetBusinessDtoList(businesses);
+                }
+                else if (CityId == null && AreaId == null)
                 {
                     var BusList = new List<Business>();
                     var BusinessIdOfService = _businessRepository.GetBusIdOfService(ServiceId);
@@ -228,12 +233,7 @@ namespace Application.Services.General
                         }
                     }
                 }
-                else
-                {
-                    var businesses = _businessRepository.GetAll(a => a.IsActive == true);
-                    res = await _businessService.GetBusinessDtoList(businesses);
-                }
-                if (res == null)
+                if (res.Count()==0)
                 {
                     return new ServiceResponse<List<GetBusinessDto>>
                     {

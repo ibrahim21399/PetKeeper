@@ -13,13 +13,13 @@ using System.Threading.Tasks;
 
 namespace Application.Services.Client
 {
-    public class ClientBookingService:ServiceBase,IClientBookingService 
+    public class BookingService:ServiceBase,IBookingService 
     {
         private readonly IBusinessRepository _businessRepository;
         private readonly IBookingRepository _bookingRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public ClientBookingService(IBookingRepository bookingRepository,IUnitOfWork unitOfWork,IBusinessRepository businessRepository)
+        public BookingService(IBookingRepository bookingRepository,IUnitOfWork unitOfWork,IBusinessRepository businessRepository)
         {
             _bookingRepository = bookingRepository;
             _unitOfWork = unitOfWork;
@@ -74,11 +74,11 @@ namespace Application.Services.Client
                     {
                         getClientBookingDto.AppoientmentState = "Approved"; 
                     }
-                    else if(!book.status)
+                    else if(book.status ==false && book.IsCanceled==true)
                     {
                     getClientBookingDto.AppoientmentState = "Waiting";
                     }
-                    else
+                    else if(book.status==true && book.IsCanceled==false)
                     {
                         getClientBookingDto.AppoientmentState = "Completed";
                     }
@@ -121,7 +121,31 @@ namespace Application.Services.Client
                 return new ServiceResponse<int>
                 {
                     Success = true,
-                    Message = "You Booking Was Submitted",
+                    Message = "Booking Was Accepted",
+                    Data = res
+                };
+            }
+            catch (Exception ex)
+            {
+
+                return await LogError(ex, 0);
+            }
+        }
+        public async Task<ServiceResponse<int>> CancelBooking(Guid BookId)
+        {
+            try
+            {
+                var booking = _bookingRepository.GetById(BookId);
+                if (booking != null)
+                {
+                    booking.status = false;
+                    booking.IsCanceled = true;
+                }
+                var res = await _unitOfWork.CommitAsync();
+                return new ServiceResponse<int>
+                {
+                    Success = true,
+                    Message = "Booking was Cancelled",
                     Data = res
                 };
             }

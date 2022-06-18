@@ -115,7 +115,7 @@ builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<IHomeService,HomeService>();
 //builder.Services.AddScoped<IServicesService, ServicesService>();
 builder.Services.AddScoped<IBusinessService, Application.Services.BusinussOwner.BusinessService>();
-builder.Services.AddScoped<IClientBookingService, ClientBookingService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 
 #endregion
 

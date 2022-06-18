@@ -9,8 +9,8 @@ namespace PetKeeper.Controllers.Client
     [ApiController]
     public class ClientController : ApiBaseController
     {
-        private readonly IClientBookingService _clientBookingService;
-        public ClientController(IClientBookingService clientBookingService)
+        private readonly IBookingService _clientBookingService;
+        public ClientController(IBookingService clientBookingService)
         {
             _clientBookingService = clientBookingService;
         }
