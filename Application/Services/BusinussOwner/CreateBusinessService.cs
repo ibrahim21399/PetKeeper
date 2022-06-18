@@ -64,6 +64,7 @@ namespace Application.Services.BusinussOwner
                 map.IsActive = false;
                
                 _businussRepository.Create(map);
+
                 await _fileService.UploadFile(map.Id, null, new List<IFormFile> { createBusinessDto.BusinessPic }, nameof(map), "000", "BussnuisPic", 500000);
                 await _fileService.UploadFile(map.Id, null, new List<IFormFile> { createBusinessDto.LicencePic }, nameof(map), "000", "BussnuisLincPic", 500000);
                 await _unitOfWork.CommitAsync();

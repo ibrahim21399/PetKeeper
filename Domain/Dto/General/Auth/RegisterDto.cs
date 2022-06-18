@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -21,5 +22,7 @@ namespace Domain.Dto.General.Auth
         [Compare("Password", ErrorMessage = "Password Not Match")]
         public string? ConfirmPassword { get; set; }
         public string?PhoneNumber { get; set; }
+        public IFormFile? UserPic { get; set; }
+
     }
 }

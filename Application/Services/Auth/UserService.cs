@@ -1,9 +1,12 @@
 ﻿using Application.Interfaces.Repos.Auth;
+using Application.Interfaces.Repositories.General;
 using Application.Interfaces.Services.Auth;
+using Application.Interfaces.Services.General;
 using AutoMapper;
 using Domain.Common;
 using Domain.Dto.General.Auth;
 using Domain.Entites.General;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Presistence.Interfaces.Repos;
 using System;
@@ -21,6 +24,9 @@ namespace Application.Services.Auth
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager ;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IFileService _fileService;
+
+
         //private readonly IEmailSender _emailSender;
         //private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -33,7 +39,8 @@ namespace Application.Services.Auth
             UserManager<ApplicationUser> userManager,
             IUnitOfWork unitOfWork
             ,RoleManager<ApplicationRole> roleManager,
-            IAppUserRepository appUserRepository
+            IAppUserRepository appUserRepository,
+            IFileService fileService
             )
         {
             _Mapper = mapper;
@@ -42,6 +49,7 @@ namespace Application.Services.Auth
             _roleManager = roleManager;
             _appUserRepository = appUserRepository;
             _signInManager = signInManager;
+            _fileService = fileService;
         }
 
         public async Task<ServiceResponse<TokenDto>> Token(LoginDto loginDto)
@@ -88,12 +96,7 @@ namespace Application.Services.Auth
                 //    registerAccountUserDto.IsActive = true;
                 //}else
                 //    registerAccountUserDto.IsActive = user.IsActive = false;
-                    
-
-             
-                     
-                        
-
+                await _fileService.UploadFile(user.Id, null, new List<IFormFile> { registerAccountUserDto.UserPic }, nameof(user), "000", "UserPic", 500000);
                 var result = await _userManager.CreateAsync(user, registerAccountUserDto.Password);
                 if (!result.Succeeded) return new ServiceResponse<int> { Success = false, Message = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description)) };
                 //await _appUserRepository.AddRoleToUser(user, registerAccountUserDto.Role);
