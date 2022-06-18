@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces.Repos.BusinessOwner;
+using Domain.Dto.Business;
 using Domain.Entites;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,12 @@ namespace Presistence.Repos.BusinessOwner
             return BusName.BusinessName;
         }
 
+        public List<Guid> GetBusIdOfService(Guid? SerId)
+        {
+            var BusId = _dbContext.BusinessServices.Where(a => a.ServiceId == SerId).Select(a => a.BusinessId).ToList();
+            return BusId;
+        }
+
         public async Task<List<string>> GetServicesNameAsync(Guid BusId)
         {
             List<Guid>ser = _dbContext.BusinessServices.Where(a=>a.BusinessId==BusId).Select(a=>a.ServiceId).ToList();
@@ -41,5 +48,7 @@ namespace Presistence.Repos.BusinessOwner
             }
             return ServicesNames;
         }
+
+
     }
 }

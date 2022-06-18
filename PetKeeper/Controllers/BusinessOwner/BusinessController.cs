@@ -13,8 +13,8 @@ namespace PetKeeper.Controllers.BusinessOwner
     //[Authorize (Roles =RolesName.BusinessOwner)]
     public class BusinessController : ApiBaseController
     {
-        private readonly ICreateBusinessService _createBusinessService;
-        public BusinessController(ICreateBusinessService createBusinessService)
+        private readonly IBusinessService _createBusinessService;
+        public BusinessController(IBusinessService createBusinessService)
         {
             _createBusinessService = createBusinessService;
         }

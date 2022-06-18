@@ -101,5 +101,11 @@ namespace Presistence.Repos.Auth
             var User =await _userManager.Users.Where(_x => _x.Id == id).FirstOrDefaultAsync();
             return User;
         }
+
+        public string GetUserFullName(Guid id)
+        {
+            var user =  _userManager.Users.Where(x => x.Id == id).Select(x => x.FullName).FirstOrDefault();
+            return user;
+        }
     }
 }

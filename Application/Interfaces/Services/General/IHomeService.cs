@@ -1,4 +1,5 @@
-﻿using Domain.Dto.General;
+﻿using Domain.Dto.Business;
+using Domain.Dto.General;
 using Domain.Entites;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace Application.Interfaces.Services.General
         Task<ServiceResponse<List<DropDownId>>> GetCities();
         Task<ServiceResponse<List<DropDownId>>> GetAreas(int cityId);
         Task<ServiceResponse<List<DropDownGuid>>> GetServices();
+        Task<ServiceResponse<List<GetBusinessDto>>> FilterBusiness(Guid? ServiceId = null, int? CityId = null, int? AreaId = null);
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.Repos.BusinessOwner;
+﻿using Application.Interfaces.Repos.Auth;
+using Application.Interfaces.Repos.BusinessOwner;
 using Application.Interfaces.Repos.General;
 using Application.Interfaces.Repositories.General;
 using Application.Interfaces.Services.BusinessOwner;
@@ -20,7 +21,7 @@ using System.Threading.Tasks;
 
 namespace Application.Services.BusinussOwner
 {
-    public class CreateBusinessService : ServiceBase, ICreateBusinessService
+    public class BusinessService : ServiceBase, IBusinessService
     {
         private readonly IBusinessRepository _businussRepository;
         private readonly IServicesRepository _servicesRepository;
@@ -32,17 +33,20 @@ namespace Application.Services.BusinussOwner
         private readonly IFileService _fileService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IAppUserRepository _appUserRepository;
 
 
 
 
-        public CreateBusinessService(IBusinessRepository businussRepository,
+
+        public BusinessService(IBusinessRepository businussRepository,
         IServicesRepository servicesRepository,
         ICityAreaRepository<City> cityRepository,
         ICityAreaRepository<Area> AreaRepository,
         IUnitOfWork unitOfWork, IFileService fileService,
         UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
-        IMapper mapper)
+        IMapper mapper,
+        IAppUserRepository appUserRepository)
         {
             _businussRepository = businussRepository;
             _servicesRepository = servicesRepository;
@@ -53,6 +57,7 @@ namespace Application.Services.BusinussOwner
             _fileService = fileService;
             _userManager = userManager;
             _signInManager=signInManager;
+            _appUserRepository = appUserRepository;
         }
 
         public async Task<ServiceResponse<int>> CreateBusiness(CreateBusinessDto createBusinessDto)
@@ -154,23 +159,41 @@ namespace Application.Services.BusinussOwner
         public async Task<ServiceResponse<List<GetBusinessDto>>> GetBusinuss(Guid userId)
         {
           var business=  _businussRepository.GetAll(a => a.ApplicationUserId == userId);
-            List<GetBusinessDto> getBusinessDtos = new List<GetBusinessDto>();
-            var map = _mapper.Map<List<GetBusinessDto>>(business);
+            //List<GetBusinessDto> getBusinessDtos = new List<GetBusinessDto>();
+            //var map = _mapper.Map<List<GetBusinessDto>>(business);
 
-            for (int i = 0; i < map.Count; i++)
-            {
-                var x = (await _attachmentRepository.GetAllAsync(p => p.Row_Id == map[i].Id.ToString())).FirstOrDefault().File_Path;
-                map[i].BusinessPic = x;
-                map[i].CityName = _cityRepository.GetById(business[i].CityId).Name;
-                map[i].AreaName = _AreaRepository.GetById(business[i].AreaId).Name;
-                map[i].Services = await _businussRepository.GetServicesNameAsync(map[i].Id);
+            //for (int i = 0; i < map.Count; i++)
+            //{
+            //    var x = (await _attachmentRepository.GetAllAsync(p => p.Row_Id == map[i].Id.ToString())).FirstOrDefault().File_Path;
+            //    map[i].BusinessPic = x;
+            //    map[i].MangerName = await _appUserRepository.GetUserFullName(business[i].ApplicationUserId);
+            //    map[i].CityName = _cityRepository.GetById(business[i].CityId).Name;
+            //    map[i].AreaName = _AreaRepository.GetById(business[i].AreaId).Name;
+            //    map[i].Services = await _businussRepository.GetServicesNameAsync(map[i].Id);
 
-            }
+            //}
+            var map = await GetBusinessDtoList(business);
             return new ServiceResponse<List<GetBusinessDto>>
             {
                 Data = map,
                 Success = true
             };
+        }
+
+        public async Task<List<GetBusinessDto>> GetBusinessDtoList(List<Business> businessObj)
+        {
+            List<GetBusinessDto> getBusinessDtos = new List<GetBusinessDto>();
+            var map = _mapper.Map<List<GetBusinessDto>>(businessObj);
+            for (int i = 0; i < map.Count; i++)
+            {
+                //var x = (await _attachmentRepository.GetAllAsync(p => p.Row_Id == map[i].Id.ToString())).FirstOrDefault().File_Path;
+                //map[i].BusinessPic = x;
+                map[i].MangerName = _appUserRepository.GetUserFullName(businessObj[i].ApplicationUserId);
+                map[i].CityName = _cityRepository.GetById(businessObj[i].CityId).Name;
+                map[i].AreaName = _AreaRepository.GetById(businessObj[i].AreaId).Name;
+                map[i].Services = await _businussRepository.GetServicesNameAsync(map[i].Id);
+            }
+            return map;
         }
     }
 }

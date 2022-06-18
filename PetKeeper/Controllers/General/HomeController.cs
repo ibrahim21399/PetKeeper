@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces.Repos.General;
+using Application.Interfaces.Services.BusinessOwner;
 using Application.Interfaces.Services.General;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -13,9 +14,11 @@ namespace PetKeeper.Controllers.General
     public class HomeController : ApiBaseController
     {
         private readonly IHomeService _homeService;
-        public HomeController(IHomeService homeService)
+        private readonly IBusinessService _businessService;
+        public HomeController(IHomeService homeService ,IBusinessService businessService)
         {
             _homeService = homeService;   
+            _businessService = businessService;
         }
         [HttpGet]
         public async Task<IActionResult> GetCities()
@@ -35,6 +38,16 @@ namespace PetKeeper.Controllers.General
             var response = await _homeService.GetServices();
             return Ok(response);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> FilterBusiness(Guid? ServiceId, int? CityId ,int? AreaId)
+        {
+
+            var response = await _homeService.FilterBusiness(ServiceId,CityId,AreaId);
+            return Ok(response);
+        }
+
+
 
 
 

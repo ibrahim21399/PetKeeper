@@ -11,6 +11,7 @@ namespace Application.Interfaces.Repos.BusinessOwner
     {
         Task AddServicesToBusinessAsync(Guid BusId, ICollection<Guid> SerID);
         Task<List<string>> GetServicesNameAsync(Guid BusId);
+        List<Guid> GetBusIdOfService(Guid? SerId);
         string GetBusinessNameAsync(Guid BusId);
     }
 }
