@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeleteOwnerComponent } from './delete-owner.component';
+import { EditClientComponent } from './edit-client.component';
 
-describe('DeleteOwnerComponent', () => {
-  let component: DeleteOwnerComponent;
-  let fixture: ComponentFixture<DeleteOwnerComponent>;
+describe('EditClientComponent', () => {
+  let component: EditClientComponent;
+  let fixture: ComponentFixture<EditClientComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DeleteOwnerComponent ]
+      declarations: [ EditClientComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DeleteOwnerComponent);
+    fixture = TestBed.createComponent(EditClientComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
