@@ -12,9 +12,12 @@ namespace Application.Interfaces.Repos.Auth
         Task<TokenEntity> GetToken(string userName, string password, string topSecretKey, string issuer, string audience);
         Task<ApplicationUser> GetUserByEmailAsync(string email);
         ApplicationUser GetUserByEmail(string email);
-        Task<ApplicationUser> GetUserById(Guid id);
+        ApplicationUser GetUserById(Guid id);
         string GetUserFullName(Guid id);
         Task AddRoleToUser(ApplicationUser user, string Role);
-        //Task<List<ApplicationUser>> GetEmployers();
+        Task<List<ApplicationUser>> GetAllAsync(bool status);
+        Task RemoveUser(ApplicationUser user);
+
+
     }
 }

@@ -29,11 +29,11 @@ namespace Presistence.Repos.Auth
 
         }
 
-        //public async Task<List<ApplicationUser>> GetAllBussinusOwner()
-        //{
-        //    var user = await _userManager.Users.Where(a => a != "").Include(a => a.UserRoles).ToListAsync();
-        //    return user;
-        //}
+        public async Task<List<ApplicationUser>> GetAllAsync(bool status)
+        {
+            var user =  _userManager.Users.Where(a => a.Status==status).ToList();
+            return user;
+        }
 
         public async Task<TokenEntity> GetToken(string userName, string password, string topSecretKey, string issuer, string audience)
         {
@@ -96,9 +96,9 @@ namespace Presistence.Repos.Auth
             return User;
         }
 
-        public async Task<ApplicationUser> GetUserById(Guid id)
+        public ApplicationUser GetUserById(Guid id)
         {
-            var User =await _userManager.Users.Where(_x => _x.Id == id).FirstOrDefaultAsync();
+            var User = _userManager.Users.Where(_x => _x.Id == id).FirstOrDefault();
             return User;
         }
 
@@ -106,6 +106,11 @@ namespace Presistence.Repos.Auth
         {
             var user =  _userManager.Users.Where(x => x.Id == id).Select(x => x.FullName).FirstOrDefault();
             return user;
+        }
+
+        public async Task RemoveUser(ApplicationUser user)
+        {
+           await _userManager.DeleteAsync(user);
         }
     }
 }

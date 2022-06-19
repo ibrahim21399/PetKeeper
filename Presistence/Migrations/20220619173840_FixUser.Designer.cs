@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Presistence;
 
@@ -11,9 +12,10 @@ using Presistence;
 namespace Presistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220619173840_FixUser")]
+    partial class FixUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,7 +43,7 @@ namespace Presistence.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("Areas", (string)null);
+                    b.ToTable("Areas");
                 });
 
             modelBuilder.Entity("Domain.Entites.Booking", b =>
@@ -79,7 +81,7 @@ namespace Presistence.Migrations
 
                     b.HasIndex("ScheduleId");
 
-                    b.ToTable("Bookings", (string)null);
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("Domain.Entites.Business", b =>
@@ -126,7 +128,7 @@ namespace Presistence.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("Businesses", (string)null);
+                    b.ToTable("Businesses");
                 });
 
             modelBuilder.Entity("Domain.Entites.BusinessService", b =>
@@ -141,7 +143,7 @@ namespace Presistence.Migrations
 
                     b.HasIndex("BusinessId");
 
-                    b.ToTable("BusinessServices", (string)null);
+                    b.ToTable("BusinessServices");
                 });
 
             modelBuilder.Entity("Domain.Entites.City", b =>
@@ -158,7 +160,7 @@ namespace Presistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("cities", (string)null);
+                    b.ToTable("cities");
                 });
 
             modelBuilder.Entity("Domain.Entites.General.ApplicationRole", b =>
@@ -239,7 +241,7 @@ namespace Presistence.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Status")
+                    b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -304,7 +306,7 @@ namespace Presistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Attachments", (string)null);
+                    b.ToTable("Attachments");
                 });
 
             modelBuilder.Entity("Domain.Entites.Schedule", b =>
@@ -335,7 +337,7 @@ namespace Presistence.Migrations
 
                     b.HasIndex("BusinessId");
 
-                    b.ToTable("Schedules", (string)null);
+                    b.ToTable("Schedules");
                 });
 
             modelBuilder.Entity("Domain.Entites.Service", b =>
@@ -353,7 +355,7 @@ namespace Presistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Services", (string)null);
+                    b.ToTable("Services");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
