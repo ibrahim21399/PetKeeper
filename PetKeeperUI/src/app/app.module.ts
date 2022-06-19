@@ -7,6 +7,7 @@ import { NotfoundComponent } from './notfound/notfound.component';
 import { HomeComponent } from './core/home/home.component';
 import { CoreModule } from './core/core.module';
 import { RegisterComponent } from './sign/register/register.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { RegisterComponent } from './sign/register/register.component';
     AppRoutingModule,
     FormsModule,
     CoreModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

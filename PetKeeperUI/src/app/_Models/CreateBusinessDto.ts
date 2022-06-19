@@ -1,4 +1,4 @@
-export class Business {
+export class CreateBusinessDto {
     constructor(
         public id:string,
         public businessName:string,

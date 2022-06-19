@@ -1,4 +1,4 @@
-export class Register {
+export class RegisterDto {
     constructor(
         public fullName:string,
         public email:string,
