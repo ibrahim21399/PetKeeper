@@ -17,6 +17,7 @@ namespace Presistence.Repos.Auth
     {
         private UserManager<ApplicationUser> _userManager;
 
+
         public AppUserRepository(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
@@ -38,17 +39,27 @@ namespace Presistence.Repos.Auth
         {
             try
             {
-                var user =  _userManager.Users.Include(q => q.UserRoles).Where(q => q.UserName == userName).FirstOrDefault();
+                var user =  _userManager.Users.Where(q => q.UserName == userName).FirstOrDefault();
+                var Role = await _userManager.GetRolesAsync(user);
+                var userclaim = await _userManager.GetClaimsAsync(user);
+                var roleClamis =new List<Claim>();  
+                foreach (var role in Role)
+                {
+                    roleClamis.Add(new Claim("Role",role));
+
+                }
                 if (user != null && await _userManager.CheckPasswordAsync(user, password))
                 {
                     var claims = new[]{
                     new Claim(JwtRegisteredClaimNames.UniqueName, userName),
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                    new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString())
-                };
+                    new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
+                    new Claim(ClaimTypes.Role, Role[0])
+
+                    };
 
                     var superSecretPassword = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(topSecretKey));
-
+                    
                     var token = new JwtSecurityToken(
                         issuer: issuer,
                         audience: audience,
@@ -58,7 +69,7 @@ namespace Presistence.Repos.Auth
                     );
 
                     return new TokenEntity
-                    {
+                    {   
                         Token = new JwtSecurityTokenHandler().WriteToken(token),
                         Expiration = token.ValidTo,
                         CurrentUser = user,
@@ -89,6 +100,12 @@ namespace Presistence.Repos.Auth
         {
             var User =await _userManager.Users.Where(_x => _x.Id == id).FirstOrDefaultAsync();
             return User;
+        }
+
+        public string GetUserFullName(Guid id)
+        {
+            var user =  _userManager.Users.Where(x => x.Id == id).Select(x => x.FullName).FirstOrDefault();
+            return user;
         }
     }
 }

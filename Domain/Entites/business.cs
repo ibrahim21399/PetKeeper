@@ -30,16 +30,11 @@ namespace Domain.Entites
        //public virtual ICollection<ApplicationUser> ApplicationUsers { get; set; } = new List<ApplicationUser>();
        public virtual ICollection<BusinessService> BusinessServices { get; set; } = new List<BusinessService>();
 
-       //public ICollection<Schedule> Schedules { get; set; }
+       public ICollection<Schedule> Schedules { get; set; }
+       public ICollection<Booking> Bookings { get; set; }
+
 
 
     }
-
-    //public class BusinessService
-    //{
-    //    public Guid BusinessId { get; set; }    
-    //    public Guid ServiceId{ get; set; }
-
-    //}
 
 }

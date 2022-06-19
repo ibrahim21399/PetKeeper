@@ -39,5 +39,13 @@ namespace PetKeeper.Controllers.General
             var token = await _userService.RegisterAccounUser(RegisterDto, false);
             return Ok(token);
         }
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("/Auth/LogOut")]
+        public async Task<IActionResult> LogOut()
+        {
+            var res = await _userService.SigOutAsync();
+            return Ok(res);
+        }
     }
 }

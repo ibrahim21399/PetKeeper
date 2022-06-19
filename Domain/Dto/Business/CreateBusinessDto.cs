@@ -20,6 +20,7 @@ namespace Domain.Dto.Business
         public Guid? ApplicationUserId { get; set; }
         public bool IsActive { get; set; }
         public ICollection<Guid> ServiceId { get; set; }
+        public ICollection<Schedule> schedules { get; set; }    
         public IFormFile? BusinessPic { get; set; }
         public IFormFile? LicencePic { get; set; }
     }

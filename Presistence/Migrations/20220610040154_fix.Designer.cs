@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Presistence;
 
@@ -11,9 +12,10 @@ using Presistence;
 namespace Presistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220610040154_fix")]
+    partial class fix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,44 +44,6 @@ namespace Presistence.Migrations
                     b.HasIndex("CityId");
 
                     b.ToTable("Areas");
-                });
-
-            modelBuilder.Entity("Domain.Entites.Booking", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ApplicationUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("BookDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("BusinessId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Created_Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsCanceled")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("ScheduleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("BusinessId");
-
-                    b.HasIndex("ScheduleId");
-
-                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("Domain.Entites.Business", b =>
@@ -304,37 +268,6 @@ namespace Presistence.Migrations
                     b.ToTable("Attachments");
                 });
 
-            modelBuilder.Entity("Domain.Entites.Schedule", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BusinessId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Created_Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DayOfWeek")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EndTime")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StartTime")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BusinessId");
-
-                    b.ToTable("Schedules");
-                });
-
             modelBuilder.Entity("Domain.Entites.Service", b =>
                 {
                     b.Property<Guid>("Id")
@@ -465,29 +398,6 @@ namespace Presistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Entites.Booking", b =>
-                {
-                    b.HasOne("Domain.Entites.General.ApplicationUser", null)
-                        .WithMany("Bookings")
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entites.Business", null)
-                        .WithMany("Bookings")
-                        .HasForeignKey("BusinessId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entites.Schedule", "Schedule")
-                        .WithMany()
-                        .HasForeignKey("ScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Schedule");
-                });
-
             modelBuilder.Entity("Domain.Entites.Business", b =>
                 {
                     b.HasOne("Domain.Entites.General.ApplicationUser", null)
@@ -530,15 +440,6 @@ namespace Presistence.Migrations
                     b.Navigation("Business");
 
                     b.Navigation("Service");
-                });
-
-            modelBuilder.Entity("Domain.Entites.Schedule", b =>
-                {
-                    b.HasOne("Domain.Entites.Business", null)
-                        .WithMany("Schedules")
-                        .HasForeignKey("BusinessId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -594,11 +495,7 @@ namespace Presistence.Migrations
 
             modelBuilder.Entity("Domain.Entites.Business", b =>
                 {
-                    b.Navigation("Bookings");
-
                     b.Navigation("BusinessServices");
-
-                    b.Navigation("Schedules");
                 });
 
             modelBuilder.Entity("Domain.Entites.City", b =>
@@ -608,8 +505,6 @@ namespace Presistence.Migrations
 
             modelBuilder.Entity("Domain.Entites.General.ApplicationUser", b =>
                 {
-                    b.Navigation("Bookings");
-
                     b.Navigation("Businesses");
                 });
 

@@ -11,7 +11,7 @@ namespace Domain.Dto.General.Auth
     {
         [Required]
         //[Required(ErrorMessageResourceName = nameof(Resources.General.LoginResources.MissingUserName), ErrorMessageResourceType = typeof(Resources.General.LoginResources))]
-        public string UserName { get; set; }
+        public string Email { get; set; }
 
         [Required]
         [StringLength(255, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]

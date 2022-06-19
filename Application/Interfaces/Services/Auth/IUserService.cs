@@ -11,5 +11,6 @@ namespace Application.Interfaces.Services.Auth
     {
         Task<ServiceResponse<TokenDto>> Token(LoginDto loginDto);
         Task<ServiceResponse<int>> RegisterAccounUser(RegisterDto registerAccountUserDto,bool status);
+        Task<ServiceResponse<int>> SigOutAsync();
     }
 }

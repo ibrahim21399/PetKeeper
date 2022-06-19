@@ -1,9 +1,12 @@
 ﻿using Application.Interfaces.Repos.Auth;
+using Application.Interfaces.Repositories.General;
 using Application.Interfaces.Services.Auth;
+using Application.Interfaces.Services.General;
 using AutoMapper;
 using Domain.Common;
 using Domain.Dto.General.Auth;
 using Domain.Entites.General;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Presistence.Interfaces.Repos;
 using System;
@@ -18,8 +21,12 @@ namespace Application.Services.Auth
     public class UserService : ServiceBase, IUserService
     {
         private readonly IMapper _Mapper;
-            private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager ;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IFileService _fileService;
+
+
         //private readonly IEmailSender _emailSender;
         //private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -27,12 +34,13 @@ namespace Application.Services.Auth
         private readonly IAppUserRepository _appUserRepository;
 
         public UserService(
-
+            SignInManager<ApplicationUser> signInManager,   
             IMapper mapper,
             UserManager<ApplicationUser> userManager,
             IUnitOfWork unitOfWork
             ,RoleManager<ApplicationRole> roleManager,
-            IAppUserRepository appUserRepository
+            IAppUserRepository appUserRepository,
+            IFileService fileService
             )
         {
             _Mapper = mapper;
@@ -40,17 +48,19 @@ namespace Application.Services.Auth
             _unitOfWork = unitOfWork;
             _roleManager = roleManager;
             _appUserRepository = appUserRepository;
+            _signInManager = signInManager;
+            _fileService = fileService;
         }
 
         public async Task<ServiceResponse<TokenDto>> Token(LoginDto loginDto)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(loginDto.UserName) || string.IsNullOrWhiteSpace(loginDto.Password))
+                if (string.IsNullOrWhiteSpace(loginDto.Email) || string.IsNullOrWhiteSpace(loginDto.Password))
                     return new ServiceResponse<TokenDto> { Success = false, Data = null, Message = "user name or password is Empty" };
 
                 var token = await _appUserRepository.
-                    GetToken(loginDto.UserName, loginDto.Password, "SuperSecretPassword", "PetKeeper.com", "PetKeeper.com");
+                    GetToken(loginDto.Email, loginDto.Password, "SuperSecretPassword", "PetKeeper.com", "PetKeeper.com");
                 if (token == null)
                     return new ServiceResponse<TokenDto> { Success = false, Data = null, Message = "Invaild Login" };
                 //if(!token.IsActive)
@@ -86,23 +96,18 @@ namespace Application.Services.Auth
                 //    registerAccountUserDto.IsActive = true;
                 //}else
                 //    registerAccountUserDto.IsActive = user.IsActive = false;
-                    
-
-             
-                     
-                        
-
+                await _fileService.UploadFile(user.Id, null, new List<IFormFile> { registerAccountUserDto.UserPic }, nameof(user), "000", "UserPic", 500000);
                 var result = await _userManager.CreateAsync(user, registerAccountUserDto.Password);
                 if (!result.Succeeded) return new ServiceResponse<int> { Success = false, Message = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description)) };
                 //await _appUserRepository.AddRoleToUser(user, registerAccountUserDto.Role);
                 if (status == true)//client
                 {
-                    await _appUserRepository.AddRoleToUser(user, RolesName.Client.ToString());
+                    await _appUserRepository.AddRoleToUser(user, RolesName.Client);
                     
                 }
                 else
                 {
-                    await _appUserRepository.AddRoleToUser(user, RolesName.BusinessOwner.ToString());
+                    await _appUserRepository.AddRoleToUser(user, RolesName.BusinessOwner);
                    
                 }
 
@@ -114,6 +119,26 @@ namespace Application.Services.Auth
             {
                  return await LogError<int>(ex, 0);
             }
+        }
+
+  
+        public async Task<ServiceResponse<int>> SigOutAsync()
+        {
+            try
+            {
+                var res = _signInManager.SignOutAsync();
+                return new ServiceResponse<int> { Success = true, Data = 1, Message = "Your are Loged Out Succsfully" };
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return await LogError<int>(ex, 0);
+            }
+
+        
+      
         }
 
 

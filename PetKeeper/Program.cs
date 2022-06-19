@@ -5,13 +5,16 @@ using Application.Interfaces.Repos.General;
 using Application.Interfaces.Repositories.General;
 using Application.Interfaces.Services.Auth;
 using Application.Interfaces.Services.BusinessOwner;
+using Application.Interfaces.Services.CLient;
 using Application.Interfaces.Services.General;
 using Application.Services.Auth;
 using Application.Services.BusinussOwner;
+using Application.Services.Client;
 using Application.Services.General;
 using Domain.Entites;
 using Domain.Entites.General;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -98,6 +101,8 @@ builder.Services.AddScoped<ICityAreaRepository<City>, CityAreaRepository<City>>(
 builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
 builder.Services.AddScoped<IBusinessRepository,BusinessRepository>();
 builder.Services.AddScoped<IServicesRepository, ServicesRepository>();
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+
 
 
 
@@ -107,9 +112,10 @@ builder.Services.AddScoped<IServicesRepository, ServicesRepository>();
 #region Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFileService, FileService>();
-builder.Services.AddScoped<ICitiesAreasService,CitiesAreasService>();
-builder.Services.AddScoped<IServicesService, ServicesService>();
-builder.Services.AddScoped<ICreateBusinessService, CreateBusinessService>();
+builder.Services.AddScoped<IHomeService,HomeService>();
+//builder.Services.AddScoped<IServicesService, ServicesService>();
+builder.Services.AddScoped<IBusinessService, Application.Services.BusinussOwner.BusinessService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 
 #endregion
 
@@ -125,15 +131,13 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(); 
 }
 
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

@@ -13,6 +13,7 @@ namespace Application.Interfaces.Repos.Auth
         Task<ApplicationUser> GetUserByEmailAsync(string email);
         ApplicationUser GetUserByEmail(string email);
         Task<ApplicationUser> GetUserById(Guid id);
+        string GetUserFullName(Guid id);
         Task AddRoleToUser(ApplicationUser user, string Role);
         //Task<List<ApplicationUser>> GetEmployers();
     }

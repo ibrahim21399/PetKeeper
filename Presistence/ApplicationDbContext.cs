@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Presistence
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser,ApplicationRole,Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -19,6 +19,8 @@ namespace Presistence
         public DbSet<Business> Businesses { get; set; }
         public DbSet<Service>  Services { get; set; }
         public DbSet<BusinessService> BusinessServices { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

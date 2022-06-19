@@ -1,5 +1,8 @@
 ﻿using Application.Interfaces.Services.BusinessOwner;
+using Application.Interfaces.Services.CLient;
+using Domain.Common;
 using Domain.Dto.Business;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -8,38 +11,21 @@ namespace PetKeeper.Controllers.BusinessOwner
 {
     [ApiController]
     [Route("[Controller]/[Action]")]
-
+    //[Authorize (Roles =RolesName.BusinessOwner)]
     public class BusinessController : ApiBaseController
     {
-        private readonly ICreateBusinessService _createBusinessService;
-        public BusinessController(ICreateBusinessService createBusinessService)
+        private readonly IBusinessService _createBusinessService;
+        private readonly IBookingService _bookingService;
+        public BusinessController(IBusinessService createBusinessService,IBookingService bookingService)
         {
             _createBusinessService = createBusinessService;
+            _bookingService = bookingService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetServices()
-        {
-           var res = await _createBusinessService.GetServices();
-            return Ok(res); 
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetCities()
-        {
-            var res = await _createBusinessService.GetCities();
-            return Ok(res);
-        }
-        [HttpGet]
-        public async Task<IActionResult> GetAreas(int cityId)
-        {
-            var res = await _createBusinessService.GetAreas(cityId);
-            return Ok(res);
-        }
         [HttpPost]
         public async Task<IActionResult> CreateBusiness(CreateBusinessDto createBusinessDto)
         {
-            createBusinessDto.ApplicationUserId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            createBusinessDto.ApplicationUserId =Guid.Parse(CurrentUserId);
             var res = await _createBusinessService.CreateBusiness(createBusinessDto);
             return Ok(res); 
 
@@ -48,7 +34,7 @@ namespace PetKeeper.Controllers.BusinessOwner
         [HttpGet]
         public async Task<IActionResult> GetBusiness()
         {
-            var res = await _createBusinessService.GetBusinuss(Guid.Parse("1b175170d2564b29926608da47602b1a"));
+            var res = await _createBusinessService.GetBusinuss(Guid.Parse(CurrentUserId));
             return Ok(res);
 
         }
@@ -58,6 +44,27 @@ namespace PetKeeper.Controllers.BusinessOwner
         {
             var res = await _createBusinessService.DeleteBusiness(Id);
             return Ok(res);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAllAppoientments()
+        {
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AcceptBooking(Guid BookId)
+        {
+            var res = await _bookingService.AcceptBooking(BookId);
+            return Ok(res);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CancelBooking(Guid BookId)
+        {
+            var res = await _bookingService.CancelBooking(BookId);
+            return Ok(res);
+
         }
 
 
