@@ -1,4 +1,5 @@
-﻿using Domain.Dto.Client;
+﻿using Domain.Dto.Business;
+using Domain.Dto.Client;
 using Domain.Entites;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,13 @@ namespace Application.Mapping.Client
     {
         public BookingProfile()
         {
-            CreateMap<Booking, GetClientBookingDto>()
+            CreateMap<Booking, GetBookingDto>()
                 .ForMember(a => a.BusinessName, a => a.Ignore())
                 .ForMember(a => a.AppoientmentState, a => a.Ignore())
                 .ReverseMap();
+            CreateMap<Booking, GetBOwnerBookingDto>()
+                 .ForMember(a => a.BusinessName, a => a.Ignore())
+                 .ReverseMap();
 
 
 

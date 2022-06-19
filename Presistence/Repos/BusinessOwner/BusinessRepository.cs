@@ -49,6 +49,11 @@ namespace Presistence.Repos.BusinessOwner
             return ServicesNames;
         }
 
+        public async Task<List<Guid>> GetBusIdForUser(Guid UserId)
+        {
+            var BusId = _dbContext.Businesses.Where(a => a.ApplicationUserId == UserId).Select(a=>a.Id).ToList();
+            return BusId;
 
+        }
     }
 }

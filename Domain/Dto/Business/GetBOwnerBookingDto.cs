@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Dto.Client
+namespace Domain.Dto.Business
 {
-    public class GetClientBookingDto
+    public class GetBOwnerBookingDto
     {
+        public Guid Id { get; set; }
         public string BusinessName { get; set; }
         public DateTime BookDate { get; set; }
-        public string AppoientmentState { get; set; } 
-
     }
 }

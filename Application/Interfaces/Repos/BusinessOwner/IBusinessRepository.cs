@@ -13,5 +13,7 @@ namespace Application.Interfaces.Repos.BusinessOwner
         Task<List<string>> GetServicesNameAsync(Guid BusId);
         List<Guid> GetBusIdOfService(Guid? SerId);
         string GetBusinessNameAsync(Guid BusId);
+        Task<List<Guid>> GetBusIdForUser(Guid UserId);
+       
     }
 }

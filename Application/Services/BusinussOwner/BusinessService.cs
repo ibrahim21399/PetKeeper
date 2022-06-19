@@ -159,19 +159,6 @@ namespace Application.Services.BusinussOwner
         public async Task<ServiceResponse<List<GetBusinessDto>>> GetBusinuss(Guid userId)
         {
           var business=  _businussRepository.GetAll(a => a.ApplicationUserId == userId);
-            //List<GetBusinessDto> getBusinessDtos = new List<GetBusinessDto>();
-            //var map = _mapper.Map<List<GetBusinessDto>>(business);
-
-            //for (int i = 0; i < map.Count; i++)
-            //{
-            //    var x = (await _attachmentRepository.GetAllAsync(p => p.Row_Id == map[i].Id.ToString())).FirstOrDefault().File_Path;
-            //    map[i].BusinessPic = x;
-            //    map[i].MangerName = await _appUserRepository.GetUserFullName(business[i].ApplicationUserId);
-            //    map[i].CityName = _cityRepository.GetById(business[i].CityId).Name;
-            //    map[i].AreaName = _AreaRepository.GetById(business[i].AreaId).Name;
-            //    map[i].Services = await _businussRepository.GetServicesNameAsync(map[i].Id);
-
-            //}
             var map = await GetBusinessDtoList(business);
             return new ServiceResponse<List<GetBusinessDto>>
             {
