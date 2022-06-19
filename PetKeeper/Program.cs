@@ -86,10 +86,10 @@ builder.Services.AddAuthentication(options =>
 #endregion
 
 builder.Services.AddAutoMapper(typeof(MappingProfileBase));
-//builder.Services.AddCors(c =>
-//{
-//    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
-//});
+builder.Services.AddCors(c =>
+{
+    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+});
 
 
 
