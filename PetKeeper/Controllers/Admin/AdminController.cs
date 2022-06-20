@@ -9,9 +9,11 @@ namespace PetKeeper.Controllers.Admin
     public class AdminController : ControllerBase
     {
         private readonly IAdminGetUsers _adminGetUsers;
-        public AdminController(IAdminGetUsers adminGetUsers)
+        private readonly IAcceptOrRefuseBusiness _acceptOrRefuseBusiness;
+        public AdminController(IAdminGetUsers adminGetUsers,IAcceptOrRefuseBusiness acceptOrRefuseBusiness)
         {
             _adminGetUsers = adminGetUsers;
+            _acceptOrRefuseBusiness = acceptOrRefuseBusiness;
         }
 
         [HttpGet]
@@ -33,5 +35,31 @@ namespace PetKeeper.Controllers.Admin
             var res = await _adminGetUsers.DeleteUser(id);
             return Ok(res);
         }
+        [HttpGet]
+        public async Task<IActionResult> GetAllUnApprovedBusiness()
+        {
+            var res = await _acceptOrRefuseBusiness.GetAllBusinuss(false);
+            return Ok(res);   
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAllApprovedBusiness()
+        {
+            var res = await _acceptOrRefuseBusiness.GetAllBusinuss(true);
+            return Ok(res);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetBusinessDetails(Guid id)
+        {
+            var res = await _acceptOrRefuseBusiness.GetBussinesDetails(id);
+            return Ok(res);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ApproveBusiness(Guid Busid)
+        {
+            var res = await _acceptOrRefuseBusiness.ApproveBusiness(Busid);
+            return Ok(res);
+        }
+
+
     }
 }

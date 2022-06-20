@@ -5,6 +5,7 @@ using Application.Interfaces.Repositories.General;
 using Application.Interfaces.Services.BusinessOwner;
 using Application.Interfaces.Services.General;
 using AutoMapper;
+using Domain.Dto.Admin;
 using Domain.Dto.Business;
 using Domain.Dto.General;
 using Domain.Entites;
@@ -70,8 +71,8 @@ namespace Application.Services.BusinussOwner
                
                 _businussRepository.Create(map);
 
-                await _fileService.UploadFile(map.Id, null, new List<IFormFile> { createBusinessDto.BusinessPic }, nameof(map), "000", "BussnuisPic", 500000);
-                await _fileService.UploadFile(map.Id, null, new List<IFormFile> { createBusinessDto.LicencePic }, nameof(map), "000", "BussnuisLincPic", 500000);
+                await _fileService.UploadFile(map.Id, null, new List<IFormFile> { createBusinessDto.BusinessPic }, "BusinessPic", "000", "BussnuisPic", 500000);
+                await _fileService.UploadFile(map.Id, null, new List<IFormFile> { createBusinessDto.LicencePic }, "BusinessLinc", "000", "BussnuisLincPic", 500000);
                 await _unitOfWork.CommitAsync();
                 await _businussRepository.AddServicesToBusinessAsync(map.Id, createBusinessDto.ServiceId);
                 
@@ -142,6 +143,11 @@ namespace Application.Services.BusinussOwner
             try
             {
                 _businussRepository.Delete(id);
+                var att = _attachmentRepository.GetAll(a => a.Row_Id == id.ToString()).Select(a=>a.Row_Id);
+                foreach (var item in att)
+                {
+                    _attachmentRepository.PhysiscalDelete(Guid.Parse(item));
+                }
                 var res = await _unitOfWork.CommitAsync();
                 return new ServiceResponse<int>
                 {
@@ -173,13 +179,28 @@ namespace Application.Services.BusinussOwner
             var map = _mapper.Map<List<GetBusinessDto>>(businessObj);
             for (int i = 0; i < map.Count; i++)
             {
-                //var x = (await _attachmentRepository.GetAllAsync(p => p.Row_Id == map[i].Id.ToString())).FirstOrDefault().File_Path;
+                //var x = (await _attachmentRepository.GetAllAsync(p => p.Row_Id == map[i].Id.ToString() && p.Table_Name=="BusinessPic")).FirstOrDefault().File_Path;
                 //map[i].BusinessPic = x;
                 map[i].MangerName = _appUserRepository.GetUserFullName(businessObj[i].ApplicationUserId);
                 map[i].CityName = _cityRepository.GetById(businessObj[i].CityId).Name;
                 map[i].AreaName = _AreaRepository.GetById(businessObj[i].AreaId).Name;
                 map[i].Services = await _businussRepository.GetServicesNameAsync(map[i].Id);
             }
+            return map;
+        }
+
+        public async Task<GetAdminBusinessDetailsDto> GetBusinessDetailesDtoList(Business businessObj)
+        {
+            var map = _mapper.Map<GetAdminBusinessDetailsDto>(businessObj);
+
+                //var x = (await _attachmentRepository.GetAllAsync(p => p.Row_Id == map.Id.ToString() && p.Table_Name=="BusinessPic")).FirstOrDefault().File_Path;
+                //map.BusinessPic = x;
+                //var y = (await _attachmentRepository.GetAllAsync(p => p.Row_Id == map.Id.ToString()&& p.Table_Name== "BusinessLinc")).FirstOrDefault().File_Path;
+                //map.LicencePic = y;
+                map.MangerName = _appUserRepository.GetUserFullName(businessObj.ApplicationUserId);
+                map.CityName = _cityRepository.GetById(businessObj.CityId).Name;
+                map.AreaName = _AreaRepository.GetById(businessObj.AreaId).Name;
+                map.Services = await _businussRepository.GetServicesNameAsync(map.Id);
             return map;
         }
     }

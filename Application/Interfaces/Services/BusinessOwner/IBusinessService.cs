@@ -1,4 +1,5 @@
-﻿using Domain.Dto.Business;
+﻿using Domain.Dto.Admin;
+using Domain.Dto.Business;
 using Domain.Dto.General;
 using Domain.Entites;
 using System;
@@ -18,6 +19,7 @@ namespace Application.Interfaces.Services.BusinessOwner
         Task<ServiceResponse<int>> UpdateBusiness(Guid Id,CreateBusinessDto createBusinessDto);
         Task<ServiceResponse<int>> DeleteBusiness(Guid id);
         Task<List<GetBusinessDto>> GetBusinessDtoList(List<Business> businessObj);
+        Task<GetAdminBusinessDetailsDto> GetBusinessDetailesDtoList(Business businessObj);
 
 
     }

@@ -118,6 +118,7 @@ builder.Services.AddScoped<IHomeService,HomeService>();
 builder.Services.AddScoped<IAdminGetUsers,AdminGetUsers>();
 builder.Services.AddScoped<IBusinessService, Application.Services.BusinussOwner.BusinessService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IAcceptOrRefuseBusiness, AcceptOrRefuseBusiness>();
 
 #endregion
 
