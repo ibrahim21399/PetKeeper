@@ -9,6 +9,7 @@ export class CreateBusinessDto {
         public applicationUserId:string,
         public isActive:boolean,
         public serviceId:string[],
+        // public schedules:
         public businessPic:string,
         public licencePic:string
     ){}

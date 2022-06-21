@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { SharedService } from 'src/app/shared.service';
 
 @Component({
   selector: 'app-header',
@@ -6,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
-  constructor() { }
+ 
+  // @Input() val:number = 0;
+  auth:boolean = true;
+  constructor(public authServ:SharedService) { }
 
   ngOnInit(): void {
+    this.auth = this.authServ.getauth();
   }
 
 }

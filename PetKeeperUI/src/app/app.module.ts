@@ -8,6 +8,7 @@ import { HomeComponent } from './core/home/home.component';
 import { CoreModule } from './core/core.module';
 import { RegisterComponent } from './sign/register/register.component';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './sign/login/login.component';
 
 @NgModule({
   declarations: [
@@ -15,13 +16,14 @@ import { HttpClientModule } from '@angular/common/http';
     NotfoundComponent,
     HomeComponent,
     RegisterComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     CoreModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

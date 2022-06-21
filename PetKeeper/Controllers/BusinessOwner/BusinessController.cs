@@ -34,7 +34,7 @@ namespace PetKeeper.Controllers.BusinessOwner
         [HttpGet]
         public async Task<IActionResult> GetBusiness()
         {
-            var res = await _createBusinessService.GetBusinuss(Guid.Parse(CurrentUserId));
+            var res = await _createBusinessService.GetBusinuss(Guid.Parse("9BC658B1401942CD7EFF08DA4A964E04"));
             return Ok(res);
 
         }

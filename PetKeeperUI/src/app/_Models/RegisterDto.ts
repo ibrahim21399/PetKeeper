@@ -4,6 +4,7 @@ export class RegisterDto {
         public email:string,
         public password:string,
         public confirmPassword:string,
-        public phoneNumber:string
+        public phoneNumber:string,
+        public userPic:string
     ) {}
 }

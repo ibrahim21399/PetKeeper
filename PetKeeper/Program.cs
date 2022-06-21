@@ -26,6 +26,8 @@ using Presistence.Repos.BusinessOwner;
 using Presistence.Repos.General;
 using System.Text;
 
+string txt = "";
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -34,6 +36,17 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(txt,
+    builder =>
+    {
+        builder.AllowAnyOrigin();
+        builder.AllowAnyMethod();
+        builder.AllowAnyHeader();
+    });
+});
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -86,10 +99,6 @@ builder.Services.AddAuthentication(options =>
 #endregion
 
 builder.Services.AddAutoMapper(typeof(MappingProfileBase));
-builder.Services.AddCors(c =>
-{
-    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
-});
 
 
 
@@ -137,6 +146,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
+
+app.UseCors(txt);
+
 app.UseAuthorization();
 app.MapControllers();
 
