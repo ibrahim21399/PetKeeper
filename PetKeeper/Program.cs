@@ -3,10 +3,12 @@ using Application.Interfaces.Repos.Auth;
 using Application.Interfaces.Repos.BusinessOwner;
 using Application.Interfaces.Repos.General;
 using Application.Interfaces.Repositories.General;
+using Application.Interfaces.Services.Admin;
 using Application.Interfaces.Services.Auth;
 using Application.Interfaces.Services.BusinessOwner;
 using Application.Interfaces.Services.CLient;
 using Application.Interfaces.Services.General;
+using Application.Services.Admin;
 using Application.Services.Auth;
 using Application.Services.BusinussOwner;
 using Application.Services.Client;
@@ -99,6 +101,10 @@ builder.Services.AddAuthentication(options =>
 #endregion
 
 builder.Services.AddAutoMapper(typeof(MappingProfileBase));
+//builder.Services.AddCors(c =>
+//{
+//    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+//});
 
 
 
@@ -122,9 +128,10 @@ builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<IHomeService,HomeService>();
-//builder.Services.AddScoped<IServicesService, ServicesService>();
+builder.Services.AddScoped<IAdminGetUsers,AdminGetUsers>();
 builder.Services.AddScoped<IBusinessService, Application.Services.BusinussOwner.BusinessService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IAcceptOrRefuseBusiness, AcceptOrRefuseBusiness>();
 
 #endregion
 

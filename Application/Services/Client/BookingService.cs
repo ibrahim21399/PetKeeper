@@ -2,6 +2,7 @@
 using Application.Interfaces.Repos.General;
 using Application.Interfaces.Services.CLient;
 using AutoMapper;
+using Domain.Dto.Business;
 using Domain.Dto.Client;
 using Domain.Entites;
 using Presistence.Interfaces.Repos;
@@ -18,12 +19,14 @@ namespace Application.Services.Client
         private readonly IBusinessRepository _businessRepository;
         private readonly IBookingRepository _bookingRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public BookingService(IBookingRepository bookingRepository,IUnitOfWork unitOfWork,IBusinessRepository businessRepository)
+        public BookingService(IBookingRepository bookingRepository,IUnitOfWork unitOfWork, IBusinessRepository businessRepository, IMapper mapper)
         {
             _bookingRepository = bookingRepository;
             _unitOfWork = unitOfWork;
             _businessRepository = businessRepository;
+            _mapper = mapper;
         }
 
         public async Task<ServiceResponse<int>> BooKBusiness(Guid SceduleId,Guid BusinessId,Guid UserId,DateTime BookDate)
@@ -54,16 +57,16 @@ namespace Application.Services.Client
                 return await LogError(ex, 0);
             }
         }
-        public async Task<ServiceResponse<List<GetClientBookingDto>>> GetAllClientBooking(Guid userId)
+        public async Task<ServiceResponse<List<GetBookingDto>>> GetAllClientBooking(Guid userId)
         {
 
             var UserBookings =  _bookingRepository.GetAll(a => a.ApplicationUserId == userId);
 
-                List<GetClientBookingDto> res = new List<GetClientBookingDto>();   
+                List<GetBookingDto> res = new List<GetBookingDto>();   
                
                 foreach (var book in UserBookings)
                 {
-                    GetClientBookingDto getClientBookingDto = new GetClientBookingDto();
+                    GetBookingDto getClientBookingDto = new GetBookingDto();
                     getClientBookingDto.BusinessName = _businessRepository.GetBusinessNameAsync(book.BusinessId);
                     getClientBookingDto.BookDate = book.BookDate;
                     if (book.IsCanceled==true)
@@ -85,7 +88,7 @@ namespace Application.Services.Client
                     res.Add(getClientBookingDto);
                 }
 
-                return new ServiceResponse<List<GetClientBookingDto>>
+                return new ServiceResponse<List<GetBookingDto>>
                 {
                     Success = true,
                     Data = res
@@ -93,17 +96,66 @@ namespace Application.Services.Client
 
         }
 
-        public async Task<ServiceResponse<List<Booking>>> GetAllUnApproveBooking(Guid BusinessId)
+        public async Task<ServiceResponse<List<GetBOwnerBookingDto>>> GetAllUnApproveBooking(Guid UserId)
         {
+            var BusinessId = await _businessRepository.GetBusIdForUser(UserId);
+            List < GetBOwnerBookingDto> getBOwnerBookingDtos = new List<GetBOwnerBookingDto>();
+            for (int i = 0; i < BusinessId.Count; i++)
+            {
+                var UnApprovedbookings= await _bookingRepository.GetAllBookingAsync(BusinessId[i], false, false);
+                var map = _mapper.Map<List<GetBOwnerBookingDto>>(UnApprovedbookings);
+                for (int j = 0; j < UnApprovedbookings.Count; j++)
+                {
+                    foreach (var item in map)
+                    {
+                        item.BusinessName = _businessRepository.GetBusinessNameAsync(UnApprovedbookings[j].BusinessId);
+                    }
+                }
 
-            var res = await _bookingRepository.GetAllBookingAsync(BusinessId, false,false);
+                getBOwnerBookingDtos.AddRange(map);
+            }
 
-            return new ServiceResponse<List<Booking>>
+            return new ServiceResponse<List<GetBOwnerBookingDto>>
             {
                 Success = true,
-                Data = res
+                Data = getBOwnerBookingDtos
             };
 
+        }
+        public async Task<ServiceResponse<List<GetBookingDto>>> GetAllOwnerBooking(Guid UserId)
+        {
+            var BusIds = await _businessRepository.GetBusIdForUser(UserId);
+
+            List<GetBookingDto> getBookingDtos = new List<GetBookingDto>();
+            for (int i = 0; i < BusIds.Count; i++)
+            {
+                var Allbookings = await _bookingRepository.GetAllBookingAsync(BusIds[i], true, false);
+                var map = _mapper.Map<List<GetBookingDto>>(Allbookings);
+                for (int j = 0; j < Allbookings.Count; j++)
+                {
+                    foreach (var item in map)
+                    {
+                        item.BusinessName = _businessRepository.GetBusinessNameAsync(Allbookings[j].BusinessId);
+                        if (Allbookings[j].IsCanceled)
+                        {
+                            item.AppoientmentState = "Cancelled";
+                        }
+                        else
+                        {
+                            item.AppoientmentState = "Approved";
+                        }
+
+                    }
+                }
+
+                getBookingDtos.AddRange(map);
+            }
+
+            return new ServiceResponse<List<GetBookingDto>>
+            {
+                Success = true,
+                Data = getBookingDtos
+            };
 
         }
 

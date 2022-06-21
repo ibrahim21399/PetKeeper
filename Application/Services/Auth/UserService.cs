@@ -86,6 +86,10 @@ namespace Application.Services.Auth
                 #endregion
                 var user = _Mapper.Map<ApplicationUser>(registerAccountUserDto);
                 user.UserName = registerAccountUserDto.Email;
+                if (status)
+                {
+                    user.Status = true;
+                }
                 //if (registerAccountUserDto.Role == RolesName.BusinessOwner.ToString())
                 //{
                 //    registerAccountUserDto.IsActive = false;
