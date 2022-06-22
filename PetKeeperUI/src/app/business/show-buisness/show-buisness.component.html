@@ -9,12 +9,12 @@
 			<div class="postcard__text">
 				<h1 class="postcard__title blue">{{item.businessName}}</h1>
 				<div class="postcard__subtitle small">
-					<i class="fas fa-calendar-alt mr-2"></i>{{item.serviceId}}
+					<!-- <i class="fas fa-calendar-alt mr-2"></i>{{item.serviceId}} -->
 				</div>
 				<div class="postcard__bar"></div>
 				<div class="postcard__preview-txt">{{item.businessDesc}}</div>
 				<ul class="postcard__tagbox">
-					<li class="tag__item play blue"><i class="fas fa-tag mr-2"></i><a class="btn" routerLink="/business/edit/1">Edit</a></li>
+					<li class="tag__item play blue"><i class="fas fa-tag mr-2"></i><a class="btn" [routerLink]="['/business/edit',item.id]">Edit</a></li>
 					<li class="tag__item play red"><i class="fas fa-clock mr-2"></i><a class="btn" (click)="delete(item)" routerLink="/business/delete">Delete</a></li>
 				</ul>
 			</div>

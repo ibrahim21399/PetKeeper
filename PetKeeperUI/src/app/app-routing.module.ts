@@ -14,6 +14,7 @@ const routes: Routes = [
   {path:"business",loadChildren:()=>import('./business/business.module').then(m=>m.BusinessModule)},
   {path:"businessowner",loadChildren:()=>import('./businessowner/businessowner.module').then(m=>m.BusinessownerModule)},
   {path:"client",loadChildren:()=>import('./client/client.module').then(m=>m.ClientModule)},
+  {path:"services",loadChildren:()=>import('./services/services.module').then(m=>m.ServicesModule)},
 
   {path:"",redirectTo:"home",pathMatch:"full"},
   {path:"**",component:NotfoundComponent},

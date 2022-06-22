@@ -11,15 +11,16 @@ import { RegisterDto } from 'src/app/_Models/RegisterDto';
 export class RegisterComponent implements OnInit {
 
   val:number= 0;
-
-  regist:RegisterDto = new RegisterDto('','','','','','');
+  file:any = [];
+  regist:RegisterDto = new RegisterDto('','','','','',this.file);
 
   fullName:string = "";
   email:string = "";
   password:string =  "";
   confirmPassword:string =  "";
   phoneNumber:string = "";
-  userPic:string =  "";
+  pb:BlobPart[] = [];
+  userPic:any=  [];
   
   constructor(public regServ:SharedService,public router:Router) { }
 

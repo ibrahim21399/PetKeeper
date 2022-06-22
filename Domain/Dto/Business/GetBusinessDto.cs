@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Dto.Business
 {
-    public class GetBusinessDto
+    public class GetBusinessDto 
     {
         public Guid Id { get; set; }
         public string BusinessName { get; set; }
