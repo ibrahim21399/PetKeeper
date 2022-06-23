@@ -8,5 +8,5 @@ import { SharedService } from './shared.service';
   providers: [SharedService],
 })
 export class AppComponent {
-  title = 'PetKeeperUI';
+  title = 'MyPet';
 }

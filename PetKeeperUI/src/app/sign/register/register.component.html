@@ -77,16 +77,16 @@
 						<label for="pass" class="label">Phone Number</label>
 						<input id="pass" type="text" class="input" [(ngModel)] = "phoneNumber" required>
 					</div>
-					<div class="group">
+					<!-- <div class="group">
 						<label for="pass" class="btn btn-secondary" >Upload your picture</label>
 						<input #fileInput type="file" accept=".pdf" style="display: none;" />
-					</div>
+					</div> -->
 					<div class="group">
 						<label for="pass" class="label">Register As</label>
-						<select class="input" required>
+						<select class="input" [(ngModel)]="val" required>
 							<option style="color: black;">Choose one</option>
-							<option style="color: black;">Buisness Owner</option>
-							<option style="color: black;">Pet Owner</option>
+							<option style="color: black;" value="1">Buisness Owner</option>
+							<option style="color: black;" value="0">Pet Owner</option>
 						</select>
 					</div>
 					<br>

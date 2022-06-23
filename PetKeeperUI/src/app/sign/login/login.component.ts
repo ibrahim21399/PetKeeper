@@ -22,8 +22,9 @@ export class LoginComponent implements OnInit {
   sub2:Subscription|null = null;
 
   login(){
-    localStorage.setItem("email",this.email);
-    localStorage.setItem("password",this.password);
+    this.adServ.Login(this.ad).subscribe(a=>{
+      console.log(a.message);
+    })
     // this.router.navigateByUrl("/home");
   }
   ngOnInit(): void {

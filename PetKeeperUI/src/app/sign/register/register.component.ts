@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
   confirmPassword:string =  "";
   phoneNumber:string = "";
   pb:BlobPart[] = [];
-  userPic:any=  [];
+  userPic:any=  '';
   
   constructor(public regServ:SharedService,public router:Router) { }
 
@@ -32,7 +32,7 @@ export class RegisterComponent implements OnInit {
     this.regist.phoneNumber = this.phoneNumber;
     this.regist.userPic = this.userPic;
     console.log(this.regist);
-    this.regServ.RegisterServ(this.regist,this.val).subscribe(a=>{console.log("inside regist component"+a)});
+    this.regServ.RegisterServ(this.regist,this.val).subscribe(a=>{console.log("inside regist component"+a.data+a.message)});
   }
 
   ngOnInit(): void {

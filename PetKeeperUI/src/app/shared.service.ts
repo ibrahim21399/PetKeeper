@@ -85,10 +85,12 @@ export class SharedService {
   ad:LoginDto = new LoginDto('','');
   
   Login(login:LoginDto){
+    this.isAuthenticated = false;
     return this.http.post<ServiceResponse<TokenDto>>(this.baseurl+"Auth/Login",login);
   }
 
   Logout(){
+    this.isAuthenticated = true;
     return this.http.post<ServiceResponse<number>>(this.baseurl+"Auth/LogOut",true);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Guid } from 'guid-typescript';
 import { Subscription } from 'rxjs';
@@ -27,9 +27,12 @@ export class ServicesComponent implements OnInit,OnDestroy {
 
   SelectedRow:any = null;
 
-  constructor(public route: ActivatedRoute, public serv:SharedService) { }
-  
+  inp:string = '';
 
+  src:string = '';
+
+  constructor(public route: ActivatedRoute, public serv:SharedService) {}
+  
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params=>{
       this.Serviceid = params['id'];
@@ -44,6 +47,7 @@ export class ServicesComponent implements OnInit,OnDestroy {
     this.serv.getAllServices().subscribe(s=>{
       this.ServiceName = s.data.find(s=>s.id == this.Serviceid)?.name;
     })
+
   }
 
   SetAreas(cityId:number){
@@ -63,6 +67,11 @@ export class ServicesComponent implements OnInit,OnDestroy {
   RowSelected(sr:any){
     this.SelectedRow = sr;
     console.log(this.SelectedRow);
+  }
+
+  send() {
+    this.inp = this.SelectedRow.cityName+this.SelectedRow.areaName+this.SelectedRow.businessName;
+    this.src = "https://maps.google.com/maps?q="+this.inp+"&t=&z=13&ie=UTF8&iwloc=&output=embed";
   }
 
   ngOnDestroy(): void {
