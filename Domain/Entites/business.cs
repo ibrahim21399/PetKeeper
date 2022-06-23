@@ -32,6 +32,8 @@ namespace Domain.Entites
 
        public ICollection<Schedule> Schedules { get; set; }
        public ICollection<Booking> Bookings { get; set; }
+        
+       public ICollection<Comments>? Comments { get; set; }
 
 
 

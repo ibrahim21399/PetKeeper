@@ -21,6 +21,7 @@ namespace Presistence
         public DbSet<BusinessService> BusinessServices { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Comments> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
