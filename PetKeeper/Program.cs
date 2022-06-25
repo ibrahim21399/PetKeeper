@@ -117,6 +117,7 @@ builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
 builder.Services.AddScoped<IBusinessRepository,BusinessRepository>();
 builder.Services.AddScoped<IServicesRepository, ServicesRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
 
 
 
@@ -132,12 +133,10 @@ builder.Services.AddScoped<IAdminGetUsers,AdminGetUsers>();
 builder.Services.AddScoped<IBusinessService, Application.Services.BusinussOwner.BusinessService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IAcceptOrRefuseBusiness, AcceptOrRefuseBusiness>();
+builder.Services.AddScoped<ICommentService, CommentService>();
 
 #endregion
 
-
-
-//builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnStr")));
 
 
 var app = builder.Build();

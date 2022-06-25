@@ -30,5 +30,6 @@ namespace PetKeeper.Controllers
                 return User.FindFirst(ClaimTypes.Email).Value;
             }
         }
+
     }
 }

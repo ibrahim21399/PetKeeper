@@ -10,9 +10,11 @@ namespace PetKeeper.Controllers.Client
     public class ClientController : ApiBaseController
     {
         private readonly IBookingService _clientBookingService;
-        public ClientController(IBookingService clientBookingService)
+        private readonly ICommentService _commentService;
+        public ClientController(IBookingService clientBookingService, ICommentService commentService)
         {
             _clientBookingService = clientBookingService;
+            _commentService = commentService;
         }
         [HttpPost]
         public async Task<IActionResult> BookAppoienment(DateTime BookDate)
@@ -30,6 +32,21 @@ namespace PetKeeper.Controllers.Client
             var res = await _clientBookingService.GetAllClientBooking(Guid.Parse(CurrentUserId)); 
             return Ok(res);
 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CommentOnBusiness(Guid BusId,CreateCommentDto createCommentDto)
+        {
+            createCommentDto.ApplicationUserId=Guid.Parse(CurrentUserId);
+            var res = await _commentService.AddComment(BusId,createCommentDto);
+            return Ok(res);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteComment(Guid CommentId)
+        {
+            var res = await _commentService.DeleteComment(CommentId);
+            return Ok(res);
         }
     }
 }
