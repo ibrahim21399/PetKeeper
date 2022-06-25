@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.Repos.General;
+﻿using Application.Interfaces.Repos.BusinessOwner;
+using Application.Interfaces.Repos.General;
 using Application.Interfaces.Services.CLient;
 using AutoMapper;
 using Domain.Dto.Client;
@@ -15,14 +16,16 @@ namespace Application.Services.Client
     public class CommentService:ServiceBase,ICommentService
     {
         private readonly ICommentsRepository _commentsRepository;
+        private readonly IBusinessRepository _businessRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public CommentService (ICommentsRepository commentsRepository, IUnitOfWork unitOfWork,IMapper mapper)
+        public CommentService (ICommentsRepository commentsRepository, IUnitOfWork unitOfWork,IMapper mapper,IBusinessRepository businessRepository)
         {
             _commentsRepository = commentsRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _businessRepository = businessRepository;
         }
 
         public async Task<ServiceResponse<int>> AddComment(Guid BusId,CreateCommentDto createCommentDto)
@@ -34,6 +37,7 @@ namespace Application.Services.Client
                 var map = _mapper.Map<Comments>(createCommentDto);
                 map.BusinessId = BusId;
                 _commentsRepository.Create(map);
+                _businessRepository.updateBusRate(BusId, map.Rate);
                 await _unitOfWork.CommitAsync();
                 return new ServiceResponse<int>
                 {

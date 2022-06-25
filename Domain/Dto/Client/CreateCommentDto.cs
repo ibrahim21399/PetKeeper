@@ -9,7 +9,6 @@ namespace Domain.Dto.Client
 {
     public class CreateCommentDto
     {
-        [Required]
         public String Comment { get; set; }
         [Required]
         public float Rate { get; set; }

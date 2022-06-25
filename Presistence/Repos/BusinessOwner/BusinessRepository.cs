@@ -55,5 +55,14 @@ namespace Presistence.Repos.BusinessOwner
             return BusId;
 
         }
+
+        public async Task updateBusRate(Guid BusId,float rate)
+        {
+            var BusRate = _dbContext.Businesses.Find(BusId).BusinessRate;
+            float totalRate = (BusRate + rate) / 2;
+            var bus = _dbContext.Businesses.Find(BusId);
+            bus.BusinessRate = totalRate;
+
+        }
     }
 }
