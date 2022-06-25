@@ -26,7 +26,7 @@ namespace PetKeeper.Controllers.General
         [AllowAnonymous]
         [HttpPost]
         [Route("/Auth/ClientRegister")]
-        public async Task<IActionResult> ClientRegister([FromBody] RegisterDto RegisterDto)
+        public async Task<IActionResult> ClientRegister([FromForm] RegisterDto RegisterDto)
         {
             var token = await _userService.RegisterAccounUser(RegisterDto,true);
             return Ok(token);
@@ -34,7 +34,7 @@ namespace PetKeeper.Controllers.General
         [AllowAnonymous]
         [HttpPost]
         [Route("/Auth/OwnerRegister")]
-        public async Task<IActionResult> OwnerRegister([FromBody] RegisterDto RegisterDto)
+        public async Task<IActionResult> OwnerRegister([FromForm] RegisterDto RegisterDto)
         {
             var token = await _userService.RegisterAccounUser(RegisterDto, false);
             return Ok(token);

@@ -100,7 +100,7 @@ namespace Application.Services.Auth
                 //    registerAccountUserDto.IsActive = true;
                 //}else
                 //    registerAccountUserDto.IsActive = user.IsActive = false;
-                await _fileService.UploadFile(user.Id, null, new List<IFormFile> { registerAccountUserDto.UserPic }, nameof(user), "000", "UserPic", 500000);
+                await _fileService.UploadFile(user.Id, null, new List<IFormFile> { registerAccountUserDto.UserPic },nameof(user), "000", "UsersPic", 500000);
                 var result = await _userManager.CreateAsync(user, registerAccountUserDto.Password);
                 if (!result.Succeeded) return new ServiceResponse<int> { Success = false, Message = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description)) };
                 //await _appUserRepository.AddRoleToUser(user, registerAccountUserDto.Role);

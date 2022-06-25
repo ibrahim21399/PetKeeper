@@ -36,4 +36,8 @@
     <ProjectReference Include="..\Presistence\Presistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\ClientPic\" />
+  </ItemGroup>
+
 </Project>
