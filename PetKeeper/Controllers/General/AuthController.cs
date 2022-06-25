@@ -47,5 +47,28 @@ namespace PetKeeper.Controllers.General
             var res = await _userService.SigOutAsync();
             return Ok(res);
         }
+
+        [HttpPut]
+        [Route("/Account/Edit")]
+        public async Task<IActionResult> Update(UserDto userDto)
+        {
+            var res = await _userService.UpdateUser(Guid.Parse(CurrentUserId),userDto);
+            return Ok(res);
+        }
+
+        [HttpPost]
+        [Route("/Account/ChangePassword")]
+        public async Task<IActionResult> ChangePassword(string current ,string NewPass)
+        {
+            var res = await _userService.ChangePassword(Guid.Parse(CurrentUserId),current,NewPass);
+            return Ok(res);
+        }
+        [HttpDelete]
+        [Route("/Account/DeleteMyAccount")]
+        public async Task<IActionResult> DeleteMyAcc()
+        {
+            var res = _userService.DeletAccountUser(Guid.Parse(CurrentUserId));
+            return Ok(res);
+        }
     }
 }

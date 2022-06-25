@@ -77,33 +77,7 @@ namespace Application.Services.Auth
                 return await LogError<TokenDto>(ex, null);
             }
         }
-        //public async Task<ServiceResponse<int>> UpdateUser(Guid id, RegisterDto registerDto,string Token)
-        //{
-        //    try
-        //    {
-        //        var user = _appUserRepository.GetUserById(id);
-        //        user.Id = id;
-        //        user.FullName=registerDto.FullName; 
-        //        user.PhoneNumber= registerDto.PhoneNumber;
-        //        await _userManager.ChangeEmailAsync(user, registerDto.Email,Token);
-        //        await _userManager.ChangePasswordAsync(user, user.PasswordHash, registerDto.Password);
-        //        var attach = _attachmentRepository.GetById(user.Id);
-        //        if (attach.File_Name != registerDto.UserPic.FileName)
-        //        {
-        //            _attachmentRepository.PhysiscalDelete(user.Id);
-        //        }
-        //    await _fileService.UploadFile(user.Id, null, new List<IFormFile> { registerDto.UserPic }, nameof(user), "000", "UsersPic", 500000);
-        //        var res = await _unitOfWork.CommitAsync();
-        //        return new ServiceResponse<int> { Success = true, Data = 1, Message = "Your Data Was updated" };
-        //    }
-        //    catch (Exception ex)
-        //    {
 
-        //        return await LogError<int>(ex, 0);
-        //    }
-        //}
-
-        
 
         public async Task<ServiceResponse<int>> RegisterAccounUser(RegisterDto registerAccountUserDto, bool status)
         {
@@ -119,21 +93,9 @@ namespace Application.Services.Auth
                 {
                     user.Status = true;
                 }
-                //if (registerAccountUserDto.Role == RolesName.BusinessOwner.ToString())
-                //{
-                //    registerAccountUserDto.IsActive = false;
-                //}
-                //else
-                //if (status== true)
-                //{
-                //    registerAccountUserDto.IsActive = true;
-                //}else
-                //    registerAccountUserDto.IsActive = user.IsActive = false;
                 var result = await _userManager.CreateAsync(user, registerAccountUserDto.Password);
                 await _fileService.UploadFile(user.Id, scondRowId: null, new List<IFormFile> { registerAccountUserDto.UserPic }, nameof(user), "000", "UsersPic", 500000);
-                await _unitOfWork.CommitAsync();
                 if (!result.Succeeded) return new ServiceResponse<int> { Success = false, Message = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description)) };
-                //await _appUserRepository.AddRoleToUser(user, registerAccountUserDto.Role);
                 if (status == true)//client
                 {
                     await _appUserRepository.AddRoleToUser(user, RolesName.Client);
@@ -170,10 +132,70 @@ namespace Application.Services.Auth
 
                 return await LogError<int>(ex, 0);
             }
-
-        
-      
         }
+
+        public async Task<ServiceResponse<int>> UpdateUser(Guid id, UserDto userDto)
+        {
+            try
+            {
+                var user = _appUserRepository.GetUserById(id);
+                user.Id = id;
+                user.FullName = userDto.FullName;
+                user.PhoneNumber = userDto.PhoneNumber;
+                user.UserName = userDto.UserName;
+                user.Email = userDto.Email;
+                var attach = _attachmentRepository.GetById(user.Id);
+                if (attach.File_Name != userDto.UserPic.FileName)
+                {
+                    _attachmentRepository.PhysiscalDelete(user.Id);
+                }
+                await _fileService.UploadFile(user.Id, null, new List<IFormFile> { userDto.UserPic }, nameof(user), "000", "UsersPic", 500000);
+                await _userManager.UpdateAsync(user);
+                var res = await _unitOfWork.CommitAsync();
+                return new ServiceResponse<int> { Success = true, Data = 1, Message = "Your Account Data Was updated" };
+            }
+            catch (Exception ex)
+            {
+
+                return await LogError<int>(ex, 0);
+            }
+        }
+
+
+        public async Task DeletAccountUser(Guid Id)
+        {
+            try
+            {
+                var user = _appUserRepository.GetUserById(Id);
+                await _appUserRepository.RemoveUser(user);
+            }
+            catch (Exception ex)
+            {
+                await LogError<int>(ex, 0);
+            }
+        }
+
+        public async Task<ServiceResponse<int>> ChangePassword(Guid Id,string CurrentPass,String NewPass)
+        {
+            try
+            {
+                var user = _appUserRepository.GetUserById(Id);
+                await _userManager.ChangePasswordAsync(user, CurrentPass, NewPass);
+                await _unitOfWork.CommitAsync();
+                return new ServiceResponse<int>
+                {
+                    Data = 1,
+                    Success = true,
+                    Message = "Your Password changed Successfully"
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return await LogError(ex, 0);
+            }
+
+        } 
 
 
 
@@ -221,17 +243,6 @@ namespace Application.Services.Auth
         //}
 
 
-        //public async Task DeletAccountUser(string userName)
-        //{
-        //    try
-        //    {
-        //        await _AppUserRepository.DeleteUser(userName);
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-        //}
 
         //public async Task<ServiceResponse<ApplicationUser>> EditAccountUser(EditAspNetUserDto editAccountUserDto, List<string> Roles)
         //{

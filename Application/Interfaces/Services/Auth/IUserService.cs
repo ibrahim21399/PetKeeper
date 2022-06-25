@@ -12,5 +12,9 @@ namespace Application.Interfaces.Services.Auth
         Task<ServiceResponse<TokenDto>> Token(LoginDto loginDto);
         Task<ServiceResponse<int>> RegisterAccounUser(RegisterDto registerAccountUserDto,bool status);
         Task<ServiceResponse<int>> SigOutAsync();
+        Task<ServiceResponse<int>> UpdateUser(Guid id, UserDto userDto);
+        Task DeletAccountUser(Guid Id);
+        Task<ServiceResponse<int>> ChangePassword(Guid Id, string CurrentPass, String NewPass);
+        
     }
 }

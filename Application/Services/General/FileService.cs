@@ -73,7 +73,6 @@ namespace Application.Services.General
                     //Domain.Enums.MemiTypes.GetTypeByMemi(model.MIMEType).ToString();
                     attachment.File_Path = FolderName + "/" + UploadFiles[i].FileName;
                    _attachmentRepository.Create(attachment);
-                    await _unitOfWork.CommitAsync();
                     
                 }
                 return new KeyValuePair<bool, string>(true, "Success");
