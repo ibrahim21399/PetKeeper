@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CreateBusinessDto } from './_Models/CreateBusinessDto';
 import { RegisterDto } from './_Models/RegisterDto';
 import { LoginDto } from './_Models/LoginDto';
@@ -70,7 +70,14 @@ export class SharedService {
   {
     if(val == 0){
       this.isAuthenticated = true;
-      return this.http.post<ServiceResponse<number>>(this.baseurl + 'Auth/ClientRegister', register);
+      const formdata = new FormData();
+      formdata.append("fullName", register.fullName);
+      formdata.append("email", register.email);
+      formdata.append("password", register.password);
+      formdata.append("confirmPassword", register.confirmPassword);
+      formdata.append("phoneNumber", register.phoneNumber);
+      formdata.append("userPic", register.userPic ,register.userPic.name);
+      return this.http.post<ServiceResponse<number>>(this.baseurl + 'Auth/ClientRegister',formdata);
     }
     else{
       this.isAuthenticated = true;

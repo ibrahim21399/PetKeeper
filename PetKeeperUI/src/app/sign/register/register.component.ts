@@ -22,6 +22,9 @@ export class RegisterComponent implements OnInit {
   pb:BlobPart[] = [];
   userPic:any=  '';
   
+  shortLink: string = "";
+  loading: boolean = false;
+  
   constructor(public regServ:SharedService,public router:Router) { }
 
   Register(){
@@ -32,7 +35,22 @@ export class RegisterComponent implements OnInit {
     this.regist.phoneNumber = this.phoneNumber;
     this.regist.userPic = this.userPic;
     console.log(this.regist);
-    this.regServ.RegisterServ(this.regist,this.val).subscribe(a=>{console.log("inside regist component"+a.data+a.message)});
+    this.loading = !this.loading;
+    console.log(this.userPic);
+    this.regServ.RegisterServ(this.regist,this.val).subscribe(a=>{
+      console.log("inside regist component"+a.data+a.message);
+      (event: any) => {
+        if (typeof (event) === 'object') {
+            this.shortLink = event.link;
+            this.loading = false;
+            console.log(this.userPic);
+        }
+    }
+    });
+  }
+
+  onChange(event:any) {
+    this.userPic = event.target.files[0];
   }
 
   ngOnInit(): void {
