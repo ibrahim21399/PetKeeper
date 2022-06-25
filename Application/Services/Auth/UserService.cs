@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Presistence.Interfaces.Repos;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -88,7 +89,7 @@ namespace Application.Services.Auth
                 if (userExists != null) return new ServiceResponse<int> { Success = false, Message = "User is Already Exist" };
                 #endregion
                 var user = _Mapper.Map<ApplicationUser>(registerAccountUserDto);
-                user.UserName = registerAccountUserDto.Email;
+                user.UserName = String.Empty;
                 if (status)
                 {
                     user.Status = true;
@@ -144,12 +145,16 @@ namespace Application.Services.Auth
                 user.PhoneNumber = userDto.PhoneNumber;
                 user.UserName = userDto.UserName;
                 user.Email = userDto.Email;
-                var attach = _attachmentRepository.GetById(user.Id);
-                if (attach.File_Name != userDto.UserPic.FileName)
+                if(userDto.UserPic != null)
                 {
-                    _attachmentRepository.PhysiscalDelete(user.Id);
+                    var attach = _attachmentRepository.GetById(user.Id);
+                    if (attach.File_Name != userDto.UserPic.FileName)
+                    {
+                        _attachmentRepository.PhysiscalDelete(user.Id);
+                    }
+                    await _fileService.UploadFile(user.Id, null, new List<IFormFile> { userDto.UserPic }, nameof(user), "000", "UsersPic", 500000);
+
                 }
-                await _fileService.UploadFile(user.Id, null, new List<IFormFile> { userDto.UserPic }, nameof(user), "000", "UsersPic", 500000);
                 await _userManager.UpdateAsync(user);
                 var res = await _unitOfWork.CommitAsync();
                 return new ServiceResponse<int> { Success = true, Data = 1, Message = "Your Account Data Was updated" };
@@ -162,16 +167,17 @@ namespace Application.Services.Auth
         }
 
 
-        public async Task DeletAccountUser(Guid Id)
+        public async Task<ServiceResponse<int>> DeletAccountUser(Guid Id)
         {
             try
             {
                 var user = _appUserRepository.GetUserById(Id);
                 await _appUserRepository.RemoveUser(user);
+                return new ServiceResponse<int> { Success = true, Data = 1, Message="Your Account Deleted" };
             }
             catch (Exception ex)
             {
-                await LogError<int>(ex, 0);
+               return await LogError<int>(ex, 0);
             }
         }
 
