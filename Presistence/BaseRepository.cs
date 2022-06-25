@@ -62,7 +62,7 @@ namespace Presistence
 
         public virtual void Create(T obj)
         {
-            _dbContext.Attach(obj);
+            _dbContext.Add(obj);
         }
 
         public virtual async Task CreateRangeAsync(IEnumerable<T> objList)

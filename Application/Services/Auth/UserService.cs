@@ -25,6 +25,7 @@ namespace Application.Services.Auth
         private readonly SignInManager<ApplicationUser> _signInManager ;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IFileService _fileService;
+        private readonly IAttachmentRepository _attachmentRepository;
 
 
         //private readonly IEmailSender _emailSender;
@@ -40,7 +41,7 @@ namespace Application.Services.Auth
             IUnitOfWork unitOfWork
             ,RoleManager<ApplicationRole> roleManager,
             IAppUserRepository appUserRepository,
-            IFileService fileService
+            IFileService fileService,IAttachmentRepository attachmentRepository
             )
         {
             _Mapper = mapper;
@@ -50,6 +51,7 @@ namespace Application.Services.Auth
             _appUserRepository = appUserRepository;
             _signInManager = signInManager;
             _fileService = fileService;
+            _attachmentRepository = attachmentRepository;
         }
 
         public async Task<ServiceResponse<TokenDto>> Token(LoginDto loginDto)
@@ -75,6 +77,33 @@ namespace Application.Services.Auth
                 return await LogError<TokenDto>(ex, null);
             }
         }
+        //public async Task<ServiceResponse<int>> UpdateUser(Guid id, RegisterDto registerDto,string Token)
+        //{
+        //    try
+        //    {
+        //        var user = _appUserRepository.GetUserById(id);
+        //        user.Id = id;
+        //        user.FullName=registerDto.FullName; 
+        //        user.PhoneNumber= registerDto.PhoneNumber;
+        //        await _userManager.ChangeEmailAsync(user, registerDto.Email,Token);
+        //        await _userManager.ChangePasswordAsync(user, user.PasswordHash, registerDto.Password);
+        //        var attach = _attachmentRepository.GetById(user.Id);
+        //        if (attach.File_Name != registerDto.UserPic.FileName)
+        //        {
+        //            _attachmentRepository.PhysiscalDelete(user.Id);
+        //        }
+        //    await _fileService.UploadFile(user.Id, null, new List<IFormFile> { registerDto.UserPic }, nameof(user), "000", "UsersPic", 500000);
+        //        var res = await _unitOfWork.CommitAsync();
+        //        return new ServiceResponse<int> { Success = true, Data = 1, Message = "Your Data Was updated" };
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        return await LogError<int>(ex, 0);
+        //    }
+        //}
+
+        
 
         public async Task<ServiceResponse<int>> RegisterAccounUser(RegisterDto registerAccountUserDto, bool status)
         {
@@ -100,8 +129,9 @@ namespace Application.Services.Auth
                 //    registerAccountUserDto.IsActive = true;
                 //}else
                 //    registerAccountUserDto.IsActive = user.IsActive = false;
-                await _fileService.UploadFile(user.Id, null, new List<IFormFile> { registerAccountUserDto.UserPic },nameof(user), "000", "UsersPic", 500000);
                 var result = await _userManager.CreateAsync(user, registerAccountUserDto.Password);
+                await _fileService.UploadFile(user.Id, scondRowId: null, new List<IFormFile> { registerAccountUserDto.UserPic }, nameof(user), "000", "UsersPic", 500000);
+                await _unitOfWork.CommitAsync();
                 if (!result.Succeeded) return new ServiceResponse<int> { Success = false, Message = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description)) };
                 //await _appUserRepository.AddRoleToUser(user, registerAccountUserDto.Role);
                 if (status == true)//client
