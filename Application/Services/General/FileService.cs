@@ -5,6 +5,7 @@ using Domain.Dto.General;
 using Domain.Entites.General;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Presistence.Interfaces.Repos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +19,16 @@ namespace Application.Services.General
         private readonly IAttachmentRepository _attachmentRepository;
         private readonly IMapper _mapper;
         private IHostingEnvironment Environment;
+        private readonly IUnitOfWork _unitOfWork;
 
         public FileService(
-            IAttachmentRepository attachmentRepository, IMapper mapper, IHostingEnvironment _Environment)
+            IAttachmentRepository attachmentRepository, IMapper mapper, IHostingEnvironment _Environment,IUnitOfWork unitOfWork)
         {
             _attachmentRepository = attachmentRepository;
             _mapper = mapper;
             Environment = _Environment;
+            _unitOfWork = unitOfWork;
+
         }
         public async Task<KeyValuePair<bool, string>> UploadFile(Guid rowId, Guid? scondRowId, List<IFormFile> UploadFiles, string TableName, string fileTypeCode, string FolderName, int fileMaxSize = 200000)
         {
@@ -68,7 +72,8 @@ namespace Application.Services.General
                     attachment.File_Type_Code = "000";
                     //Domain.Enums.MemiTypes.GetTypeByMemi(model.MIMEType).ToString();
                     attachment.File_Path = FolderName + "/" + UploadFiles[i].FileName;
-                    _attachmentRepository.Create(attachment);
+                   _attachmentRepository.Create(attachment);
+                    
                 }
                 return new KeyValuePair<bool, string>(true, "Success");
             }
