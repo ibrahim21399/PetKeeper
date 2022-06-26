@@ -24,15 +24,15 @@
         <a class="nav-link" routerLink="client">Pet Owner</a>
       </li>
 
-      <li class="nav-item" *ngIf="auth">
+      <li class="nav-item" *ngIf="!auth">
         <a class="nav-link" routerLink="login" >Login</a>
       </li>
 
-      <li class="nav-item" *ngIf="!auth">
+      <li class="nav-item" *ngIf="auth">
         <a class="nav-link" (click)="logout()" [routerLink]="['/logout']" >Logout</a>
       </li>
 
-      <li class="nav-item" *ngIf="auth">
+      <li class="nav-item" *ngIf="!auth">
         <a class="nav-link" routerLink="register">Register</a>
       </li>
     </ul>
