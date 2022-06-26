@@ -89,7 +89,7 @@ namespace Application.Services.Auth
                 if (userExists != null) return new ServiceResponse<int> { Success = false, Message = "User is Already Exist" };
                 #endregion
                 var user = _Mapper.Map<ApplicationUser>(registerAccountUserDto);
-                user.UserName = String.Empty;
+                user.UserName = registerAccountUserDto.Email;
                 if (status)
                 {
                     user.Status = true;
