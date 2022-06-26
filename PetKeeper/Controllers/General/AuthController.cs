@@ -18,7 +18,7 @@ namespace PetKeeper.Controllers.General
         [AllowAnonymous]
         [HttpPost]
         [Route("/Auth/Login")]
-        public async Task<IActionResult> Login([FromForm] LoginDto loginDto)
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
             var token = await _userService.Token(loginDto);
             return Ok(token);

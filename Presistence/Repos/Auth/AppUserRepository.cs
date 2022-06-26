@@ -39,17 +39,18 @@ namespace Presistence.Repos.Auth
         {
             try
             {
-                var user =  _userManager.Users.Where(q => q.UserName == userName).FirstOrDefault();
-                var Role = await _userManager.GetRolesAsync(user);
-                var userclaim = await _userManager.GetClaimsAsync(user);
-                var roleClamis =new List<Claim>();  
-                foreach (var role in Role)
-                {
-                    roleClamis.Add(new Claim("Role",role));
+                var user =  _userManager.Users.Where(q => q.Email== userName).FirstOrDefault();
 
-                }
                 if (user != null && await _userManager.CheckPasswordAsync(user, password))
                 {
+                    var Role = await _userManager.GetRolesAsync(user);
+                    var userclaim = await _userManager.GetClaimsAsync(user);
+                    var roleClamis = new List<Claim>();
+                    foreach (var role in Role)
+                    {
+                        roleClamis.Add(new Claim("Role", role));
+
+                    }
                     var claims = new[]{
                     new Claim(JwtRegisteredClaimNames.UniqueName, userName),
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
