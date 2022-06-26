@@ -134,6 +134,27 @@ namespace Application.Services.Auth
                 return await LogError<int>(ex, 0);
             }
         }
+        public async Task<ServiceResponse<GetUserAccountDto>> GetUserAccount(Guid Id)
+        {
+            try
+            {
+                var user = _appUserRepository.GetUserById(Id);
+                GetUserAccountDto getUserAccountDto = new GetUserAccountDto();
+                getUserAccountDto.UserName = user.UserName;
+                getUserAccountDto.Email = user.Email;
+                getUserAccountDto.PhoneNumber = user.PhoneNumber;
+                var y = (await _attachmentRepository.GetAllAsync(p => p.Row_Id == Id.ToString())).FirstOrDefault().File_Path;
+                getUserAccountDto.UserPic = y;
+                return new ServiceResponse<GetUserAccountDto> { Success = true, Data = getUserAccountDto };
+
+
+            }
+            catch (Exception ex)
+            {
+
+                 throw ex;
+            }
+        }
 
         public async Task<ServiceResponse<int>> UpdateUser(Guid id, UserDto userDto)
         {

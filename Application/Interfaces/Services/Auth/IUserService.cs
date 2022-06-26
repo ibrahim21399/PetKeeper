@@ -15,6 +15,9 @@ namespace Application.Interfaces.Services.Auth
         Task<ServiceResponse<int>> UpdateUser(Guid id, UserDto userDto);
         Task<ServiceResponse<int>> DeletAccountUser(Guid Id);
         Task<ServiceResponse<int>> ChangePassword(Guid Id, string CurrentPass, String NewPass);
-        
+        Task<ServiceResponse<GetUserAccountDto>> GetUserAccount(Guid Id);
+
+
+
     }
 }
