@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit, OnChanges {
 
 
   logout(){
-    this.auth = true;
+    this.auth = false;
     console.log(this.auth);
     this.authServ.Logout();
     this.router.navigateByUrl("/");

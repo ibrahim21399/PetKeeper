@@ -18,7 +18,6 @@ export class RegisterComponent implements OnInit {
   password:string =  "";
   confirmPassword:string =  "";
   phoneNumber:string = "";
-  pb:BlobPart[] = [];
   userPic:any=  '';
   
 

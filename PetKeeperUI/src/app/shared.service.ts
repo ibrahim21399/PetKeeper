@@ -89,7 +89,7 @@ export class SharedService {
       formdata.append("confirmPassword", register.confirmPassword);
       formdata.append("phoneNumber", register.phoneNumber);
       formdata.append("userPic", register.userPic ,register.userPic.name);
-      return this.http.post<ServiceResponse<number>>(this.baseurl + 'Auth/OwnerRegister', register);
+      return this.http.post<ServiceResponse<number>>(this.baseurl + 'Auth/OwnerRegister', formdata);
     }
   }
 
@@ -115,7 +115,7 @@ export class SharedService {
     return this.http.post<ServiceResponse<TokenDto>>(this.baseurl+"Auth/Login",login).pipe(map(user=>{
       localStorage.setItem('currentUser',JSON.stringify(user.data));
       this.currentUserSubject.next(user.data);
-      this.isAuthenticated = false;
+      this.isAuthenticated = true;
       return user;
     }))
   }
