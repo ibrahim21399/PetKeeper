@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { CreateBusinessDto } from './_Models/CreateBusinessDto';
 import { RegisterDto } from './_Models/RegisterDto';
 import { LoginDto } from './_Models/LoginDto';
@@ -10,6 +10,7 @@ import { DropDownId } from './_Models/DropDownId';
 import { DropDownGuid } from './_Models/DropDownGuid';
 import { TokenDto } from './_Models/TokenDto';
 import { Guid } from 'guid-typescript';
+import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,10 @@ import { Guid } from 'guid-typescript';
 export class SharedService {
   baseurl = "https://localhost:7293/";
 
-  constructor(public http:HttpClient) { }
+  constructor(public http:HttpClient) { 
+    this.currentUserSubject = new BehaviorSubject<any>(JSON.stringify(localStorage.getItem('currentUser')));
+    this.currentUser = this.currentUserSubject.asObservable();
+  }
 
   //Business owners crud operations
   getAllBusinessOwners(){
@@ -65,11 +69,9 @@ export class SharedService {
   }
 
   //Login and register and logout
-  isAuthenticated:boolean = true;
   RegisterServ(register:RegisterDto,val:number)
   {
     if(val == 0){
-      this.isAuthenticated = true;
       const formdata = new FormData();
       formdata.append("fullName", register.fullName);
       formdata.append("email", register.email);
@@ -80,24 +82,47 @@ export class SharedService {
       return this.http.post<ServiceResponse<number>>(this.baseurl + 'Auth/ClientRegister',formdata);
     }
     else{
-      this.isAuthenticated = true;
+      const formdata = new FormData();
+      formdata.append("fullName", register.fullName);
+      formdata.append("email", register.email);
+      formdata.append("password", register.password);
+      formdata.append("confirmPassword", register.confirmPassword);
+      formdata.append("phoneNumber", register.phoneNumber);
+      formdata.append("userPic", register.userPic ,register.userPic.name);
       return this.http.post<ServiceResponse<number>>(this.baseurl + 'Auth/OwnerRegister', register);
     }
   }
+
+  isAuthenticated:boolean = false;
 
   getauth(){
     return this.isAuthenticated;
   }
 
-  ad:LoginDto = new LoginDto('','');
-  
+  private currentUserSubject: BehaviorSubject<any>;
+  public currentUser: Observable<TokenDto>;
+
+  public get currentUserValue(): TokenDto {
+    return this.currentUserSubject.value;
+  }
+
+  GetToken(){
+    let token = JSON.parse(localStorage.getItem('currentUser')!);
+    return token;
+  }
+
   Login(login:LoginDto){
-    this.isAuthenticated = false;
-    return this.http.post<ServiceResponse<TokenDto>>(this.baseurl+"Auth/Login",login);
+    return this.http.post<ServiceResponse<TokenDto>>(this.baseurl+"Auth/Login",login).pipe(map(user=>{
+      localStorage.setItem('currentUser',JSON.stringify(user.data));
+      this.currentUserSubject.next(user.data);
+      this.isAuthenticated = false;
+      return user;
+    }))
   }
 
   Logout(){
-    this.isAuthenticated = true;
-    return this.http.post<ServiceResponse<number>>(this.baseurl+"Auth/LogOut",true);
+    localStorage.removeItem('currentUser');
+    this.currentUserSubject.next(null);
+    return this.http.post<ServiceResponse<number>>(this.baseurl+"Auth/LogOut",[]);
   }
 }

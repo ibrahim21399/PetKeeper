@@ -7,8 +7,9 @@ import { NotfoundComponent } from './notfound/notfound.component';
 import { HomeComponent } from './core/home/home.component';
 import { CoreModule } from './core/core.module';
 import { RegisterComponent } from './sign/register/register.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './sign/login/login.component';
+import { JwtInterceptor } from './jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,9 @@ import { LoginComponent } from './sign/login/login.component';
     CoreModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
