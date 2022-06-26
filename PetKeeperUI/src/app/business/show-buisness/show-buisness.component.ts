@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/shared.service';
 import { GetBusinessDto } from 'src/app/_Models/GetBusinessDto';
-import { ServiceResponse } from 'src/app/_Models/ServiceResponse';
-import { CreateBusinessDto } from '../../_Models/CreateBusinessDto';
 
 @Component({
   selector: 'app-show-buisness',
@@ -12,10 +11,11 @@ import { CreateBusinessDto } from '../../_Models/CreateBusinessDto';
 })
 export class ShowBuisnessComponent implements OnInit {
 
-  // Businesses:ServiceResponse<GetBusinessDto[]> = new ServiceResponse<GetBusinessDto[]>(true,'',[]);
   Businesses:GetBusinessDto[] = [];
+  imgURL:string = 'https://localhost:7293/UsersPic/';
+  thumbnail = this.sanitizer.bypassSecurityTrustUrl(this.imgURL);
 
-  constructor(public busServ:SharedService, public router:Router) { }
+  constructor(public busServ:SharedService, public router:Router,private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.busServ.getAllBusinesses().subscribe(a=>{this.Businesses = a.data });

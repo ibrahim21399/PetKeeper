@@ -10,7 +10,7 @@ import { RegisterDto } from 'src/app/_Models/RegisterDto';
 })
 export class RegisterComponent implements OnInit {
 
-  val:number= 0;
+  val:number= 2;
   file:any = [];
   regist:RegisterDto = new RegisterDto('','','','','',this.file);
   fullName:string = "";
@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit {
     console.log(this.userPic);
     this.regServ.RegisterServ(this.regist,this.val).subscribe(d=>{
       console.log(d.message);
-      this.router.navigate(['/home']).then(() => {
+      this.router.navigate(['/login']).then(() => {
         window.location.reload();
       });
     })

@@ -1,7 +1,6 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, first, Observable, Subscription, throwError } from 'rxjs';
+import { first } from 'rxjs';
 import { SharedService } from 'src/app/shared.service';
 import { LoginDto } from 'src/app/_Models/LoginDto';
 
@@ -15,7 +14,6 @@ export class LoginComponent implements OnInit {
   email:string = '';
   password:string = '';
   ad:LoginDto = new LoginDto('','');
-  auth:any = null;
 
   constructor(public router:Router, public ar:ActivatedRoute, public adServ:SharedService) {
   }

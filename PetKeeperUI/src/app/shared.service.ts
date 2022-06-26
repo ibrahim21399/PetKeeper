@@ -10,7 +10,7 @@ import { DropDownId } from './_Models/DropDownId';
 import { DropDownGuid } from './_Models/DropDownGuid';
 import { TokenDto } from './_Models/TokenDto';
 import { Guid } from 'guid-typescript';
-import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +43,7 @@ export class SharedService {
   }
 
   addBusiness(business:CreateBusinessDto){
-    return this.http.post<CreateBusinessDto>(this.baseurl+"Business/CreateBusiness",business);
+    return this.http.post<ServiceResponse<number>>(this.baseurl+"Business/CreateBusiness",business);
   }
 
   deleteBusiness(business:GetBusinessDto){
@@ -93,12 +93,6 @@ export class SharedService {
     }
   }
 
-  isAuthenticated:boolean = false;
-
-  getauth(){
-    return this.isAuthenticated;
-  }
-
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<TokenDto>;
 
@@ -115,7 +109,6 @@ export class SharedService {
     return this.http.post<ServiceResponse<TokenDto>>(this.baseurl+"Auth/Login",login).pipe(map(user=>{
       localStorage.setItem('currentUser',JSON.stringify(user.data));
       this.currentUserSubject.next(user.data);
-      this.isAuthenticated = true;
       return user;
     }))
   }

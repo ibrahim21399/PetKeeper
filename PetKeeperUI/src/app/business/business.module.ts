@@ -4,9 +4,8 @@ import { ShowBuisnessComponent } from './show-buisness/show-buisness.component';
 import { EditBuisnessComponent } from './edit-buisness/edit-buisness.component';
 import { AddBuisnessComponent } from './add-buisness/add-buisness.component';
 import { BusinessRoutingModule } from './business.routing';
-import { FormsModule } from '@angular/forms';
-
-
+import { FormsModule, ReactiveFormsModule, ControlValueAccessor } from '@angular/forms';
+// import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -17,7 +16,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     BusinessRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
   ]
 })
 export class BusinessModule { }
