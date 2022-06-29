@@ -47,6 +47,13 @@ namespace PetKeeper.Controllers.General
             var res = await _userService.SigOutAsync();
             return Ok(res);
         }
+        [HttpGet]
+        [Route("/Account")]
+        public async Task<IActionResult> GetAccount()
+        {
+            var res = await _userService.GetUserAccount(Guid.Parse(CurrentUserId));
+            return Ok(res);
+        }
 
         [HttpPut]
         [Route("/Account/Edit")]
