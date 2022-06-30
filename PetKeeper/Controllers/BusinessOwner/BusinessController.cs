@@ -23,7 +23,7 @@ namespace PetKeeper.Controllers.BusinessOwner
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBusiness(CreateBusinessDto createBusinessDto)
+        public async Task<IActionResult> CreateBusiness([FromForm] CreateBusinessDto createBusinessDto)
         {
             //createBusinessDto.ApplicationUserId =Guid.Parse(CurrentUserId);
             createBusinessDto.ApplicationUserId =Guid.Parse("9BC658B1401942CD7EFF08DA4A964E04");

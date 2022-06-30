@@ -7,8 +7,8 @@
                         <div class="col-lg-6">
                             <div class="card-body p-md-5 mx-md-4">
                                 <div class="text-center">
-                                    <img src="../../../assets/images/5871573.png" style="width: 185px;" alt="logo">
-                                    <h4 class="mt-1 mb-5 pb-1">Add Business</h4>
+                                    <img src="../../../assets/images/5871573.png" style="width: 130px;" alt="logo">
+                                    <h1 class="mt-1 mb-5 pb-1">Add Business</h1>
                                 </div>
   
                                 <form>
@@ -16,6 +16,13 @@
                                         <label class="form-label"  for="form2Example11">Business Name</label>
                                         <input type="text" id="form2Example11" [(ngModel)]="businessName" class="form-control" required [ngModelOptions]="{standalone: true}"/>
                                     </div>
+                                    {{businessName}}
+                                    {{businussPhone}}
+                                    {{cityId}}
+                                    {{areaId}}
+                                    {{businessDesc}}
+                                    {{services[0].name}}
+
   
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="form2Example22">Phone Number</label>
@@ -35,26 +42,7 @@
                                             <option *ngFor="let item of areas" (change)="areaId = item.id" [value]="item.id">{{item.name}} </option>
                                         </select>
                                     </div>
-
-                                    <div class="form-outline mb-4">
-                                        <label class="form-label" for="form2Example22">What services do you provide?</label><br>
-
-                                        <!-- <input type="checkbox" [id]="services[0].name" [name]="services[0].name" [value]="services[0].id" [(ngModel)]="serviceId" [ngModelOptions]="{standalone: true}">
-                                        <label [for]="services[0].name"> {{services[0].name}}</label><br>
-                                        <input type="checkbox" [id]="services[1].name" [value]="services[1].id" [(ngModel)]="serviceId" [ngModelOptions]="{standalone: true}">
-                                        <label [for]="services[1].name"> {{services[1].name}}</label><br>
-                                        <input type="checkbox" [id]="services[2].name" [value]="services[2].id" [(ngModel)]="serviceId" [ngModelOptions]="{standalone: true}">
-                                        <label [for]="services[2].name"> {{services[2].name}}</label><br>
-                                        <input type="checkbox" [id]="services[3].name" [value]="services[3].id" [(ngModel)]="serviceId" [ngModelOptions]="{standalone: true}">
-                                        <label [for]="services[3].name"> {{services[3].name}}</label><br>
-                                        <input type="checkbox" [id]="services[4].name" [value]="services[4].id" [(ngModel)]="serviceId" [ngModelOptions]="{standalone: true}">
-                                        <label [for]="services[4].name"> {{services[4].name}}</label><br> -->
-
-                                        
-                                    </div>
-
-                                    {{serviceId[0]}}
-
+                                    
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="form2Example22">Business License</label>
                                         <input class="form-control" type="file" (change)="onChange($event)">
@@ -67,8 +55,18 @@
 
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="form2Example22">Business Description</label>
-                                        <textarea id="form2Example22" [(ngModel)]="businessDesc" class="form-control" required [ngModelOptions]="{standalone: true}"></textarea>
+                                        <textarea id="form2Example22" [(ngModel)]="businessDesc" class="form-control" [ngModelOptions]="{standalone: true}"></textarea>
                                     </div>
+
+                                    <label class="form-label" for="form2Example22">What services do you provide?</label><br>
+                                    <div class="re5m">
+                                        <div *ngFor="let item of services">
+                                            <label [for]="item.id">
+                                                <input type="checkbox" class="option-input checkbox" [id]="item.id" [name]="item.id" [value]="item.id" (change)="onCheck(item.id)"/>
+                                                {{item.name}}
+                                            </label>
+                                        </div>
+                                    </div><br>
 
                                     <div class="text-center pt-1 mb-5 pb-1">
                                         <button class="btn btn-primary btn-block gradient-custom-2" (click)="add()" type="button">Submit</button>

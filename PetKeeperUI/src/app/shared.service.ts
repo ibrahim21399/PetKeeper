@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CreateBusinessDto } from './_Models/CreateBusinessDto';
 import { RegisterDto } from './_Models/RegisterDto';
 import { LoginDto } from './_Models/LoginDto';
@@ -11,6 +11,8 @@ import { DropDownGuid } from './_Models/DropDownGuid';
 import { TokenDto } from './_Models/TokenDto';
 import { Guid } from 'guid-typescript';
 import { BehaviorSubject, map, Observable } from 'rxjs';
+import { UserDto } from './_Models/UserDto';
+import { GetUserAccountDto } from './_Models/GetUserAccountDto';
 
 @Injectable({
   providedIn: 'root'
@@ -37,13 +39,45 @@ export class SharedService {
     return this.http.get<GetUserDto[]>(this.baseurl+"api/Admin/GetAllClients");
   }
 
+  getUser(id:Guid){
+    return this.http.get<ServiceResponse<GetUserAccountDto>>(this.baseurl+"Account"+id);
+  }
+
+  EditUser(userDto:UserDto){
+    return this.http.put<ServiceResponse<number>>(this.baseurl+"Account/Edit",userDto);
+  }
+
   //Business Crud Methods from API
   getAllBusinesses(){
     return this.http.get<ServiceResponse<GetBusinessDto[]>>(this.baseurl+"Business/GetBusiness");
   }
 
   addBusiness(business:CreateBusinessDto){
-    return this.http.post<ServiceResponse<number>>(this.baseurl+"Business/CreateBusiness",business);
+    const formdata = new FormData();
+      // formdata.append("id", business.id);
+      const cityId = new Blob([JSON.stringify(business.cityId)])
+      const areaId = new Blob([JSON.stringify(business.areaId)])
+      const applicationUserId = new Blob([JSON.stringify(business.applicationUserId)])
+      const isActive = new Blob([JSON.stringify(business.isActive)])
+      const serviceId = new Blob([JSON.stringify(business.serviceId)])
+      const schedules = new Blob([JSON.stringify(business.schedules)])
+
+      formdata.append("businessName", business.businessName);
+      formdata.append("businessDesc", business.businessDesc);
+      formdata.append("businussPhone", business.businussPhone);
+      formdata.append("cityId", cityId);
+      formdata.append("areaId", areaId);
+      formdata.append("applicationUserId", applicationUserId);
+      formdata.append("isActive", isActive);
+      formdata.append("serviceId", serviceId);
+      formdata.append("schedules", schedules);
+      formdata.append("businessPic", business.businessPic ,business.businessPic.name);
+      formdata.append("licencePic", business.licencePic ,business.licencePic.name);
+
+      const httpOptions = {
+        headers: new HttpHeaders({ 'Accept': 'application/json', 'Content-Type': 'application/json' })
+      };
+    return this.http.post<ServiceResponse<number>>(this.baseurl+"Business/CreateBusiness",formdata,httpOptions);
   }
 
   deleteBusiness(business:GetBusinessDto){
