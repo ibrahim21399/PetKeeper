@@ -17,7 +17,7 @@ export class CreateBusinessDto {
         public licencePic:File
     ){
         this.id = Guid.create();
-        this.applicationUserId = Guid.create();
+        // this.applicationUserId = Guid.create();
         // this.serviceId = new Guid[] { new Guid() };
     }
 }
