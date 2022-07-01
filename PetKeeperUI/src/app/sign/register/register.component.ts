@@ -11,8 +11,8 @@ import { RegisterDto } from 'src/app/_Models/RegisterDto';
 export class RegisterComponent implements OnInit {
 
   val:number= 2;
-  file:any = [];
-  regist:RegisterDto = new RegisterDto('','','','','',this.file);
+  // file:any = [];
+  regist:RegisterDto = new RegisterDto('','','','','');//,this.file
   fullName:string = "";
   email:string = "";
   password:string =  "";
@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
     this.regist.password = this.password;
     this.regist.confirmPassword = this.confirmPassword;
     this.regist.phoneNumber = this.phoneNumber;
-    this.regist.userPic = this.userPic;
+    // this.regist.userPic = this.userPic;
     console.log(this.regist);
     console.log(this.userPic);
     this.regServ.RegisterServ(this.regist,this.val).subscribe(d=>{
@@ -40,9 +40,9 @@ export class RegisterComponent implements OnInit {
     })
   }
 
-  onChange(event:any) {
-    this.userPic = event.target.files[0];
-  }
+  // onChange(event:any) {
+  //   this.userPic = event.target.files[0];
+  // }
 
   ngOnInit(): void {
   }

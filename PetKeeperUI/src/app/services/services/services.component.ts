@@ -1,4 +1,5 @@
 import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Guid } from 'guid-typescript';
 import { Subscription } from 'rxjs';
@@ -31,7 +32,10 @@ export class ServicesComponent implements OnInit,OnDestroy {
 
   src:string = '';
 
-  constructor(public route: ActivatedRoute, public serv:SharedService) {}
+  imgURL:string = 'https://localhost:7293/UsersPic/';
+  thumbnail = this.sanitizer.bypassSecurityTrustUrl(this.imgURL);
+
+  constructor(public route: ActivatedRoute, public serv:SharedService,private sanitizer: DomSanitizer) {}
   
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params=>{

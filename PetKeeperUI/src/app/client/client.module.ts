@@ -5,6 +5,7 @@ import { EditClientComponent } from './edit-client/edit-client.component';
 import { ClientRoutingModule } from './client.routing';
 import { FormsModule } from '@angular/forms';
 import { ScheduleClientComponent } from './schedule-client/schedule-client.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 
@@ -17,7 +18,8 @@ import { ScheduleClientComponent } from './schedule-client/schedule-client.compo
   imports: [
     CommonModule,
     ClientRoutingModule,
-    FormsModule
+    FormsModule,
+    SharedModule,
   ]
 })
 export class ClientModule { }

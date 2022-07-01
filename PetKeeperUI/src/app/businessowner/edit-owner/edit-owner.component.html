@@ -14,29 +14,29 @@
                                 <form>
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="form2Example11">Name</label>
-                                        <input type="text" id="form2Example11" [(ngModel)]="fullName" class="form-control" required />
+                                        <input type="text" id="form2Example11" [(ngModel)]="fullName" class="form-control" [ngModelOptions]="{standalone: true}" required />
                                     </div>
   
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="form2Example22">Email</label>
-                                        <input type="text" id="form2Example22" [(ngModel)]="email" class="form-control" required />
+                                        <input type="text" id="form2Example22" [(ngModel)]="email" class="form-control" [ngModelOptions]="{standalone: true}" required />
                                     </div>
 
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="form2Example22">Phone Number</label>
-                                        <input type="text" id="form2Example22" [(ngModel)]="phoneNumber" class="form-control" required />
+                                        <input type="text" id="form2Example22" [(ngModel)]="phoneNumber" class="form-control" [ngModelOptions]="{standalone: true}" required />
                                     </div>
 
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="form2Example22">UserName</label>
-                                        <input type="text" id="form2Example22" [(ngModel)]="userName" class="form-control" required />
+                                        <input type="text" id="form2Example22" [(ngModel)]="userName" class="form-control" [ngModelOptions]="{standalone: true}" required />
                                     </div>
 
                                     <div class="form-outline mb-4">
                                         <!-- <img [src]="src | safe" width="30rem"> -->
 
                                         <div class="text-center group">
-                                            <input type="file" id="form2Example22" class="form-control" required (change)="onChange($event)">
+                                            <input type="file" id="form2Example22" class="form-control" required  (change)="onChange($event)">
                                         </div>
 
                                     </div>

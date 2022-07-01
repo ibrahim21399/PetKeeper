@@ -1,22 +1,23 @@
-<div class="container">
-    <h2 class="h">Look for places</h2>
+<section class="dark">
+<div class="container py-4">
+    <h2 class="h text-light">Look for places</h2>
 
     <div class="row">
 
         <div class="col-lg-4 col-md-6 col-sm-6">
-            <label class="label">City:</label>
+            <label class="label text-light">City:</label>
             <select class="form-control" [(ngModel)]="CityId" (change)="SetAreas(CityId)">
                 <option *ngFor="let item of cities" (change)="CityId = item.id" [value]="item.id">{{item.name}} </option>
             </select>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-6">
-            <label class="label">Area:</label>
+            <label class="label text-light">Area:</label>
             <select class="form-control" [(ngModel)]="AreaId">
                 <option *ngFor="let item of areas" (change)="AreaId = item.id" [value]="item.id">{{item.name}} </option>
             </select>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-6">
-            <label class="label">Service:</label>
+            <label class="label text-light">Service:</label>
             <label class="form-control">{{ServiceName}}</label>
         </div>
 
@@ -25,7 +26,7 @@
     <button class="btn btn-info" (click)="Filter()">Filter</button><br>
 
     <div *ngIf="FilteredBusinesses.length >0 ">
-        <table class="table table-hover table-bordered text-center">
+        <!-- <table class="table table-hover table-bordered text-center">
             <thead class="table-dark">
                 <tr>
                     <th>Name</th>
@@ -48,11 +49,31 @@
                     <td>{{item.businessRate}}</td>
                 </tr>
             </tbody>
-        </table>
+        </table> -->
 
-        <div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 500px">
-            <iframe [src]="src | safe" frameborder="0" style="border:0" allowfullscreen></iframe>
-        </div>
+        <article class="postcard dark blue" *ngFor="let item of FilteredBusinesses; let i=index;" (click)="RowSelected(item);" [routerLink]="['/client/schedule',item.id]" (click)="send()" style="background-color: antiquewhite;">
+			<a class="postcard__img_link" href="#">
+				<img class="postcard__img" [src]="thumbnail+item.businessPic" alt="Image Title" />
+			</a>
+			<div class="postcard__text">
+				<h1 class="postcard__title blue text-dark">{{item.businessName}}</h1>
+				<div class="postcard__subtitle small">
+					<i class="fas fa-calendar-alt mr-2 text-dark">{{item.businussPhone}}</i><br>
+					<i class="fas fa-calendar-alt mr-2 text-dark">{{item.businessRate}}</i>
+				</div>
+				<div class="postcard__bar"></div>
+				<div class="postcard__preview-txt text-dark">{{item.businessDesc}}</div>
+				<!-- <ul class="postcard__tagbox">
+					<li class="tag__item play blue"><i class="fas fa-tag mr-2"></i><a class="btn" [routerLink]="['/businessowner/edit',item.id]" >Edit</a></li>
+					<li class="tag__item play red"><i class="fas fa-clock mr-2"></i><a class="btn" [routerLink]="['/businessowner/delete']" (click)="delete(item)" >Delete</a></li>
+					<li class="tag__item play blue"><i class="fas fa-clock mr-2"></i><a class="btn" [routerLink]="['/business',item.id]">Owner Businesses</a></li>
+					<li class="tag__item play red"><i class="fas fa-clock mr-2"></i><a class="btn" [routerLink]="['/business/add',item.id]">Add Business</a></li>
+				</ul> -->
+			</div>
+		</article>
+
+        
 
     </div>
 </div>
+</section>

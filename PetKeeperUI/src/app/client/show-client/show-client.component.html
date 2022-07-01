@@ -2,17 +2,17 @@
 	<div class="container py-4">
 		<h1 class="h1 text-center text-light" id="pageHeaderTitle">Pet Owners</h1>
 
-		<article class="postcard dark blue" *ngFor="let item of Clients">
+		<article class="postcard dark blue" *ngFor="let item of Clients" style="background-color: antiquewhite;">
 			<a class="postcard__img_link" href="#">
 				<img class="postcard__img" [src]="thumbnail" alt="Image Title" />
 			</a>
 			<div class="postcard__text">
-				<h1 class="postcard__title blue">{{item.fullName}}</h1>
+				<h1 class="postcard__title blue text-dark" >{{item.fullName}}</h1>
 				<div class="postcard__subtitle small">
-					<i class="fas fa-calendar-alt mr-2">{{item.phoneNumber}}</i>
+					<i class="fas fa-calendar-alt mr-2 text-dark">{{item.phoneNumber}}</i>
 				</div>
 				<div class="postcard__bar"></div>
-				<div class="postcard__preview-txt">{{item.email}}</div>
+				<div class="postcard__preview-txt text-dark">{{item.email}}</div>
 				<ul class="postcard__tagbox">
 					<li class="tag__item play blue"><i class="fas fa-tag mr-2"></i><a class="btn" [routerLink]="['/client/edit',item.id]">Edit</a></li>
 					<li class="tag__item play red"><i class="fas fa-clock mr-2"></i><a class="btn" [routerLink]="['/client/delete']">Delete</a></li>

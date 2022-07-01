@@ -39,8 +39,8 @@ export class SharedService {
     return this.http.get<GetUserDto[]>(this.baseurl+"api/Admin/GetAllClients");
   }
 
-  getUser(id:Guid){
-    return this.http.get<ServiceResponse<GetUserAccountDto>>(this.baseurl+"Account"+id);
+  getUser(){
+    return this.http.get<ServiceResponse<GetUserAccountDto>>(this.baseurl+"Account");
   }
 
   EditUser(userDto:UserDto){
@@ -110,24 +110,24 @@ export class SharedService {
   RegisterServ(register:RegisterDto,val:number)
   {
     if(val == 0){
-      const formdata = new FormData();
-      formdata.append("fullName", register.fullName);
-      formdata.append("email", register.email);
-      formdata.append("password", register.password);
-      formdata.append("confirmPassword", register.confirmPassword);
-      formdata.append("phoneNumber", register.phoneNumber);
-      formdata.append("userPic", register.userPic ,register.userPic.name);
-      return this.http.post<ServiceResponse<number>>(this.baseurl + 'Auth/ClientRegister',formdata);
+      // const formdata = new FormData();
+      // formdata.append("fullName", register.fullName);
+      // formdata.append("email", register.email);
+      // formdata.append("password", register.password);
+      // formdata.append("confirmPassword", register.confirmPassword);
+      // formdata.append("phoneNumber", register.phoneNumber);
+      // formdata.append("userPic", register.userPic ,register.userPic.name);
+      return this.http.post<ServiceResponse<number>>(this.baseurl + 'Auth/ClientRegister',register);
     }
     else{
-      const formdata = new FormData();
-      formdata.append("fullName", register.fullName);
-      formdata.append("email", register.email);
-      formdata.append("password", register.password);
-      formdata.append("confirmPassword", register.confirmPassword);
-      formdata.append("phoneNumber", register.phoneNumber);
-      formdata.append("userPic", register.userPic ,register.userPic.name);
-      return this.http.post<ServiceResponse<number>>(this.baseurl + 'Auth/OwnerRegister', formdata);
+      // const formdata = new FormData();
+      // formdata.append("fullName", register.fullName);
+      // formdata.append("email", register.email);
+      // formdata.append("password", register.password);
+      // formdata.append("confirmPassword", register.confirmPassword);
+      // formdata.append("phoneNumber", register.phoneNumber);
+      // formdata.append("userPic", register.userPic ,register.userPic.name);
+      return this.http.post<ServiceResponse<number>>(this.baseurl + 'Auth/OwnerRegister', register);
     }
   }
 
@@ -145,7 +145,7 @@ export class SharedService {
 
   Login(login:LoginDto){
     return this.http.post<ServiceResponse<TokenDto>>(this.baseurl+"Auth/Login",login).pipe(map(user=>{
-      localStorage.setItem('currentUser',JSON.stringify(user.data));
+      localStorage.setItem('currentUser',JSON.stringify(user.data.token));
       this.currentUserSubject.next(user.data);
       return user;
     }))

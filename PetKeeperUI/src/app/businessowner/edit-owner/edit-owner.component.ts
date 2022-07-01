@@ -42,7 +42,7 @@ export class EditOwnerComponent implements OnInit {
     this.userPic = event.target.files[0];
   }
   ngOnInit(): void {
-    this.Serv.getUser(this.id).subscribe(d=>{
+    this.Serv.getUser().subscribe(d=>{
       console.log(d.data);
       console.log(d.message);
     })
