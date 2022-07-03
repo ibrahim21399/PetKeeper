@@ -1,8 +1,34 @@
 <div class="container">
+		<h1>Title</h1>
+		<div class="container py-4">
+	
+			<article class="postcard dark blue" style="background-color: antiquewhite;">
+				<a class="postcard__img_link" href="#">
+					<img class="postcard__img" [src]="thumbnail" alt="Image Title" />
+				</a>
+				<div class="postcard__text">
+					<h1 class="postcard__title blue text-dark" >{{SelectedBusiness.businessName}}</h1>
+					<div class="postcard__subtitle small">
+						<i class="fas fa-calendar-alt mr-2 text-dark">{{SelectedBusiness.businussPhone}}</i><br>
+						<i class="fas fa-calendar-alt mr-2 text-dark">{{SelectedBusiness.businessRate}}</i>
+					</div>
+					<div class="postcard__bar"></div>
+					<div class="postcard__preview-txt text-dark">{{SelectedBusiness.businessDesc}}</div>
+					<!-- <ul class="postcard__tagbox">
+						<li class="tag__item play blue"><i class="fas fa-tag mr-2"></i><a class="btn" [routerLink]="['/client/edit',item.id]">Edit</a></li>
+						<li class="tag__item play red"><i class="fas fa-clock mr-2"></i><a class="btn" [routerLink]="['/client/delete']">Delete</a></li>
+						<li class="tag__item play blue"><i class="fas fa-clock mr-2"></i><a class="btn" [routerLink]="['/client/schedule']">show schedule</a></li>
+					</ul> -->
+				</div>
+			</article>
+			
+		</div>
+<hr>
+<h1>Available Days</h1>
 
   <div class="container group d-flex justify-content-center align-items-center h-100" >
 		<div class="grid-1-5">
-			<h2>Basic</h2>
+			<h2>Day</h2>
 			<h3><span class="uppercase">Free</span></h3>
 			<p>10,000 monthly visits</p>
 			<ul>
@@ -10,56 +36,119 @@
 				<li>Unlimited Data Transfer</li>
 				<li>10GB Local Storage</li>
 			</ul>
-			<a href="" class="button">Sign Up</a>
+			<a [routerLink]="['/client/schedule',SelectedBusiness.businessId]" class="button" (click)="Book()">Book</a>
 		</div>
-		<div class="grid-1-5">
-			<h2>Startup</h2>
-			<h3><sup>$</sup>79<span class="small">/mo</span></h3>
-			<p>25,000 monthly visits</p>
-			<ul>
-				<li>Limited Email Support</li>
-				<li>Unlimited Data Transfer</li>
-				<li>20GB Local Storage</li>
-			</ul>		
-			<a href="" class="button">Sign Up</a>	
-		</div>
-		<div class="grid-1-5">
-			<h2>Growth</h2>
-			<h3><sup>$</sup>179<span class="small">/mo</span></h3>
-			<p>75,000 monthly visits</p>
-			<ul>
-				<li>Email Support</li>
-				<li>Unlimited Data Transfer</li>
-				<li>30GB Local Storage</li>
-			</ul>	
-			<a href="" class="button">Sign Up</a>		
-		</div>
-		<div class="grid-1-5">
-			<h2>Premium</h2>
-			<h3><sup>$</sup>499<span class="small">/mo</span></h3>
-			<p>225,000 monthly visits</p>
-			<ul>
-				<li>Email Support</li>
-				<li>Phone Support</li>
-				<li>Unlimited Data Transfer</li>
-			</ul>	
-			<a href="" class="button">Sign Up</a>		
-		</div>
-		<div class="grid-1-5">
-			<h2>Enterprise</h2>
-			<h3><span class="uppercase">Let's Talk</span></h3>
-			<p>1M+ monthly visits</p>
-			<ul>
-				<li>Email Support</li>
-				<li>Phone Support</li>
-				<li>Dedicated Environment</li>
-				<li>Customized Plan</li>
-			</ul>
-			<a href="" class="button">Sign Up</a>
-		</div>		
 	</div>
 
+<hr>
+
+<h1>Location</h1>
   <div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 500px">
     <iframe [src]="src | safe" frameborder="0" style="border:0" allowfullscreen></iframe>
   </div>
+
+  <hr>
+
+<h1>Feedback and Rating</h1>
+  <!-- <label class="form-control"></label> -->
+  <!-- <textarea [(ngModel)]="text"></textarea> -->
+  <!-- <p-rating [(ngModel)]="val" [cancel]="false"></p-rating> -->
+
+  <section class="content-item" id="comments">
+    <div class="container">   
+    	<div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-8">   
+                <form>
+                	<h3 class="pull-left">New Comment</h3>
+                	<button type="submit" class="btn pull-right text-light" style="margin: 1rem;background-color: #9c83aa;" (click)="Submit()">Submit</button>
+                    <fieldset>
+                        <div class="row">
+                            <div class="col-sm-3 col-lg-2 hidden-xs">
+                            	<img class="img-responsive" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" style="width: 6rem;">
+                            </div>
+                            <div class="form-group col-xs-12 col-sm-9 col-lg-10">
+                                <textarea [(ngModel)]="text" class="form-control" id="message" placeholder="Your message" required=""></textarea>
+								<p-rating style="margin: 1rem;" [(ngModel)]="val" [cancel]="false"></p-rating>
+                            </div>
+                        </div>  	
+                    </fieldset>
+                </form>
+                
+                <h3>4 Comments</h3>
+                
+                <!-- COMMENT 1 - START -->
+                <div class="media">
+                    <a class="pull-left" href="#"><img class="media-object" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""></a>
+                    <div class="media-body">
+                        <h4 class="media-heading">John Doe</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <ul class="list-unstyled list-inline media-detail pull-left">
+                            <li><a class="btn btn-danger" [routerLink]="['/client/comment/delete']" (click)="delete()" >Delete</a></li>
+                        </ul>
+                        <!-- <ul class="list-unstyled list-inline media-detail pull-right">
+                            <li class=""><a href="">Like</a></li>
+                            <li class=""><a href="">Reply</a></li>
+                        </ul> -->
+                    </div>
+                </div>
+                <!-- COMMENT 1 - END -->
+                
+                <!-- COMMENT 2 - START -->
+                <div class="media">
+                    <a class="pull-left" href="#"><img class="media-object" src="https://bootdey.com/img/Content/avatar/avatar2.png" alt=""></a>
+                    <div class="media-body">
+                        <h4 class="media-heading">John Doe</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <!-- <ul class="list-unstyled list-inline media-detail pull-left">
+                            <li><i class="fa fa-calendar"></i>27/02/2014</li>
+                            <li><i class="fa fa-thumbs-up"></i>13</li>
+                        </ul>
+                        <ul class="list-unstyled list-inline media-detail pull-right">
+                            <li class=""><a href="">Like</a></li>
+                            <li class=""><a href="">Reply</a></li>
+                        </ul> -->
+                    </div>
+                </div>
+                <!-- COMMENT 2 - END -->
+                
+                <!-- COMMENT 3 - START -->
+                <div class="media">
+                    <a class="pull-left" href="#"><img class="media-object" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt=""></a>
+                    <div class="media-body">
+                        <h4 class="media-heading">John Doe</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <!-- <ul class="list-unstyled list-inline media-detail pull-left">
+                            <li><i class="fa fa-calendar"></i>27/02/2014</li>
+                            <li><i class="fa fa-thumbs-up"></i>13</li>
+                        </ul>
+                        <ul class="list-unstyled list-inline media-detail pull-right">
+                            <li class=""><a href="">Like</a></li>
+                            <li class=""><a href="">Reply</a></li>
+                        </ul> -->
+                    </div>
+                </div>
+                <!-- COMMENT 3 - END -->
+                
+                <!-- COMMENT 4 - START -->
+                <div class="media">
+                    <a class="pull-left" href="#"><img class="media-object" src="https://bootdey.com/img/Content/avatar/avatar4.png" alt=""></a>
+                    <div class="media-body">
+                        <h4 class="media-heading">John Doe</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <!-- <ul class="list-unstyled list-inline media-detail pull-left">
+                            <li><i class="fa fa-calendar"></i>27/02/2014</li>
+                            <li><i class="fa fa-thumbs-up"></i>13</li>
+                        </ul>
+                        <ul class="list-unstyled list-inline media-detail pull-right">
+                            <li class=""><a href="">Like</a></li>
+                            <li class=""><a href="">Reply</a></li>
+                        </ul> -->
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</section>
+
 </div>

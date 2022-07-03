@@ -13,6 +13,7 @@ import { Guid } from 'guid-typescript';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { UserDto } from './_Models/UserDto';
 import { GetUserAccountDto } from './_Models/GetUserAccountDto';
+import { CreateCommentDto } from './_Models/CreateCommentDto';
 
 @Injectable({
   providedIn: 'root'
@@ -156,4 +157,18 @@ export class SharedService {
     this.currentUserSubject.next(null);
     return this.http.post<ServiceResponse<number>>(this.baseurl+"Auth/LogOut",[]);
   }
+
+  //Comments
+  AddComment(busId:Guid,Comment:CreateCommentDto){
+    return this.http.post<ServiceResponse<number>>(this.baseurl+"Client/CommentOnBusiness/"+busId,Comment);
+  };
+
+  DeleteComment(Businessid:Guid){
+    return this.http.delete<ServiceResponse<number>>(this.baseurl+"Client/DeleteComment");
+  };
+
+  Book(date:Date){
+    return this.http.post<ServiceResponse<number>>(this.baseurl+"Client/BookAppoienment",date);
+  };
+
 }

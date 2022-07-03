@@ -9,6 +9,7 @@ const routes: Routes = [
     {path:"edit/:id",component:EditClientComponent},
     {path:"delete",component:ShowClientComponent},
     {path:"schedule/:id",component:ScheduleClientComponent},
+    {path:"comment/delete",component:ScheduleClientComponent},
     {path:"",component:ShowClientComponent},
   ]
 

@@ -9,7 +9,7 @@ body {
   .scene {
     margin-bottom: 10rem;
     margin-top: 2rem;
-    width: 1000px;
+    width: 100%;
     display: grid;
     justify-content: space-between;
     perspective: 800px;
