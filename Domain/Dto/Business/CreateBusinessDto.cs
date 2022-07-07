@@ -1,5 +1,7 @@
-﻿using Domain.Entites;
+﻿using Domain.Common;
+using Domain.Entites;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,9 +22,22 @@ namespace Domain.Dto.Business
         public Guid? ApplicationUserId { get; set; }
         public bool IsActive { get; set; }
         public ICollection<Guid> ServiceId { get; set; }
-        public ICollection<Schedule> schedules { get; set; }    
+        public ICollection<ScheduleDto> schedules { get; set; }    
         public IFormFile? BusinessPic { get; set; }
         public IFormFile? LicencePic { get; set; }
-    }
 
+
+        public CreateBusinessDto()
+        {
+            this.schedules = new List<ScheduleDto>();
+        }
+    }
+    [ModelBinder(BinderType = typeof(CustomModelBinder))]
+    public class ScheduleDto
+    {
+        public string DayOfWeek { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
+        public Guid BusinessId { get; set; }
+    }
 }
