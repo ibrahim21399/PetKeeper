@@ -1,86 +1,189 @@
+
 <section class="h-100 gradient-form" style="background-color: #eee;">
+
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-xl-10">
+            <div class="col">
                 <div class="card rounded-3 text-black">
                     <div class="row g-0">
                         <div class="col-lg-6">
                             <div class="card-body p-md-5 mx-md-4">
-                                <div class="text-center">
-                                    <img src="../../../assets/images/5871573.png" style="width: 130px;" alt="logo">
-                                    <h1 class="mt-1 mb-5 pb-1">Add Business</h1>
-                                </div>
-  
-                                <form>
+                                <form [formGroup]="AddBusinessForm">
+                                <app-custom-steper>
+                                    <cdk-step>
+                                        <div class="">
+                                            <h1 class="mx-1 mt-2">Business Details</h1>
+                                        </div>
+                                    <div class="form-outline mb-4">
+                                        <div id="profile-container">
+                                            <img id="profileImage" [src]="itemImageUrl" alt="pp" (click)="imageu.click()" />
+                                         </div>
+                                        <input id="imageUpload"  type="file" (change)="onChange($event)"capture #imageu required formControlName="BusinessPic">
+                                    </div>
                                     <div class="form-outline mb-4">
                                         <label class="form-label"  for="form2Example11">Business Name</label>
-                                        <input type="text" id="form2Example11" [(ngModel)]="businessName" class="form-control" required [ngModelOptions]="{standalone: true}"/>
+                                        <input type="text" id="form2Example11"  formControlName="businessName"  class="form-control" required />
+                                        <small class="text-danger mt-3" *ngIf="AddBusinessForm.get('businessName')?.invalid && AddBusinessForm.get('businessName')?.touched">
+                                             * Business Name is required
+                                          </small>
                                     </div>
-                                    {{businessName}}
-                                    {{businussPhone}}
-                                    {{cityId}}
-                                    {{areaId}}
-                                    {{businessDesc}}
-                                    {{services[0].name}}
-
-  
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="form2Example22">Phone Number</label>
-                                        <input type="text" id="form2Example22" [(ngModel)]="businussPhone" class="form-control" required [ngModelOptions]="{standalone: true}"/>
-                                    </div>
+                                        <input type="text" id="form2Example22"  formControlName="businussPhone"  class="form-control" required/>
+                                        <small class="text-danger mt-3" *ngIf="AddBusinessForm.get('businussPhone')?.errors?.['required'] && AddBusinessForm.get('businussPhone')?.touched">
+                                            * Business phone is required
+                                         </small>
+                                         <small class="text-danger mt-3" *ngIf="AddBusinessForm.get('businussPhone')?.invalid && AddBusinessForm.get('businussPhone')?.errors?.['pattern'] && AddBusinessForm.get('businussPhone')?.touched">
+                                            Invalid phone number.
+                                         </small>
+                                     </div>
 
-                                    <div class="form-outline mb-4">
-                                        <label class="form-label" for="form2Example22">City</label>
-                                        <select class="form-control" [(ngModel)]="cityId" (change)="SetAreas(cityId)" [ngModelOptions]="{standalone: true}">
-                                            <option *ngFor="let item of cities" (change)="cityId = item.id" [value]="item.id">{{item.name}} </option>
-                                        </select>
+                                    </cdk-step>
+                                    <cdk-step>
+                                        <div class="">
+                                            <h1 class="mx-1 mt-2">Business Location</h1>
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="form2Example22">City</label>
+                                            <select class="form-control"  formControlName="cityId" >
+                                                <option *ngFor="let item of cities"  [value]="item.id">{{item.name}} </option>
+                                            </select>
+                                            <small class="text-danger mt-3" *ngIf="AddBusinessForm.get('cityId')?.invalid && AddBusinessForm.get('cityId')?.touched">
+                                                * city is required
+                                             </small>
+                                        </div>
+    
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="form2Example22">Area</label>
+                                            <select class="form-control" formControlName="areaId" required>
+                                                <option *ngFor="let item of areas" [value]="item.id">{{item.name}} </option>
+                                            </select>
+                                            <small class="text-danger mt-3" *ngIf="AddBusinessForm.get('areaId')?.invalid&& AddBusinessForm.get('areaId')?.touched">
+                                                * Area is required
+                                             </small>
+                                        </div>
+                                    </cdk-step>
+                                    <cdk-step>
+                                        <div class="">
+                                            <h1 class="mx-1 mt-2">Business Information</h1>
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="form2Example22">Business Description</label>
+                                            <textarea id="form2Example22" formControlName="businessDesc" class="form-control"  placeholder="like Services Cost and Info. about your business"></textarea>
+                                            <small class="text-danger mt-3" *ngIf="AddBusinessForm.get('businessDesc')?.errors?.['required'] && AddBusinessForm.get('businessDesc')?.touched">
+                                                * Field is required
+                                             </small>
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="form2Example22">License of Business</label>
+                                            <input class="form-control" formControlName="licencePic" type="file" (change)="onChange($event)" required>
+                            
+                                            <small class="text-danger mt-3" *ngIf="AddBusinessForm.get('licencePic')?.errors?.['required'] && AddBusinessForm.get('licencePic')?.invalid">
+                                                * Field is required
+                                             </small>
+                                        </div>
+                                    </cdk-step>
+                                    <cdk-step>
+                                    <div class="">
+                                        <h1 class="mx-1 mt-2">Business Categories</h1>
+                                        
                                     </div>
-
-                                    <div class="form-outline mb-4">
-                                        <label class="form-label" for="form2Example22">Area</label>
-                                        <select class="form-control" [(ngModel)]="areaId" [ngModelOptions]="{standalone: true}">
-                                            <option *ngFor="let item of areas" (change)="areaId = item.id" [value]="item.id">{{item.name}} </option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="form-outline mb-4">
-                                        <label class="form-label" for="form2Example22">Business License</label>
-                                        <input class="form-control" type="file" (change)="onChange($event)">
-                                    </div>
-
-                                    <div class="form-outline mb-4">
-                                        <label class="form-label" for="form2Example22">License Picture</label>
-                                        <input class="form-control" type="file" (change)="onChange($event)">
-                                    </div>
-
-                                    <div class="form-outline mb-4">
-                                        <label class="form-label" for="form2Example22">Business Description</label>
-                                        <textarea id="form2Example22" [(ngModel)]="businessDesc" class="form-control" [ngModelOptions]="{standalone: true}"></textarea>
-                                    </div>
-
                                     <label class="form-label" for="form2Example22">What services do you provide?</label><br>
-                                    <div class="re5m">
-                                        <div *ngFor="let item of services">
-                                            <label [for]="item.id">
-                                                <input type="checkbox" class="option-input checkbox" [id]="item.id" [name]="item.id" [value]="item.id" (change)="onCheck(item.id)"/>
-                                                {{item.name}}
+                                    <div class="re5m mx-">
+                                        <div>
+                                            <label [for]="services[4].id" class="m-2">
+                                                <div class="bgholdert">
+                                                    <input class="ser" type='checkbox' name='z' value='valuable' id="z" [value]="services[4].id" (change)="onCheck(services[4].id)"/><label for="z"></label>
+                                                </div>
+                                                {{services[4].name}}
+                                            </label>
+
+                                            <label [for]="services[2].id" class="m-2">
+                                                <div class="bgholderh">
+                                                    <input class="ser" type='checkbox' name='y' value='valuable' id="y" [value]="services[2].id" (change)="onCheck(services[2].id)"/><label for="y"></label>
+                                                </div>
+                                                {{services[2].name}}
+                                            </label>
+                                            
+
+                                            <label [for]="services[0].id"class="m-2">
+                                                <div class="bgholder">
+                                                    <input class="ser" type='checkbox' name='x' value='valuable' id="x" [value]="services[0].id" (change)="onCheck(services[0].id)"/><label for="x"></label>
+                                                </div>
+                                                {{services[0].name}}
+                                            </label>
+
+                                            <label [for]="services[1].id"class="m-2">
+                                                <div class="bgholderg">
+                                                    <input class="ser" type='checkbox' name='thing' value='valuable' id="thing" [value]="services[1].id" (change)="onCheck(services[1].id)"/><label for="thing"></label>
+                                                </div>
+                                                {{services[1].name}}
+                                            </label>
+                                            <label [for]="services[3].id" class="m-2 ">
+                                                <div class="bgholderv">
+                                                    <input class="ser" type='checkbox' name='m' value='valuable' id="m" [value]="services[3].id" (change)="onCheck(services[3].id)"/><label for="m"></label>
+                                                </div>
+                                                {{services[3].name}}
                                             </label>
                                         </div>
-                                    </div><br>
+                                    </div>    
+                                    </cdk-step> 
+                                    <cdk-step>
+                                        <div class="">
+                                            <h1 class="mx-1 mt-2">Business Hours</h1>
+                                        </div>
+                                        <div class="container">
+                                            <div class="row">
+                                            <div class="col-4"></div>
+                                            <div class="col-4">from</div>
+                                            <div class="col-4">to</div>
+                                            </div>
+                                            <div class="row" *ngFor="let item of days">
+                                                <div class="col-4">
+                                                    <ng-toggle #tog
+                                                    [value]="false"
+                                                    [color]="{
+                                                      unchecked: '#939da2',
+                                                      checked: '#f62d51'
+                                                    }" (change)="checked(item)">
+                                                </ng-toggle>
+                                                <h4>{{item}}</h4>
+                                                </div>
+                                                <div class="col-4">
+                                                    <input type="time" id="form2Example22"  class="form-control" required [disabled]="!tog.value" #s (change)="onselectS(item,s.value)" />
+                                                </div>
+                                                <div class="col-4">
+                                                    <input type="time" id="form2Example22"  class="form-control" required [disabled]="!tog.value"#e (change)="onselect(item,e.value)"/>
+                                                </div>
 
-                                    <div class="text-center pt-1 mb-5 pb-1">
-                                        <button class="btn btn-primary btn-block gradient-custom-2" (click)="add()" type="button">Submit</button>
-                                    </div>
 
-                                </form>
+                                            </div>
+
+
+
+                                        </div>
+                                       
+                                        
+                                    </cdk-step>  
+
+
+                                </app-custom-steper>
+
+                                <button type="submit" class="btn btn-primary btn-block gradient-custom-2  " *ngIf="!AddBusinessForm.invalid" (click)="onSubmit()">
+                                    Submit
+                                </button>
+                                <button type="button" class="btn btn-primary btn-block gradient-custom-2  disabled" *ngIf="AddBusinessForm.invalid">
+                                  Submit
+                              </button>
+                            </form>
                             </div>
                         </div>
                         <div class="col-lg-6 d-flex align-items-center gradient-custom-2">
                             <div class="text-white px-3 py-4 p-md-5 mx-md-4">
                                 <h4 class="mb-4">We are more than just a company</h4>
-                                <p class="small mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                <p class="small mb-0">Register your organization
+                                    Online platform for pet business professionals to
+                                    manage pet care bookings, clients and their pets, and e-records to help you run your pet services easily, for free.</p>
                             </div>
                         </div>
                     </div>

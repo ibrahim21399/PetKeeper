@@ -1,12 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Guid } from 'guid-typescript';
-import { Subscription } from 'rxjs';
+import { endWith, Subscription } from 'rxjs';
 import { SharedService } from 'src/app/shared.service';
 import { CreateBusinessDto } from 'src/app/_Models/CreateBusinessDto';
 import { DropDownGuid } from 'src/app/_Models/DropDownGuid';
 import { DropDownId } from 'src/app/_Models/DropDownId';
 import { Schedule } from 'src/app/_Models/schedule';
+import { SweetalertService } from 'src/app/services/Shared/sweetalert.service';
+import { ScheduleDto } from 'src/app/_Models/ScheduleDto';
+
+
+
 
 @Component({
   selector: 'app-add-buisness',
@@ -14,39 +20,49 @@ import { Schedule } from 'src/app/_Models/schedule';
   styleUrls: ['./add-buisness.component.css']
 })
 export class AddBuisnessComponent implements OnInit {
-
-  id:Guid = Guid.create();
-  businessName:string = '';
-  businessDesc:string = '';
-  businussPhone:string = '';
-  cityId:number = 0;
-  areaId:number = 0;
-  
-  applicationUserId:any = null;
+  AddBusinessForm!: FormGroup;
+  businessId:string = Guid.create().toString();
+  itemImageUrl:string ="../../../assets/images/pp.png"; 
+  days:string[]=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
   sub:Subscription = new Subscription();
+  imgurl:any;
 
   isActive:boolean = false;
   serviceId:Guid[] = [];
-
-  businessId:any = null;
-
-  schedules:Schedule[] = [new Schedule('','','',this.businessId)];
+  newSchedule:any;
+  schedules:ScheduleDto[] = [];
   businessPic:any = null;
   licencePic:any = null;
-  AddBusniess:CreateBusinessDto = new CreateBusinessDto(this.id,'','','',0,0,this.id,true,this.serviceId,this.schedules,this.businessPic,this.licencePic);
   cities:DropDownId[] = [];
   areas:DropDownId[] = [];
   services:DropDownGuid[] = [];
   servicesinObj:Guid[] = [];
 
-  constructor(public sharedService:SharedService,public router:Router,public route: ActivatedRoute) { }
+  constructor(public sharedService:SharedService,public router:Router,public route: ActivatedRoute,public formBuilder: FormBuilder,
+    public _sweetalertService: SweetalertService
 
+    ) {
+
+    this.AddBusinessForm = this.formBuilder.group({
+      id:[this.businessId],
+      businessName: ['', [Validators.required]],
+      businussPhone: ['',[Validators.required,Validators.pattern('[- +()0-9]+')]],
+      cityId: ['',[Validators.required]],
+      areaId: ['',[Validators.required]],
+      serviceId: [this.servicesinObj],
+      schedules:[this.schedules],
+      businessDesc:['',[Validators.required]],
+      businessPic: [''],
+      licencePic: [''],
+
+    });
+    this.AddBusinessForm.get('cityId')?.valueChanges
+    .subscribe((value) => {
+      console.log(value); 
+      this.SetAreas(value);
+    });
+   }
   ngOnInit(): void {
-    // this.sub = this.route.params.subscribe(params=>{
-    //   this.applicationUserId = params['id'];
-    //   console.log(this.applicationUserId);
-    // });
-
     this.sharedService.getAllCities().subscribe(d=>{
       this.cities = d.data;
     });
@@ -54,8 +70,6 @@ export class AddBuisnessComponent implements OnInit {
     this.sharedService.getAllServices().subscribe(s=>{
       this.services = s.data;
     });
-
-    this.businessId = this.id;
     console.log(this.businessId);
   }
 
@@ -65,40 +79,64 @@ export class AddBuisnessComponent implements OnInit {
       console.log(this.areas);
     });
   }
-
-  add(){
-    console.log(this.businessId);
-
-    // this.businessId = this.id;
-    this.schedules[0].businessId = this.businessId;
-    console.log(this.schedules[0].businessId);
-    this.AddBusniess.schedules[0].businessId = this.businessId;
-
-    // this.AddBusniess.id = this.id;
-    this.AddBusniess.businessName = this.businessName;
-    this.AddBusniess.businessDesc = this.businessDesc;
-    this.AddBusniess.businussPhone = this.businussPhone;
-    this.AddBusniess.cityId = this.cityId;
-    this.AddBusniess.areaId = this.areaId;
-    this.AddBusniess.applicationUserId = this.applicationUserId;
-    this.AddBusniess.isActive = this.isActive;
-    this.AddBusniess.serviceId = this.servicesinObj;
-    this.AddBusniess.schedules = [new Schedule('','','',Guid.createEmpty())];
-
-    this.AddBusniess.businessPic = this.businessPic;
-    this.AddBusniess.licencePic = this.licencePic;
-    console.log(this.AddBusniess);
-    this.sharedService.addBusiness(this.AddBusniess)
-    // .subscribe(d=>{
-    //   this.router.navigate(['/businessowner']);
-    //   console.log(d.message);
-    // })
-  }
-
+  
   onChange(event:any) {
     this.businessPic = event.target.files[0];
+    console.log(this.businessPic);
+   localStorage.setItem('imgData',this.businessPic);
+
+   const reader =new FileReader();
+   reader.addEventListener("load",()=>{
+    var x=reader.result!;
+    console.log(reader.result);
+    localStorage.setItem("Bpic",x.toString()); 
+    this.itemImageUrl= reader.result?.toString() !;
+
+    this.licencePic=event.target.files[0];
+
+   });
+
+  
+
+   
+   reader.readAsDataURL( event.target.files[0]);
+
+        console.log(this.businessPic);
+        console.log(this.businessPic);
+
+
     this.licencePic = event.target.files[0];
   }
+  onselectS(day:string,Start:string){
+    this.schedules.forEach(a=>{
+      if(a.dayOfWeek==day)
+      {
+        a.startTime=Start;
+      }
+      
+    });
+      
+  }
+
+  onselect(day:string,End:string){
+
+    this.schedules.forEach(a=>{
+      if(a.dayOfWeek==day)
+      {
+        a.endTime=End;
+      }else{
+        return;
+      }
+
+    });
+  }
+
+  checked(day:string){
+    this.newSchedule=new ScheduleDto(day,'','',this.businessId);
+    this.schedules.push(this.newSchedule);
+  }
+
+
 
   onCheck(id:Guid){
     if (!this.servicesinObj.includes(id)) {
@@ -111,4 +149,37 @@ export class AddBuisnessComponent implements OnInit {
     }
     console.log(this.servicesinObj);
   }
+
+  onSubmit() {
+    console.log(this.AddBusinessForm.value);
+    if (this.AddBusinessForm.invalid) {
+      return;
+    }
+    let business: CreateBusinessDto = this.AddBusinessForm.value;
+    business.businessPic =this.businessPic;
+    business.licencePic=this.licencePic;
+    business.isActive=false;
+    console.log(business);
+    this.sharedService.addBusiness(business).subscribe((res) => {
+        if (res.success) {
+          this._sweetalertService.RunAlert(res.message, true);
+          this.AddBusinessForm.value==null;
+          this.sharedService.getAllCities();
+          this.sharedService.getAllServices();
+        } else {
+          this._sweetalertService.RunAlert(res.message, false);
+        }
+      });
+
+
+
+
+  }
+
+  
+
+
+ 
+
+
 }

@@ -53,36 +53,37 @@ export class SharedService {
     return this.http.get<ServiceResponse<GetBusinessDto[]>>(this.baseurl+"Business/GetBusiness");
   }
 
-  addBusiness(business:CreateBusinessDto){
+  addBusiness(business:CreateBusinessDto):Observable<ServiceResponse<number>>{
     const formdata = new FormData();
-      // formdata.append("id", business.id);
-      // const cityId = new Blob([JSON.stringify(business.cityId)])
-      // const areaId = new Blob([JSON.stringify(business.areaId)])
-      // const applicationUserId = new Blob([JSON.stringify(business.applicationUserId)])
-      // const isActive = new Blob([JSON.stringify(business.isActive)])
-      // const serviceId = new Blob([JSON.stringify(business.serviceId)])
-      // const schedules = new Blob([JSON.stringify(business.schedules)])
+      formdata.append("businessName", business.businessName);
+      formdata.append("businessDesc", business.businessDesc);
+      formdata.append("businussPhone", business.businussPhone);
+      formdata.append("cityId", business.cityId+"");
+      formdata.append("areaId", business.areaId+"");
 
-      // formdata.append("businessName", business.businessName);
-      // formdata.append("businessDesc", business.businessDesc);
-      // formdata.append("businussPhone", business.businussPhone);
-      // formdata.append("cityId", JSON.stringify(business.cityId));
-      // formdata.append("areaId", JSON.stringify(business.areaId));
-      // formdata.append("applicationUserId", JSON.stringify(business.applicationUserId));
-      // formdata.append("isActive", JSON.stringify(business.isActive));
-      // formdata.append("serviceId", JSON.stringify(business.serviceId));
-      // formdata.append("schedules", JSON.stringify(business.schedules));
+      business.serviceId.forEach(element=>{
+        formdata.append("serviceId",element+"");
+      });
       formdata.append("businessPic", business.businessPic ,business.businessPic.name);
       formdata.append("licencePic", business.licencePic ,business.licencePic.name);
+        business.schedules.forEach(a=>{
+          console.log(a)
+          var s ={
+            'dayOfWeek': a.dayOfWeek,
+            'startTime': a.startTime,
+            'endTime': a.endTime,
+            'businessId': a.businessId
+          }
+          console.log(s);
+          formdata.append("schedules",JSON.stringify(s));
+        });
 
-      // const httpOptions = {application/json
-      //   headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' })
-      // };, {headers: {'Content-Type': 'multipart/form-data'}}
-    return this.http.post<ServiceResponse<number>>(this.baseurl+'Business/CreateBusiness',{formdata,business}).subscribe(d=>{
-      console.log(d.data);
-      console.log(d.message);
+      
 
-    });
+
+      return this.http.post<ServiceResponse<number>>(this.baseurl+'Business/CreateBusiness',formdata);
+    
+
   }
 
   deleteBusiness(business:GetBusinessDto){
