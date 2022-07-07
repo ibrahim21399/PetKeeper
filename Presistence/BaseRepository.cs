@@ -34,9 +34,9 @@ namespace Presistence
         public virtual async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null)
         {
             if (predicate == null)
-                return await _dbContext.Set<T>().ToListAsync();
+                return  _dbContext.Set<T>().ToList();
             else
-                return await _dbContext.Set<T>().Where(predicate).ToListAsync();
+                return  _dbContext.Set<T>().Where(predicate).ToList();
         }
 
         public  List<T> GetAll(Expression<Func<T, bool>> predicate = null)
