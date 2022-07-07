@@ -70,10 +70,11 @@ namespace Presistence.Repos.Auth
                     );
 
                     return new TokenEntity
-                    {   
+                    {
                         Token = new JwtSecurityTokenHandler().WriteToken(token),
                         Expiration = token.ValidTo,
                         CurrentUser = user,
+                        Role = Role[0]
                     };
                 }
 
