@@ -146,8 +146,10 @@ export class SharedService {
   }
 
   Login(login:LoginDto){
-    return this.http.post<ServiceResponse<TokenDto>>(this.baseurl+"Auth/Login",login).pipe(map(user=>{
+    return this.http.post<ServiceResponse<TokenDto>>(this.baseurl+"Auth/Login",login)
+    .pipe(map(user=>{
       localStorage.setItem('currentUser',JSON.stringify(user.data.token));
+      localStorage.setItem('Role',JSON.stringify(user.data.role));
       this.currentUserSubject.next(user.data);
       return user;
     }))
