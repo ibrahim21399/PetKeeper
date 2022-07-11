@@ -25,9 +25,7 @@ import { NgToggleModule } from 'ng-toggle-button';
     ReactiveFormsModule,
     CdkStepperModule,
     MatProgressBarModule,
-    NgToggleModule
-    
-    
+    NgToggleModule,
   ]
 })
 export class BusinessModule { }
