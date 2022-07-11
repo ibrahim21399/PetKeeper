@@ -7,9 +7,12 @@
                         <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80" alt="..." width="130" class="rounded mb-2 img-thumbnail"><br>
                     </div> 
                     <div class="media-body mb-5 text-white"> 
-                        <h4 class="mt-0 mb-0">Mark Williams</h4> 
-                        <p class="small mb-4"><i class="fas fa-map-marker-alt mr-2"></i>Phone number</p> 
-                        <a href="#" class="btn btn-outline-light btn-sm btn-block" [routerLink]="route">Edit profile</a>
+                        <h4 class="mt-0 mb-0" >{{User.fullName}}</h4> 
+                        <p class="small mb-4"><i class="fas fa-map-marker-alt mr-2"></i>{{User.phoneNumber}}</p> 
+                        <a href="#" class="btn btn-outline-light btn-sm btn-block" [routerLink]="['edit/',User.id]">Edit profile</a>
+                        <div *ngIf="role=='businessowner'">
+                            <a href="#" class="btn btn-outline-light btn-sm btn-block" [routerLink]="['edit/',User.id]" style="margin: 1rem;">Add Business</a>
+                        </div>
                     </div> 
                 </div> 
             </div> 

@@ -14,7 +14,6 @@
 				<div class="postcard__bar"></div>
 				<div class="postcard__preview-txt text-dark">{{item.email}}</div>
 				<ul class="postcard__tagbox">
-					<li class="tag__item play blue"><i class="fas fa-tag mr-2"></i><a class="btn" [routerLink]="['/client/edit',item.id]">Edit</a></li>
 					<li class="tag__item play red"><i class="fas fa-clock mr-2"></i><a class="btn" [routerLink]="['/client/delete']" (click)="delete(item)" >Delete</a></li>
 					<li class="tag__item play blue"><i class="fas fa-clock mr-2"></i><a class="btn" [routerLink]="['/client/schedule']">show schedule</a></li>
 				</ul>

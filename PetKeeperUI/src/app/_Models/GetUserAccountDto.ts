@@ -7,7 +7,7 @@ export class GetUserAccountDto {
         public phoneNumber :string,
         public userName:string ,
         public fullName:string,
-        public userPic:string,
+        public userPic:File,
     ) {
         this.id = Guid.create();
     }

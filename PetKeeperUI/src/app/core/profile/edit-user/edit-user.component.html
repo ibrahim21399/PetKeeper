@@ -28,11 +28,6 @@
                                     </div>
 
                                     <div class="form-outline mb-4">
-                                        <label class="form-label" for="form2Example22">UserName</label>
-                                        <input type="text" id="form2Example22" [(ngModel)]="userName" class="form-control" [ngModelOptions]="{standalone: true}" required />
-                                    </div>
-
-                                    <div class="form-outline mb-4">
                                         <!-- <img [src]="src | safe" width="30rem"> -->
 
                                         <div class="text-center group">
@@ -42,8 +37,8 @@
                                     </div>
 
                                     <div class="text-center pt-1 mb-5 pb-1">
-                                        <button class="btn btn-primary btn-block gradient-custom-2" type="button">Submit</button><br><br>
-                                        <a class="btn btn-primary btn-block gradient-custom-2" routerLink="/businessowner">Back to list</a>
+                                        <button class="btn btn-primary btn-block gradient-custom-2" (click)="Edit()" type="button">Submit</button><br><br>
+                                        <a class="btn btn-primary btn-block gradient-custom-2" routerLink="/profile">Back to profile</a>
                                     </div>
 
                                 </form>
