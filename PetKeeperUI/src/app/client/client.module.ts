@@ -7,11 +7,13 @@ import { ScheduleClientComponent } from './schedule-client/schedule-client.compo
 import { SharedModule } from '../shared/shared.module';
 import {AccordionModule} from 'primeng/accordion';
 import {RatingModule} from 'primeng/rating';
+import { ShowAppointmentsComponent } from './show-appointments/show-appointments.component';
 
 @NgModule({
   declarations: [
     ShowClientComponent,
-    ScheduleClientComponent
+    ScheduleClientComponent,
+    ShowAppointmentsComponent
   ],
   imports: [
     CommonModule,

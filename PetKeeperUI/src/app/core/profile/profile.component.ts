@@ -24,7 +24,7 @@ export class ProfileComponent implements OnInit {
   route:string = '';
   clients:GetUserDto[] = [];
 
-  role:string = '';
+  role:any = '';
 
   constructor(public Serv:SharedService,public router:Router) {}
 
@@ -47,7 +47,11 @@ export class ProfileComponent implements OnInit {
       // this.phoneNumber = d.data.phoneNumber,
       // this.userPic = d.data.userPic,
       this.User = d.data;
+      this.role = localStorage.getItem('Role');
+      this.role = this.role.replace(/['"]+/g, '');
+      // this.role = this.role.slice(1, -1);
       console.log(d.data);
+      console.log(this.role);
       console.log(d.message);
     })
   };

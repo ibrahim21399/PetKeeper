@@ -14,6 +14,8 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { UserDto } from './_Models/UserDto';
 import { GetUserAccountDto } from './_Models/GetUserAccountDto';
 import { CreateCommentDto } from './_Models/CreateCommentDto';
+import { GetBOwnerBookingDto } from './_Models/GetBOwnerBookingDto';
+import { GetBookingDto } from './_Models/GetBookingDto';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +50,9 @@ export class SharedService {
     return this.http.put<ServiceResponse<number>>(this.baseurl+"Account/Edit",userDto);
   }
 
+  ChangePassword(current:string,newPass:String){
+    return this.http.post<ServiceResponse<number>>(this.baseurl+"Account/ChangePassword",[current,newPass]);
+  }
   //Business Crud Methods from API
   getAllBusinesses(){
     return this.http.get<ServiceResponse<GetBusinessDto[]>>(this.baseurl+"Business/GetBusiness");
@@ -86,8 +91,8 @@ export class SharedService {
 
   }
 
-  deleteBusiness(business:GetBusinessDto){
-    return this.http.delete(this.baseurl+"Business/DeleteBusiness"+business.id);
+  deleteBusiness(id:Guid){
+    return this.http.delete<ServiceResponse<number>>(this.baseurl+"Business/DeleteBusiness"+id);
   }
 
   //locations
@@ -157,6 +162,7 @@ export class SharedService {
 
   Logout(){
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('Role');
     this.currentUserSubject.next(null);
     return this.http.post<ServiceResponse<number>>(this.baseurl+"Auth/LogOut",[]);
   }
@@ -173,5 +179,32 @@ export class SharedService {
   Book(date:Date){
     return this.http.post<ServiceResponse<number>>(this.baseurl+"Client/BookAppoienment",date);
   };
+
+  //admin approve business
+  GetAllUnApprovedBusiness(){
+    return this.http.get<ServiceResponse<GetBusinessDto[]>>(this.baseurl+"api/Admin/GetAllUnApprovedBusiness");
+  }
+
+  ApproveBusiness(busId:Guid){
+    return this.http.post<ServiceResponse<number>>(this.baseurl+"api/Admin/ApproveBusiness",busId);
+  }
+
+  //businessowner approve booking
+  GetAllUnApprovedAppointments(){
+    return this.http.get<ServiceResponse<GetBOwnerBookingDto[]>>(this.baseurl+"Business/GetAllUnApprovedAppoientments");
+  }
+
+  AcceptBooking(bookId:Guid){
+    return this.http.post<ServiceResponse<number>>(this.baseurl+"Business/AcceptBooking",bookId);
+  } 
+  
+  DeclineBooking(bookId:Guid){
+    return this.http.post<ServiceResponse<number>>(this.baseurl+"Business/CancelBooking",bookId);
+  }
+
+  //client appointments
+  GetAppointments(){
+    return this.http.get<ServiceResponse<GetBookingDto[]>>(this.baseurl+"Client/GetAppoientments");
+  }
 
 }

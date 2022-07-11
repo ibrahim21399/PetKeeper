@@ -10,10 +10,12 @@ import { RegisterComponent } from './sign/register/register.component';
 const routes: Routes = [
   {path:'home',component:HomeComponent},
   {path:"login",component:LoginComponent},
+  {path:"logout",component:LoginComponent},
   {path:"register",component:RegisterComponent},
   {path:"profile",component:ProfileComponent},
   {path:"profile/edit/:id",component:EditUserComponent},
 
+  {path:"admin",loadChildren:()=>import('./admin/admin.module').then(m=>m.AdminModule)},
   {path:"business",loadChildren:()=>import('./business/business.module').then(m=>m.BusinessModule)},
   {path:"businessowner",loadChildren:()=>import('./businessowner/businessowner.module').then(m=>m.BusinessownerModule)},
   {path:"client",loadChildren:()=>import('./client/client.module').then(m=>m.ClientModule)},

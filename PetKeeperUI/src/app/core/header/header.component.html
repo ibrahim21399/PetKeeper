@@ -14,17 +14,23 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="home">Home</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="auth && role == 'BusinessOwner' || auth &&  role == 'Client'">
         <a class="nav-link" routerLink="profile">Profile</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="businessowner">Business Owner</a>
+      <li class="nav-item" *ngIf="role == 'Client' && auth">
+        <a class="nav-link" routerLink="client/appointments">My Appointments</a>
       </li>
-      <!-- <li class="nav-item">
-        <a class="nav-link" routerLink="business">Business</a>
-      </li> -->
+      <li class="nav-item" *ngIf="role == 'BusinessOwner' && auth">
+        <a class="nav-link" routerLink="businessowner/approve">Booking</a>
+      </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="client">Pet Owner</a>
+        <a class="nav-link" routerLink="admin" *ngIf="role == 'Admin' && auth">Approve Business</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="businessowner" *ngIf="role == 'Admin' && auth">Business Owner</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="client" *ngIf="role == 'Admin' && auth">Pet Owner</a>
       </li>
 
       <li class="nav-item" *ngIf="!auth">

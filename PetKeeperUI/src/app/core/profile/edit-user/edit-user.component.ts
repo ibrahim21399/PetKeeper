@@ -17,6 +17,8 @@ export class EditUserComponent implements OnInit {
   phoneNumber:string = '';
   fullName:string = '';
   userPic:any = null;
+  password:string = '';
+  oldps:string = '';
 
   User:UserDto = new UserDto(this.id,'','','','',this.userPic);
 
@@ -25,6 +27,7 @@ export class EditUserComponent implements OnInit {
   constructor(public Serv:SharedService,public router:Router) { }
 
   Edit(){
+    // this.oldps = this.User;
     this.User.email = this.email;
     this.User.phoneNumber = this.phoneNumber;
     this.User.fullName = this.fullName;
@@ -34,6 +37,10 @@ export class EditUserComponent implements OnInit {
       console.log(d.data);
       console.log(d.message);
     })
+    this.Serv.ChangePassword(this.oldps,this.password).subscribe(d=>{
+      console.log(d.message);
+      console.log(d.data);
+    });
   }
 
   onChange(event:any){

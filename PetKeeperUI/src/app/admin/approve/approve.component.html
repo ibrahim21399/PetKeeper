@@ -1,8 +1,8 @@
 <section class="dark">
 	<div class="container py-4">
-		<h1 class="h1 text-center text-light" id="pageHeaderTitle">Businesses</h1>
+		<h1 class="h1 text-center text-light" id="pageHeaderTitle">Approve Business</h1>
 
-		<article class="postcard dark blue" *ngFor="let item of Businesses" style="background-color: antiquewhite;">
+		<article class="postcard dark blue" *ngFor="let item of UnApprovedBusinesses" style="background-color: antiquewhite;">
 			<a class="postcard__img_link" href="#">
 				<img class="postcard__img" [src]="thumbnail" alt="Image Title" />
 			</a>
@@ -13,10 +13,10 @@
 				</div>
 				<div class="postcard__bar"></div>
 				<div class="postcard__preview-txt text-dark">{{item.businessDesc}}</div>
-				<!-- <ul class="postcard__tagbox">
-					<li class="tag__item play blue"><i class="fas fa-tag mr-2"></i><a class="btn" [routerLink]="['/business/edit',item.id]">Edit</a></li>
-					<li class="tag__item play red"><i class="fas fa-clock mr-2"></i><a class="btn" (click)="delete(item)" routerLink="/business/delete">Delete</a></li>
-				</ul> -->
+				<ul class="postcard__tagbox">
+					<li class="tag__item play blue"><i class="fas fa-tag mr-2"></i><a class="btn" (click)="Approve(item.id)" [routerLink]="['/admin/approve']">Approve</a></li>
+					<li class="tag__item play red"><i class="fas fa-clock mr-2"></i><a class="btn" (click)="Decline(item)" routerLink="/business/delete">Decline</a></li>
+				</ul>
 			</div>
 		</article>
 

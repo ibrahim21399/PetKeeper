@@ -25,7 +25,7 @@ export class ShowBuisnessComponent implements OnInit {
   }
 
   delete(b:GetBusinessDto){
-    this.busServ.deleteBusiness(b).subscribe(a=>{
+    this.busServ.deleteBusiness(b.id).subscribe(a=>{
       console.log("deleted");
       this.router.navigate(['/business']);
     })

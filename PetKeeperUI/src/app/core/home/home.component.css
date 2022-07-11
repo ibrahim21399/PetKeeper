@@ -16,8 +16,8 @@ body {
   }
   .scene .card {
     position: relative;
-    width: 300px;
-    height: 380px;
+    width: 11.5rem;
+    height: 25rem;
     color: white;
     margin: 1rem;
     cursor: pointer;

@@ -11,6 +11,7 @@ export class HeaderComponent implements OnInit {
  
   auth:boolean = false;
   currentUser: any = null;
+  role:any = "";
 
   constructor(public authServ:SharedService,public router:Router) { 
     if(localStorage.getItem("currentUser")){
@@ -22,6 +23,11 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(localStorage.getItem('Role')){
+      this.role = localStorage.getItem('Role');
+      this.role = this.role.replace(/['"]+/g, '');
+      console.log(this.role);
+    }
   }
 
   logout(){
