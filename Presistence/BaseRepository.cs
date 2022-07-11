@@ -36,7 +36,7 @@ namespace Presistence
             if (predicate == null)
                 return  _dbContext.Set<T>().ToList();
             else
-                return  _dbContext.Set<T>().Where(predicate).ToList();
+                return   _dbContext.Set<T>().Where(predicate).ToList();
         }
 
         public  List<T> GetAll(Expression<Func<T, bool>> predicate = null)
