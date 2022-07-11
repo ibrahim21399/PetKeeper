@@ -1,9 +1,10 @@
 import { Guid } from "guid-typescript";
-import { Schedule } from "./schedule";
+import {  Schedule } from "./schedule";
+import { ScheduleDto } from "./ScheduleDto";
 
 export class CreateBusinessDto {
     constructor(
-        public id:Guid,
+        public id:string,
         public businessName:string,
         public businessDesc:string,
         public businussPhone:string,
@@ -12,11 +13,11 @@ export class CreateBusinessDto {
         public applicationUserId:Guid,
         public isActive:boolean,
         public serviceId:Guid[],
-        public schedules:Schedule[],
+        public schedules:ScheduleDto[],
         public businessPic:File,
         public licencePic:File
     ){
-        this.id = Guid.create();
+        this.id = Guid.create().toString();
         // this.applicationUserId = Guid.create();
         // this.serviceId = new Guid[] { new Guid() };
     }

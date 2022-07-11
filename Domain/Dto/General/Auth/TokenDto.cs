@@ -11,6 +11,7 @@ namespace Domain.Dto.General.Auth
         public string Token { get; set; }
         public DateTime Expiration { get; set; }
         public ApplicationUserDto CurrentUser { get; set; }
+        public String Role { get; set; }
     }
 
     public class ApplicationUserDto

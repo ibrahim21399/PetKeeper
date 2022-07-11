@@ -1,0 +1,16 @@
+Step {{ selectedIndex + 1 }} out of {{ steps.length }}
+<mat-progress-bar mode="determinate" [value]="stepvalue" ></mat-progress-bar>
+
+<section class="example-container">
+  <header>
+
+    
+  </header>
+
+  <div [ngTemplateOutlet]="selected ? selected.content : null"></div>
+
+  <footer class="example-step-navigation-bar">
+    <button class="example-nav-button btn btn-primary btn-block gradient-custom-2" cdkStepperPrevious (click)="y()">&larr; Prev</button>
+    <button class="btn btn-primary btn-block gradient-custom-2 m-3" cdkStepperNext (click)="x()">Next &rarr; </button>
+  </footer>
+</section>

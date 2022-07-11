@@ -115,6 +115,7 @@
    }
    .option-input:checked {
      background: #E91E63;
+     background-image: "../../../assets/images/Pet_Hotel_directo_Rea_34b9675c5b.svg";
    }
    .option-input:checked::before {
      height: 40px;
@@ -145,11 +146,105 @@
    }
    
    .re5m{
-    /* margin-right:3rem;
-    justify-items: left;
-    justify-content: left;
-    justify-self: left;
-    text-justify: left; */
+    justify-items: center;
+    justify-content: center;
+    justify-self: center;
+    text-justify: center; 
     display: flex;
-    /* align-content: flex-start; */
    }
+
+
+   #imageUpload
+   {
+       display: none;
+   }
+   
+   #profileImage
+   {
+       cursor: pointer;
+   }
+   
+   #profile-container {
+       width: 150px;
+       height: 150px;
+       overflow: hidden;
+       -webkit-border-radius: 50%;
+       -moz-border-radius: 50%;
+       -ms-border-radius: 50%;
+       -o-border-radius: 50%;
+       border-radius: 50%;
+   }
+   
+   #profile-container img {
+       width: 150px;
+       height: 150px;
+   }
+
+
+
+    input[type=checkbox]{
+    display:none;
+    }
+    
+    .bgholder{
+      background: url("../../../assets/images/shop.svg") no-repeat;
+    height: 70px;
+    width: 70px;
+    background-size:cover;
+    position: relative;
+    }
+    .bgholderh{
+      background: url("../../../assets/images/host.svg") no-repeat;
+    height: 70px;
+    width: 70px;
+    background-size:cover;
+    position: relative;
+    }
+    .bgholdert{
+      background: url("../../../assets/images/train.svg") no-repeat;
+    height: 70px;
+    width: 70px;
+    background-size:cover;
+    position: relative;
+    }
+    .bgholderv{
+      background: url("../../../assets/images/Veteriniary.svg") no-repeat;
+    height: 70px;
+    width: 70px;
+    background-size:cover;
+    position: relative;
+    }
+    .bgholderg{
+      background: url("../../../assets/images/Groom.svg") no-repeat;
+    height: 70px;
+    width: 70px;
+    background-size:cover;
+    position: relative;
+    }
+     
+     
+     
+     input[type=checkbox] + label 
+    {
+    background: url() no-repeat;
+    background-size: 100%;
+    size: 100%;
+    height: 100%;
+    width: 100%;
+    }
+     .ser:checked + label 
+    {
+    background: url("../../../assets/images/check.png") no-repeat;
+    background-size: 50%;
+    margin-left: 40px;
+    display:inline-block;
+    }
+    input[type=time] {
+      color: #2a2c2d;
+      font-size: 14px;
+      font-family: helvetica;
+      width: 120px;
+    }
+input[type="time"]::-webkit-calendar-picker-indicator {
+display: none;
+}
