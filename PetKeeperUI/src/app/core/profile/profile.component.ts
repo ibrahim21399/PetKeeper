@@ -13,7 +13,7 @@ import { UserDto } from 'src/app/_Models/UserDto';
 })
 export class ProfileComponent implements OnInit {
 
-  id:Guid = Guid.create();
+  id!:Guid;
   email:string = '';
   phoneNumber:string = '';
   fullName:string = '';

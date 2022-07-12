@@ -2,6 +2,7 @@ import { Component, OnInit  } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/shared.service';
 import {NgbCollapse} from "@ng-bootstrap/ng-bootstrap"
+import { ApplicationUserDto } from 'src/app/_Models/ApplicationUserDto';
 
 @Component({
   selector: 'app-header',
@@ -12,8 +13,9 @@ export class HeaderComponent implements OnInit {
  
   public isCollapsed = true;  
   
+  fullName!: string;
+  currentUser: any;
   auth:boolean = false;
-  currentUser: any = null;
   role:any = "";
 
   constructor(public authServ:SharedService,public router:Router) { 
@@ -26,6 +28,11 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+this.authServ.getUser().subscribe(s=>{
+  this.currentUser=s.data;
+  console.log(s.data)
+});
+  console.log(this.currentUser)
     if(localStorage.getItem('Role')){
       this.role = localStorage.getItem('Role');
       this.role = this.role.replace(/['"]+/g, '');
