@@ -1,6 +1,7 @@
 import { Component, OnInit  } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from 'src/app/shared.service';
+import {NgbCollapse} from "@ng-bootstrap/ng-bootstrap"
 
 @Component({
   selector: 'app-header',
@@ -9,6 +10,8 @@ import { SharedService } from 'src/app/shared.service';
 })
 export class HeaderComponent implements OnInit {
  
+  public isCollapsed = true;  
+  
   auth:boolean = false;
   currentUser: any = null;
   role:any = "";

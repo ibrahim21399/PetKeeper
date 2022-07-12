@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light custom_nav-container" style="background-color: #1c2331;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark custom_nav-container" >
   <a class="navbar-brand" routerLink="home">
     <img src="../../../assets/images/5871573.png" style="width: 4rem;height: 4rem;margin-left: 0.5rem;display: inline;">
   </a>
@@ -6,10 +6,10 @@
     <h3 class="text-light" style="display:inline;margin-top: 1rem;font-family: 'Pacifico', cursive;">MyPet</h3>
   </a>
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" (click)="isCollapsed=!isCollapsed"[attr.aria-expanded]="!isCollapsed" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed"  >
     <ul class="navbar-nav ml-auto" style="margin-left: auto;">
       <li class="nav-item">
         <a class="nav-link" routerLink="home">Home</a>
@@ -47,3 +47,4 @@
     </ul>
   </div>
 </nav>
+

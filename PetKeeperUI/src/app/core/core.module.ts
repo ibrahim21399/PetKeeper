@@ -5,6 +5,7 @@ import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EditUserComponent } from './profile/edit-user/edit-user.component';
+import{NgbModule} from '@ng-bootstrap/ng-bootstrap'
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { EditUserComponent } from './profile/edit-user/edit-user.component';
     CommonModule,
     RouterModule,
     FormsModule,
+    NgbModule
   ],
   exports: [
     HeaderComponent,

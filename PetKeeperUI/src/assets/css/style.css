@@ -111,7 +111,6 @@ p {
   padding: 10px 15px;
   color: white;
   text-align: center;
-  text-transform: uppercase;
 }
 
 .custom_nav-container.navbar-expand-lg .navbar-nav .nav-item.active .nav-link, .custom_nav-container.navbar-expand-lg .navbar-nav .nav-item:hover .nav-link {
@@ -162,14 +161,7 @@ a:focus {
   text-transform: uppercase;
 }
 
-.custom_nav-container {
-  z-index: 9;
-  padding: 0;
-  height: 80px;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
+
 
 .lg_toggl-btn {
   background-color: transparent;
