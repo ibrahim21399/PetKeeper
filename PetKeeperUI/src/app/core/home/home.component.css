@@ -10,14 +10,16 @@ body {
     margin-bottom: 10rem;
     margin-top: 2rem;
     width: 100%;
+    margin-left: 0;
+    margin-right: 0;
     display: grid;
     justify-content: space-between;
     perspective: 800px;
   }
   .scene .card {
     position: relative;
-    width: 11.5rem;
-    height: 25rem;
+    width: 12rem;
+    height: 12rem;
     color: white;
     margin: 1rem;
     cursor: pointer;

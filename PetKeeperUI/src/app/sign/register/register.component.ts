@@ -59,6 +59,10 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  change(value:any){
+    this.val=value;
+  }
+
   MustMatch(controlName: string, matchingControlName: string) {
     return (formGroup: FormGroup) => {
       const control = formGroup.controls[controlName];

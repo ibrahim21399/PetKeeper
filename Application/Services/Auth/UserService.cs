@@ -95,7 +95,7 @@ namespace Application.Services.Auth
                     user.Status = true;
                 }
                 var result = await _userManager.CreateAsync(user, registerAccountUserDto.Password);
-                await _fileService.UploadFile(user.Id, scondRowId: null, new List<IFormFile> { registerAccountUserDto.UserPic }, nameof(user), "000", "UsersPic", 500000);
+                //await _fileService.UploadFile(user.Id, scondRowId: null, new List<IFormFile> { registerAccountUserDto.UserPic }, nameof(user), "000", "UsersPic", 500000);
                 if (!result.Succeeded) return new ServiceResponse<int> { Success = false, Message = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description)) };
                 if (status == true)//client
                 {
@@ -141,10 +141,18 @@ namespace Application.Services.Auth
                 var user = _appUserRepository.GetUserById(Id);
                 GetUserAccountDto getUserAccountDto = new GetUserAccountDto();
                 getUserAccountDto.UserName = user.UserName;
+                getUserAccountDto.FullName= user.FullName;
                 getUserAccountDto.Email = user.Email;
                 getUserAccountDto.PhoneNumber = user.PhoneNumber;
-                var y = (await _attachmentRepository.GetAllAsync(p => p.Row_Id == Id.ToString())).FirstOrDefault().File_Path;
-                getUserAccountDto.UserPic = y;
+                var listofpic = await _attachmentRepository.GetAllAsync(p => p.Row_Id == Id.ToString());
+                if (listofpic.Count != 0)
+                {
+                    var y =( await _attachmentRepository.GetAllAsync(p => p.Row_Id == Id.ToString())).FirstOrDefault().File_Path;
+                    getUserAccountDto.UserPic = y;
+
+
+                }
+
                 return new ServiceResponse<GetUserAccountDto> { Success = true, Data = getUserAccountDto };
 
 
