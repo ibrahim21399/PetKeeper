@@ -2,28 +2,60 @@
 	<br>
 	<div class="login-wrap">
 		<div class="login-html">
+			<form [formGroup]="RegisterForm">
 			<input id="tab-2" type="radio" name="tab" class="sign-up" checked><label for="tab-2" class="tab">Sign Up</label>
 			<div class="login-form">
 				<div class="sign-up-htm">
 					<div class="group">
 						<label for="user" class="label">fullName</label>
-						<input id="user" type="text" class="input" [(ngModel)] = "fullName" required>
-					</div>
-					<div class="group">
-						<label for="pass" class="label">Password</label>
-						<input id="pass" type="password" class="input" data-type="password" [(ngModel)] = "password" required>
-					</div>
-					<div class="group">
-						<label for="pass" class="label">Repeat Password</label>
-						<input id="pass" type="password" class="input" data-type="password" [(ngModel)] = "confirmPassword" required>
+						<input id="user" type="text" class="input" formControlName="fullName" required>
+						<small class="text-danger mt-3" *ngIf="RegisterForm.get('fullName')?.errors?.['required'] && RegisterForm.get('fullName')?.touched">
+							* FullName is required
+						 </small>
+						 <small class="text-danger mt-3" *ngIf="RegisterForm.get('fullName')?.errors?.['minlength'] && RegisterForm.get('fullName')?.touched">
+								Enter Valid Name
+						 </small>
 					</div>
 					<div class="group">
 						<label for="pass" class="label">Email Address</label>
-						<input id="pass" type="text" class="input" [(ngModel)] = "email" required>
+						<input id="pass" type="text" class="input" formControlName="email" required>
+						<small class="text-danger mt-3" *ngIf="RegisterForm.get('email')?.errors?.['required'] && RegisterForm.get('email')?.touched">
+							* Email is required
+						 </small>
+						 <small class="text-danger mt-3" *ngIf="RegisterForm.get('email')?.errors?.['email']&& RegisterForm.get('email')?.touched">
+								Enter Valid Email "examble@examble.com"
+						 </small>
+					</div>
+					<div class="group">
+						<label for="pass" class="label">Password</label>
+						<input id="pass" type="password" class="input" data-type="password" formControlName="password"              
+						 [ngClass]="{
+							'valid' : form['password'].touched && form['password'].valid,
+							'invalid' : form['password'].touched &&form['password'].invalid
+						  }">
+						  <small class="text-danger mt-3" *ngIf="RegisterForm.get('password')?.errors?.['required'] && form['password'].touched">
+							* password is required
+						 </small>
+						 <small class="text-danger mt-3" *ngIf="RegisterForm.get('password')?.errors?.['pattern'] && form['password'].touched">
+							password is very Weak </small>
+
+					</div>
+					<div class="group">
+						<label for="pass" class="label">Repeat Password</label>
+						<input id="pass" type="password" class="input" data-type="password" formControlName = "confirmPassword">
+						<small class="text-danger mt-3" *ngIf="form['confirmPassword'].invalid && form['confirmPassword'].touched">
+							* password dosn't match
+						</small>
 					</div>
 					<div class="group">
 						<label for="pass" class="label">Phone Number</label>
-						<input id="pass" type="text" class="input" [(ngModel)] = "phoneNumber" required>
+						<input id="pass" type="text" class="input" formControlName = "phoneNumber" required>
+						<small class="text-danger mt-3" *ngIf="RegisterForm.get('phoneNumber')?.errors?.['required'] && RegisterForm.get('phoneNumber')?.touched">
+							* Business phone is required
+						 </small>
+						 <small class="text-danger mt-3" *ngIf="RegisterForm.get('phoneNumber')?.errors?.['pattern'] && RegisterForm.get('phoneNumber')?.touched">
+							Invalid phone number, phone must be 11 Numbers.
+						 </small>
 					</div>
 					<div class="group">
 						<label for="pass" class="label">Register As</label>
@@ -40,12 +72,13 @@
 
 					<br>
 					<div class="group">
-						<input type="submit" class="button" (click)="Register()" value="Sign Up">
+						<input type="submit" class="button" (click)="onSubmit()" value="Sign Up">
 						<hr>
 					<a routerLink="/login" style="color: white;">Already a Member?</a>
 					</div>
 				</div>
 			</div>
+		</form>
 		</div>
 	</div>
 	<br>
