@@ -17,6 +17,8 @@ namespace Application.Interfaces.Services.CLient
         Task<ServiceResponse<List<GetBookingDto>>> GetAllOwnerBooking(Guid UserId);
         Task<ServiceResponse<int>> AcceptBooking(Guid BookId);
         Task<ServiceResponse<int>> CancelBooking(Guid BookId);
+        Task<ServiceResponse<List<Schedule>>> GetScheduleOfBusiness(Guid BusId);
+
 
     }
 }

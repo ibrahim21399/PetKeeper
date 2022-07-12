@@ -20,13 +20,16 @@ namespace Application.Services.Client
         private readonly IBookingRepository _bookingRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-
-        public BookingService(IBookingRepository bookingRepository,IUnitOfWork unitOfWork, IBusinessRepository businessRepository, IMapper mapper)
+        private readonly IScheduleRepository _scheduleRepository;
+        public BookingService(IBookingRepository bookingRepository,IUnitOfWork unitOfWork,
+            IBusinessRepository businessRepository, IMapper mapper,
+            IScheduleRepository scheduleRepository)
         {
             _bookingRepository = bookingRepository;
             _unitOfWork = unitOfWork;
             _businessRepository = businessRepository;
             _mapper = mapper;
+            _scheduleRepository = scheduleRepository;
         }
 
         public async Task<ServiceResponse<int>> BooKBusiness(Guid SceduleId,Guid BusinessId,Guid UserId,DateTime BookDate)
@@ -206,6 +209,26 @@ namespace Application.Services.Client
 
                 return await LogError(ex, 0);
             }
+        }
+
+        public async Task<ServiceResponse<List<Schedule>>> GetScheduleOfBusiness(Guid BusId)
+        {
+            try
+            {
+                var res = await _scheduleRepository.GetAllAsync(a => a.BusinessId == BusId);
+                return new ServiceResponse<List<Schedule>>
+                {
+                    Data = res,
+                    Success = true,
+                };
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
         }
 
     }

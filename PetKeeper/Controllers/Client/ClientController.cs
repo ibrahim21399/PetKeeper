@@ -48,5 +48,13 @@ namespace PetKeeper.Controllers.Client
             var res = await _commentService.DeleteComment(CommentId);
             return Ok(res);
         }
+        [HttpGet]
+
+        public async Task<IActionResult> GetAllSchedule (Guid busId)
+        {
+            var res = await _clientBookingService.GetScheduleOfBusiness(busId);
+            return Ok(res);
+
+        }
     }
 }

@@ -118,6 +118,7 @@ builder.Services.AddScoped<IBusinessRepository,BusinessRepository>();
 builder.Services.AddScoped<IServicesRepository, ServicesRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<ICommentsRepository, CommentsRepository>();
+builder.Services.AddScoped<IScheduleRepository, ScheduleRepository>();
 
 
 
