@@ -206,5 +206,8 @@ export class SharedService {
   GetAppointments(){
     return this.http.get<ServiceResponse<GetBookingDto[]>>(this.baseurl+"Client/GetAppoientments");
   }
+  scroll(el: HTMLElement) {
+    el.scrollIntoView();
+  }
 
 }

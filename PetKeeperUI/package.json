@@ -38,6 +38,7 @@
     "@angular/cli": "~14.0.0",
     "@angular/compiler-cli": "^14.0.0",
     "@angular/localize": "^14.0.1",
+    "@fortawesome/fontawesome-free": "^6.1.1",
     "@types/jasmine": "~4.0.0",
     "jasmine-core": "~4.1.0",
     "karma": "~6.3.0",

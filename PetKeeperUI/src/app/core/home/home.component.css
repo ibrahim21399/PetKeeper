@@ -60,6 +60,17 @@ body {
   }
 
   .btn:hover{
-    background-color: white;
+    background-color: rgb(241, 176, 176);
   }
-  
+  #btn-back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .fixed{
+    display: block;
+  }
+  .nofixed{
+    display: none;
+  }

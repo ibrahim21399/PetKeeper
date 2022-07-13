@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark custom_nav-container" >
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark custom_nav-container">
   <a class="navbar-brand" routerLink="home">
     <img src="../../../assets/images/5871573.png" style="width: 4rem;height: 4rem;margin-left: 0.5rem;display: inline;">
   </a>
@@ -12,7 +12,13 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isCollapsed"  >
     <ul class="navbar-nav ml-auto" style="margin-left: auto;">
       <li class="nav-item">
-        <a class="nav-link" routerLink="home">Home</a>
+        <a class="nav-link" routerLink="home"
+        routerLinkActive="active" 
+            [routerLinkActiveOptions]={exact:true}>Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="" (click)="scrollTo()" 
+        routerLinkActive="active">Services</a>
       </li>
       <li class="nav-item" *ngIf="auth && role == 'BusinessOwner' || auth &&  role == 'Client'">
         <a class="nav-link" routerLink="profile">Profile</a>
@@ -51,4 +57,5 @@
     </ul>
   </div>
 </nav>
+
 
