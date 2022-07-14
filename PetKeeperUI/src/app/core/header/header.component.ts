@@ -32,15 +32,16 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-this.authServ.getUser().subscribe(s=>{
-  this.currentUser=s.data;
-  console.log(s.data)
-});
-  console.log(this.currentUser)
+    
+    console.log(this.currentUser)
     if(localStorage.getItem('Role')){
       this.role = localStorage.getItem('Role');
       this.role = this.role.replace(/['"]+/g, '');
       console.log(this.role);
+      this.authServ.getUser().subscribe(s=>{
+        this.currentUser=s.data;
+        console.log(s.data)
+      });
     }
   }
 
