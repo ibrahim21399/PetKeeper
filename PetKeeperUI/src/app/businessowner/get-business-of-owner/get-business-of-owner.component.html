@@ -1,0 +1,35 @@
+<section class="dark">
+	<div class="container py-4">
+		<h1 class="h1 text-center text-light" id="pageHeaderTitle">Business</h1>
+
+        <div>
+            <a href="#" class="btn btn-outline-light btn-sm btn-block" [routerLink]="['/business/add']" style="margin: 1rem;">Add Business</a>
+
+        </div>
+
+		<article class="postcard dark blue" *ngFor="let item of Business" style="background-color: antiquewhite;">
+			<a class="postcard__img_link" href="#">
+				<img class="postcard__img" [src]="imgURL+item.businessPic" alt="Image Title" />
+			</a>
+			<div class="postcard__text">
+				<h1 class="postcard__title blue text-dark" >{{item.businessName}}</h1>
+				<div class="postcard__subtitle small">
+					<i class="fas fa-calendar-alt mr-2 text-dark">Dr : {{item.mangerName}}</i>
+				</div>
+				<div class="postcard__bar"></div>
+                <div class="postcard__preview-txt text-primary mx-3">Description :<h3 class=" text-dark larg">{{item.businessDesc}}</h3></div>
+                <div class="postcard__preview-txt text-primary mx-3">Phone Number :<h3 class=" text-dark larg">{{item.businussPhone}}</h3></div>
+                <div class="postcard__preview-txt text-primary mx-3"> Services :<h3 class=" text-dark larg" *ngFor="let x in item.services">{{x.ServiceName}}</h3></div>
+
+
+			
+
+				<ul class="postcard__tagbox">
+					<li class="tag__item play red"><i class="fas fa-clock mr-2"></i><a class="btn" [routerLink]="['/']" (click)="delete(item.id)" >Delete</a></li>
+					<!-- <li class="tag__item play blue"><i class="fas fa-clock mr-2"></i><a class="btn" [routerLink]="['/client/schedule']">show schedule</a></li> -->
+				</ul>
+			</div>
+		</article>
+		
+	</div>
+</section>

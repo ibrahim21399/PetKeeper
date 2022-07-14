@@ -1,4 +1,5 @@
 ﻿using Domain.Dto.Client;
+using Domain.Entites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace Application.Interfaces.Services.CLient
     {
         Task<ServiceResponse<int>> AddComment(Guid BusId,CreateCommentDto createCommentDto);
         Task<ServiceResponse<int>> DeleteComment(Guid CommentId);
+        Task <ServiceResponse<List<Comments>>> GetComment(Guid Busid);
     }
 }

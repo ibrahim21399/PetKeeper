@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Entites.General;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -19,5 +20,6 @@ namespace Application.Interfaces.Repos
         //void Delete(Action<T> deleteFunction, Expression<Func<T, bool>> predicate = null);
         void Delete(Guid id);
         void Update(T obj, params string[] excludedFields);
+
     }
 }

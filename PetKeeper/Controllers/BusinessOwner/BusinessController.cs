@@ -26,7 +26,6 @@ namespace PetKeeper.Controllers.BusinessOwner
         public async Task<IActionResult> CreateBusiness([FromForm]CreateBusinessDto createBusinessDto)
         {
             createBusinessDto.ApplicationUserId =Guid.Parse(CurrentUserId);
-            //createBusinessDto.ApplicationUserId =Guid.Parse("9BC658B1401942CD7EFF08DA4A964E04");
             var res = await _createBusinessService.CreateBusiness(createBusinessDto);
             return Ok(res); 
 
@@ -34,8 +33,8 @@ namespace PetKeeper.Controllers.BusinessOwner
 
         [HttpGet]
         public async Task<IActionResult> GetBusiness()
-        {
-            var res = await _createBusinessService.GetBusinuss(/*Guid.Parse(CurrentUserId)*/ Guid.Parse("9BC658B1401942CD7EFF08DA4A964E04"));
+       {
+            var res = await _createBusinessService.GetBusinuss(Guid.Parse(CurrentUserId));
             return Ok(res);
 
         }

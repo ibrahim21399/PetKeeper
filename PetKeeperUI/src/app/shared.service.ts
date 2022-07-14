@@ -29,6 +29,7 @@ export class SharedService {
   }
 
   //Business owners crud operations
+
   getAllBusinessOwners(){
     return this.http.get<GetUserDto[]>(this.baseurl+"api/Admin/GetAllBussinessOwner");
   }

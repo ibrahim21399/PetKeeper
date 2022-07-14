@@ -33,5 +33,15 @@ namespace Persistence.Repositories.General
                 _dbContext.Attachments.Remove(attachment);
             }
         }
+
+        public Attachment GetAttach(Guid rowid,string table)
+        {
+            var attachment = _dbContext.Attachments.Where(a => a.Row_Id == rowid.ToString()&&a.Table_Name==table).FirstOrDefault();
+            if (attachment is not null) return attachment;
+
+            else return null;
+
+
+        }
     }
 }

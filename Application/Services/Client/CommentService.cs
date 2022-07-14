@@ -74,5 +74,25 @@ namespace Application.Services.Client
                 return await LogError(ex, 0);
             }
         }
+
+        public async Task<ServiceResponse<List<Comments>>> GetComment(Guid Busid)
+        {
+            try
+            {
+                var res = _commentsRepository.GetAll(a => a.BusinessId == Busid);
+                return new ServiceResponse<List<Comments>>
+                {
+                    Data = res,
+                    Success = true,
+
+                };
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

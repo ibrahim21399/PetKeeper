@@ -56,5 +56,13 @@ namespace PetKeeper.Controllers.Client
             return Ok(res);
 
         }
+        [HttpGet]
+
+        public async Task<IActionResult> GetAllcomments(Guid busId)
+        {
+            var res = await  _commentService.GetComment(busId);
+            return Ok(res);
+
+        }
     }
 }

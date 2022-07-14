@@ -14,10 +14,10 @@ namespace Domain.Dto.Business
         public string BusinessName { get; set; }
         public string BusinessDesc { get; set; }
         public string BusinussPhone { get; set; }
-        public string MangerName { get; set; }    
+        public string MangerName { get; set; }
+        public float BusinessRate { get; set; }
         public string CityName { get; set; }
         public string AreaName { get; set; }
-        public float BusinessRate { get; set; }
 
         public ICollection<string> Services{ get; set; }
         public string BusinessPic { get; set; }

@@ -47,7 +47,7 @@ namespace Application.Services.BusinussOwner
         IUnitOfWork unitOfWork, IFileService fileService,
         UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
         IMapper mapper,
-        IAppUserRepository appUserRepository)
+        IAppUserRepository appUserRepository,IAttachmentRepository attachmentRepository)
         {
             _businussRepository = businussRepository;
             _servicesRepository = servicesRepository;
@@ -59,6 +59,7 @@ namespace Application.Services.BusinussOwner
             _userManager = userManager;
             _signInManager=signInManager;
             _appUserRepository = appUserRepository;
+            _attachmentRepository = attachmentRepository;
         }
 
         public async Task<ServiceResponse<int>> CreateBusiness(CreateBusinessDto createBusinessDto)
@@ -164,7 +165,7 @@ namespace Application.Services.BusinussOwner
 
         public async Task<ServiceResponse<List<GetBusinessDto>>> GetBusinuss(Guid userId)
         {
-          var business=  _businussRepository.GetAll(a => a.ApplicationUserId == userId);
+          var business=  _businussRepository.GetAll(a => a.ApplicationUserId == userId &&a.IsActive==true);
             var map = await GetBusinessDtoList(business);
             return new ServiceResponse<List<GetBusinessDto>>
             {
@@ -175,12 +176,17 @@ namespace Application.Services.BusinussOwner
 
         public async Task<List<GetBusinessDto>> GetBusinessDtoList(List<Business> businessObj)
         {
+
             List<GetBusinessDto> getBusinessDtos = new List<GetBusinessDto>();
             var map = _mapper.Map<List<GetBusinessDto>>(businessObj);
             for (int i = 0; i < map.Count; i++)
             {
-                //var x = (await _attachmentRepository.GetAllAsync(p => p.Row_Id == map[i].Id.ToString() && p.Table_Name=="BusinessPic")).FirstOrDefault().File_Path;
-                //map[i].BusinessPic = x;
+                var x = _attachmentRepository.GetAttach(map[i].Id, "BusinessPic");
+                if(x is not null)
+                {
+                    map[i].BusinessPic = x.File_Path;
+
+                }
                 map[i].MangerName = _appUserRepository.GetUserFullName(businessObj[i].ApplicationUserId);
                 map[i].CityName = _cityRepository.GetById(businessObj[i].CityId).Name;
                 map[i].AreaName = _AreaRepository.GetById(businessObj[i].AreaId).Name;

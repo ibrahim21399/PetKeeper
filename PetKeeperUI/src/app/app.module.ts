@@ -12,6 +12,7 @@ import { LoginComponent } from './sign/login/login.component';
 import { JwtInterceptor } from './jwt.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProfileComponent } from './core/profile/profile.component';
+import { GetBusinessOfOwnerComponent } from './businessowner/get-business-of-owner/get-business-of-owner.component';
 
 
 
@@ -26,6 +27,7 @@ import { ProfileComponent } from './core/profile/profile.component';
     RegisterComponent,
     LoginComponent,
     ProfileComponent,
+    GetBusinessOfOwnerComponent,
 
 
   ],
