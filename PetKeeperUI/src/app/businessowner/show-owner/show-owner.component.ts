@@ -12,8 +12,8 @@ import { GetUserDto } from 'src/app/_Models/GetUserDto';
 export class ShowOwnerComponent implements OnInit {
 
   BusinessOwners:GetUserDto[] = [];
-  imgURL:string = 'https://localhost:7293/UsersPic/';
-  thumbnail = this.sanitizer.bypassSecurityTrustUrl(this.imgURL);
+  // imgURL:string = 'https://localhost:7293/';
+  // thumbnail = this.sanitizer.bypassSecurityTrustUrl(this.imgURL);
 
   constructor(public busServ:SharedService, public router:Router,private sanitizer: DomSanitizer) { }
 
@@ -26,7 +26,7 @@ export class ShowOwnerComponent implements OnInit {
   }
 
   delete(b:GetUserDto){
-    this.busServ.deleteOwnerClient(b).subscribe(a=>{
+    this.busServ.deleteUser(b).subscribe(a=>{
       console.log("deleted");
       this.router.navigate(['/businessowner']);
     })

@@ -4,7 +4,7 @@
 
 		<article class="postcard dark blue" *ngFor="let item of UnApprovedBusinesses" style="background-color: antiquewhite;">
 			<a class="postcard__img_link" href="#">
-				<img class="postcard__img" [src]="thumbnail" alt="Image Title" />
+				<img class="postcard__img" [src]="imgURL+item.businessPic" alt="Image Title" />
 			</a>
 			<div class="postcard__text">
 				<h1 class="postcard__title blue text-dark">{{item.businessName}}</h1>

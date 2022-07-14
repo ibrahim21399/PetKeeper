@@ -18,7 +18,12 @@
                                     </div>
   
                                     <div class="form-outline mb-4">
-                                        <label class="form-label" for="form2Example11">Password</label>
+                                        <label class="form-label" for="form2Example11">Old Password</label>
+                                        <input type="text" id="form2Example11" [(ngModel)]="oldps" class="form-control" [ngModelOptions]="{standalone: true}" required />
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" for="form2Example11">New Password</label>
                                         <input type="text" id="form2Example11" [(ngModel)]="password" class="form-control" [ngModelOptions]="{standalone: true}" required />
                                     </div>
 
@@ -33,12 +38,9 @@
                                     </div>
 
                                     <div class="form-outline mb-4">
-                                        <!-- <img [src]="src | safe" width="30rem"> -->
-
                                         <div class="text-center group">
                                             <input type="file" id="form2Example22" class="form-control" required  (change)="onChange($event)">
                                         </div>
-
                                     </div>
 
                                     <div class="text-center pt-1 mb-5 pb-1">

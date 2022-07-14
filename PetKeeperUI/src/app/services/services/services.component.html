@@ -26,54 +26,21 @@
     <button class="btn btn-info" (click)="Filter()">Filter</button><br>
 
     <div *ngIf="FilteredBusinesses.length >0 ">
-        <!-- <table class="table table-hover table-bordered text-center">
-            <thead class="table-dark">
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Phone Number</th>
-                    <th>Manager Name</th>
-                    <th>Services</th>
-                    <th>Rate</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of FilteredBusinesses; let i=index;" (click)="RowSelected(item);" (click)="send()">
-                    <td>{{item.businessName}}</td>
-                    <td>{{item.businessDesc}}</td>
-                    <td>{{item.businussPhone}}</td>
-                    <td>{{item.mangerName}}</td>
-                    <td *ngFor="let item of item.services">
-                        <tr>{{item}}</tr>
-                    </td>
-                    <td>{{item.businessRate}}</td>
-                </tr>
-            </tbody>
-        </table> -->
-
         <article class="postcard dark blue" *ngFor="let item of FilteredBusinesses; let i=index;" (click)="RowSelected(item);" [routerLink]="['/client/schedule',item.id]" (click)="send()" style="background-color: antiquewhite;">
 			<a class="postcard__img_link" href="#">
-				<img class="postcard__img" [src]="thumbnail+item.businessPic" alt="Image Title" />
+				<img class="postcard__img" [src]="imgURL+item.businessPic" alt="Image Title" style="width:12rem;" />
 			</a>
 			<div class="postcard__text">
 				<h1 class="postcard__title blue text-dark">{{item.businessName}}</h1>
 				<div class="postcard__subtitle small">
 					<i class="fas fa-calendar-alt mr-2 text-dark">{{item.businussPhone}}</i><br>
-					<i class="fas fa-calendar-alt mr-2 text-dark">{{item.businessRate}}</i>
+                    <p-rating style="margin: 1rem;" [(ngModel)]="item.businessRate" [cancel]="false" [readonly]="true"></p-rating>
 				</div>
 				<div class="postcard__bar"></div>
 				<div class="postcard__preview-txt text-dark">{{item.businessDesc}}</div>
-				<!-- <ul class="postcard__tagbox">
-					<li class="tag__item play blue"><i class="fas fa-tag mr-2"></i><a class="btn" [routerLink]="['/businessowner/edit',item.id]" >Edit</a></li>
-					<li class="tag__item play red"><i class="fas fa-clock mr-2"></i><a class="btn" [routerLink]="['/businessowner/delete']" (click)="delete(item)" >Delete</a></li>
-					<li class="tag__item play blue"><i class="fas fa-clock mr-2"></i><a class="btn" [routerLink]="['/business',item.id]">Owner Businesses</a></li>
-					<li class="tag__item play red"><i class="fas fa-clock mr-2"></i><a class="btn" [routerLink]="['/business/add',item.id]">Add Business</a></li>
-				</ul> -->
 			</div>
 		</article>
-
-        
-
     </div>
+
 </div>
 </section>

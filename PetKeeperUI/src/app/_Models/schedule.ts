@@ -6,7 +6,5 @@ export class Schedule {
         public startTime:string,
         public endTime:string,
         public businessId:Guid,
-    ){
-        // this.businessId = Guid.create();
-    }
+    ){}
 }

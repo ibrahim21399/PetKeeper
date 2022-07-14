@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Guid } from 'guid-typescript';
 import { SharedService } from 'src/app/shared.service';
 import { GetUserAccountDto } from 'src/app/_Models/GetUserAccountDto';
 import { GetUserDto } from 'src/app/_Models/GetUserDto';
-import { UserDto } from 'src/app/_Models/UserDto';
 
 @Component({
   selector: 'app-profile',
@@ -26,7 +26,10 @@ export class ProfileComponent implements OnInit {
 
   role:any = '';
 
-  constructor(public Serv:SharedService,public router:Router) {}
+  imgURL:string = 'https://localhost:7293/';
+  thumbnail = this.sanitizer.bypassSecurityTrustUrl(this.imgURL);
+
+  constructor(public Serv:SharedService,public router:Router,public sanitizer:DomSanitizer) {}
 
   ngOnInit(): void {
     this.Serv.getAllClients().subscribe(d=>{

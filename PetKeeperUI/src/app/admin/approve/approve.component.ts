@@ -12,7 +12,7 @@ import { SharedService } from 'src/app/shared.service';
 export class ApproveComponent implements OnInit {
 
   UnApprovedBusinesses:any = null;
-  imgURL:string = 'https://localhost:7293/UsersPic/';
+  imgURL:string = 'https://localhost:7293/';
   thumbnail = this.sanitizer.bypassSecurityTrustUrl(this.imgURL);
   
   constructor(public busServ:SharedService, public router:Router,private sanitizer: DomSanitizer) { }

@@ -32,7 +32,7 @@ export class ServicesComponent implements OnInit,OnDestroy {
 
   src:string = '';
 
-  imgURL:string = 'https://localhost:7293/UsersPic/';
+  imgURL:string = 'https://localhost:7293/';
   thumbnail = this.sanitizer.bypassSecurityTrustUrl(this.imgURL);
 
   constructor(public route: ActivatedRoute, public serv:SharedService,private sanitizer: DomSanitizer) {}

@@ -16,6 +16,9 @@ import { GetUserAccountDto } from './_Models/GetUserAccountDto';
 import { CreateCommentDto } from './_Models/CreateCommentDto';
 import { GetBOwnerBookingDto } from './_Models/GetBOwnerBookingDto';
 import { GetBookingDto } from './_Models/GetBookingDto';
+import { GetAdminBusinessDetailsDto } from './_Models/GetAdminBusinessDetailsDto';
+import { Schedule } from './_Models/schedule';
+import { Comments } from './_Models/comments';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +37,7 @@ export class SharedService {
     return this.http.get<GetUserDto[]>(this.baseurl+"api/Admin/GetAllBussinessOwner");
   }
 
-  deleteOwnerClient(user:GetUserDto){
+  deleteUser(user:GetUserDto){
     return this.http.delete(this.baseurl+"api/Admin/DeleteUser?id="+user.id);
   }
 
@@ -57,6 +60,10 @@ export class SharedService {
   //Business Crud Methods from API
   getAllBusinesses(){
     return this.http.get<ServiceResponse<GetBusinessDto[]>>(this.baseurl+"Business/GetBusiness");
+  }
+
+  getBusinessDetails(id:Guid){
+    return this.http.get<ServiceResponse<GetAdminBusinessDetailsDto>>(this.baseurl+"api/Admin/GetBusinessDetails?id="+id);
   }
 
   addBusiness(business:CreateBusinessDto):Observable<ServiceResponse<number>>{
@@ -173,8 +180,8 @@ export class SharedService {
     return this.http.post<ServiceResponse<number>>(this.baseurl+"Client/CommentOnBusiness/"+busId,Comment);
   };
 
-  DeleteComment(Businessid:Guid){
-    return this.http.delete<ServiceResponse<number>>(this.baseurl+"Client/DeleteComment");
+  DeleteComment(commentId:Guid){
+    return this.http.delete<ServiceResponse<number>>(this.baseurl+"Client/DeleteComment?CommentId="+commentId);
   };
 
   Book(date:Date){
@@ -211,4 +218,11 @@ export class SharedService {
     el.scrollIntoView();
   }
 
+  GetAllSchedule(busId:Guid){
+    return this.http.get<ServiceResponse<Schedule[]>>(this.baseurl+"Client/GetAllSchedule?busId="+busId);
+  }
+
+  GetComment(busId:Guid){
+    return this.http.get<ServiceResponse<Comments[]>>(this.baseurl+"Client/GetAllcomments?busId="+busId);
+  }
 }
