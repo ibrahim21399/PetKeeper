@@ -17,7 +17,7 @@ export class ShowAppointmentsComponent implements OnInit {
   constructor(public busServ:SharedService, public router:Router,private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
-    this.busServ.GetAllUnApprovedBusiness().subscribe(d=>{
+    this.busServ.GetAllUnApprovedAppointments().subscribe(d=>{
       console.log(d.message);
       console.log(d.data);
       this.ClientBookings = d.data;
