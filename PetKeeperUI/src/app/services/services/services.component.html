@@ -33,11 +33,25 @@
 			<div class="postcard__text">
 				<h1 class="postcard__title blue text-dark">{{item.businessName}}</h1>
 				<div class="postcard__subtitle small">
+                    <i class="fas fa-calendar-alt mr-2 text-dark">{{item.mangerName}}</i><br>
 					<i class="fas fa-calendar-alt mr-2 text-dark">{{item.businussPhone}}</i><br>
-                    <p-rating style="margin: 1rem;" [(ngModel)]="item.businessRate" [cancel]="false" [readonly]="true"></p-rating>
+                    <p-rating class="cc"  style="margin: 1rem;" [(ngModel)]="item.businessRate" [cancel]="false" [readonly]="true"></p-rating>
 				</div>
 				<div class="postcard__bar"></div>
-				<div class="postcard__preview-txt text-dark">{{item.businessDesc}}</div>
+                <div class="postcard__preview-txt text-dark"><span class="text-primary mx-2">Location:</span>{{item.cityName}}, {{item.areaName}}</div>
+				<div class="postcard__preview-txt text-dark"><span class="text-primary mx-2">About:</span>{{item.businessDesc}}</div>
+                <div class="postcard__preview-txt text-dark"><span class="text-primary mx-2">Services:</span></div>
+                <div class="row text-dark">
+                    <div *ngFor="let service of item.services;" class="col-1"> 
+                        <div *ngIf="service=='shopping';" ><img class="row" src="../../../assets/images/shop.svg" style="width:40px;"/>{{service}}</div>
+                        <div *ngIf="service=='Grooming';" ><img class="row" src="../../../assets/images/Groom.svg" style="width:40px;"/>{{service}}</div>
+                        <div *ngIf="service=='Hosting';" ><img class="row" src="../../../assets/images/host.svg"  style="width:40px;"/>{{service}}</div>
+                        <div *ngIf="service=='Veterinary Care';" ><img class="row" src="../../../assets/images/Veteriniary.svg" style="width:40px;"/>Veterinary Care</div>
+                        <div *ngIf="service=='Training';" ><img class="row" src="../../../assets/images/train.svg"  style="width:40px;"/>{{service}}</div>
+                    </div>          
+                </div>
+
+
 			</div>
 		</article>
     </div>

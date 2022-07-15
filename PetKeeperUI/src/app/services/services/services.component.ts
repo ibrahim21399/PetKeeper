@@ -16,6 +16,7 @@ export class ServicesComponent implements OnInit,OnDestroy {
 
   Serviceid:Guid = Guid.create();
   sub:Subscription = new Subscription();
+  shopSrc:string="../../../assets/images/shop.svg";
 
   cities:DropDownId[] = [];
   areas:DropDownId[] = [];
@@ -77,6 +78,7 @@ export class ServicesComponent implements OnInit,OnDestroy {
     this.inp = this.SelectedRow.cityName+this.SelectedRow.areaName+this.SelectedRow.businessName;
     this.src = "https://maps.google.com/maps?q="+this.inp+"&t=&z=13&ie=UTF8&iwloc=&output=embed";
   }
+
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();

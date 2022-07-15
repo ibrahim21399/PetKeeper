@@ -12,6 +12,8 @@ import { GetBusinessDto } from 'src/app/_Models/GetBusinessDto';
 export class ShowBuisnessComponent implements OnInit {
 
   Businesses:GetBusinessDto[] = [];
+  role:any = "";
+
   imgURL:string = 'https://localhost:7293/';
   thumbnail = this.sanitizer.bypassSecurityTrustUrl(this.imgURL);
 
@@ -22,6 +24,8 @@ export class ShowBuisnessComponent implements OnInit {
     console.log("inside business list");
     console.log(this.Businesses);
     console.log(this.Businesses[1]);
+    this.role = localStorage.getItem('Role');
+    this.role = this.role.replace(/['"]+/g, '');
   }
 
   delete(b:GetBusinessDto){
