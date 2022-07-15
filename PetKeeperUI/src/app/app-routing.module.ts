@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ChangePasswordComponent } from './core/change-password/change-password.component';
 import { HomeComponent } from './core/home/home.component';
 import { EditUserComponent } from './core/profile/edit-user/edit-user.component';
 import { ProfileComponent } from './core/profile/profile.component';
@@ -13,7 +14,9 @@ const routes: Routes = [
   {path:"logout",component:LoginComponent},
   {path:"register",component:RegisterComponent},
   {path:"profile",component:ProfileComponent},
-  {path:"profile/edit/:id",component:EditUserComponent},
+  {path:"profile/edit",component:EditUserComponent},
+  {path:"profile/changePassword",component:ChangePasswordComponent},
+
 
   {path:"admin",loadChildren:()=>import('./admin/admin.module').then(m=>m.AdminModule)},
   {path:"business",loadChildren:()=>import('./business/business.module').then(m=>m.BusinessModule)},

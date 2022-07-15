@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Guid } from 'guid-typescript';
+import { SweetalertService } from 'src/app/services/Shared/sweetalert.service';
 import { SharedService } from 'src/app/shared.service';
 import { GetUserAccountDto } from 'src/app/_Models/GetUserAccountDto';
 import { GetUserDto } from 'src/app/_Models/GetUserDto';
@@ -29,7 +30,7 @@ export class ProfileComponent implements OnInit {
   imgURL:string = 'https://localhost:7293/';
   thumbnail = this.sanitizer.bypassSecurityTrustUrl(this.imgURL);
 
-  constructor(public Serv:SharedService,public router:Router,public sanitizer:DomSanitizer) {}
+  constructor(public Serv:SharedService,public router:Router,public sanitizer:DomSanitizer, public _sweetalertService: SweetalertService) {}
 
   ngOnInit(): void {
     this.Serv.getAllClients().subscribe(d=>{
@@ -43,6 +44,8 @@ export class ProfileComponent implements OnInit {
         this.route = '/businessowner/edit/'+this.User.id;
       }
     };
+
+
 
     this.Serv.getUser().subscribe(d=>{
       // this.fullName = d.data.fullName,
@@ -58,5 +61,10 @@ export class ProfileComponent implements OnInit {
       console.log(d.message);
     })
   };
+
+  Delete(){
+    this.Serv.DeleteAccount();
+    this.Serv.Logout();
+  }
 
 }

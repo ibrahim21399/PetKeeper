@@ -59,13 +59,14 @@ namespace PetKeeper.Controllers.General
         [Route("/Account/Edit")]
         public async Task<IActionResult> Update([FromForm] UserDto userDto)
         {
+            userDto.Id = Guid.Parse(CurrentUserId);
             var res = await _userService.UpdateUser(Guid.Parse(CurrentUserId),userDto);
             return Ok(res);
         }
 
         [HttpPost]
         [Route("/Account/ChangePassword")]
-        public async Task<IActionResult> ChangePassword([FromForm]string current ,[FromForm]string NewPass)
+        public async Task<IActionResult> ChangePassword([FromForm]string ?current ,[FromForm]string? NewPass)
         {
             var res = await _userService.ChangePassword(Guid.Parse(CurrentUserId),current,NewPass);
             return Ok(res);

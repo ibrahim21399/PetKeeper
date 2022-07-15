@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Guid } from 'guid-typescript';
+import { SweetalertService } from 'src/app/services/Shared/sweetalert.service';
 import { SharedService } from 'src/app/shared.service';
 import { UserDto } from 'src/app/_Models/UserDto';
 
@@ -11,12 +12,11 @@ import { UserDto } from 'src/app/_Models/UserDto';
 })
 export class EditUserComponent implements OnInit {
 
-  // id:Guid = Guid.parse('fbbfc3dc-318e-46f1-e45a-08da56c60766');
   id:Guid = Guid.create();
   email:string = '';
   phoneNumber:string = '';
   fullName:string = '';
-  userPic:any = null;
+  userPic!:any ;
   password:string = '';
   oldps:string = '';
 
@@ -24,7 +24,7 @@ export class EditUserComponent implements OnInit {
 
   src:string = 'https://localhost:7293/UsersPic/'+this.userPic;
 
-  constructor(public Serv:SharedService,public router:Router) { }
+  constructor(public Serv:SharedService,public router:Router,  public _sweetalertService: SweetalertService) { }
 
   Edit(){
     // this.oldps = this.User;
@@ -34,13 +34,17 @@ export class EditUserComponent implements OnInit {
     this.User.userPic = this.userPic;
     console.log(this.User);
     this.Serv.EditUser(this.User).subscribe(d=>{
-      console.log(d.data);
-      console.log(d.message);
+      if (d.success) {
+        this._sweetalertService.RunAlert(d.message, true);
+        this.router.navigate(['profile']).then(() => {
+          window.location.reload();
+        });
+      } else {
+        this._sweetalertService.RunAlert(d.message, false);
+      }
     })
-    this.Serv.ChangePassword(this.oldps,this.password).subscribe(d=>{
-      console.log(d.message);
-      console.log(d.data);
-    });
+
+
   }
 
   onChange(event:any){

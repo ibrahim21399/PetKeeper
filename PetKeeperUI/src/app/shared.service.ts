@@ -19,6 +19,8 @@ import { GetBookingDto } from './_Models/GetBookingDto';
 import { GetAdminBusinessDetailsDto } from './_Models/GetAdminBusinessDetailsDto';
 import { Schedule } from './_Models/schedule';
 import { Comments } from './_Models/comments';
+import { SweetalertService } from 'src/app/services/Shared/sweetalert.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +28,7 @@ import { Comments } from './_Models/comments';
 export class SharedService {
   baseurl = "https://localhost:7293/";
 
-  constructor(public http:HttpClient) { 
+  constructor(public http:HttpClient,public _sw:SweetalertService) { 
     this.currentUserSubject = new BehaviorSubject<any>(JSON.stringify(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -51,11 +53,32 @@ export class SharedService {
   }
 
   EditUser(userDto:UserDto){
-    return this.http.put<ServiceResponse<number>>(this.baseurl+"Account/Edit",userDto);
+    const formdata = new FormData();
+    formdata.append("fullName", userDto.fullName);
+    formdata.append("email", userDto.email);
+    formdata.append("phoneNumber", userDto.phoneNumber);
+    formdata.append("userPic", userDto.userPic ,userDto.userPic.name);
+
+    return this.http.put<ServiceResponse<number>>(this.baseurl+"Account/Edit",formdata);
   }
 
   ChangePassword(current:string,newPass:String){
-    return this.http.post<ServiceResponse<number>>(this.baseurl+"Account/ChangePassword",[current,newPass]);
+    const formdata = new FormData();
+    formdata.append("current", current);
+    formdata.append("newPass", newPass+"");
+
+    return this.http.post<ServiceResponse<number>>(this.baseurl+"Account/ChangePassword",formdata);
+  }
+  DeleteAccount(){
+   var x= this.http.delete<ServiceResponse<number>>(this.baseurl+"Account/DeleteMyAccount").subscribe(d=>{
+      if (d.success) {
+        this._sw.RunAlert(d.message, true);
+      } 
+      else {
+         this._sw.RunAlert(d.message,false);
+      }
+    });
+    return x;
   }
   //Business Crud Methods from API
   getAllBusinesses(){
@@ -159,8 +182,13 @@ export class SharedService {
   }
 
   Login(login:LoginDto){
-    return this.http.post<ServiceResponse<TokenDto>>(this.baseurl+"Auth/Login",login)
-    .pipe(map(user=>{
+    var x=this.http.post<ServiceResponse<TokenDto>>(this.baseurl+"Auth/Login",login);
+    x.subscribe(d=>{
+      if(d.success==false)
+      this._sw.RunAlert(d.message,false);
+      else this._sw.RunAlert(d.message,true);
+    })
+     return x.pipe(map(user=>{
       localStorage.setItem('currentUser',JSON.stringify(user.data.token));
       localStorage.setItem('Role',JSON.stringify(user.data.role));
       this.currentUserSubject.next(user.data);

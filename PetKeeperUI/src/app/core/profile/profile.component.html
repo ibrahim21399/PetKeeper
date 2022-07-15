@@ -1,15 +1,21 @@
-<div class="row py-5 px-4"> 
+<div class="row py-5 px-4" style="width:95% ;"> 
     <div class="col-lg-12 col-md-12 mx-auto">
         <div class="bg-white shadow rounded overflow-hidden"> 
             <div class="px-4 pt-0 pb-4 cover"> 
                 <div class="media align-items-end profile-head" style="padding: 1rem;"> 
                     <div class="profile mr-3">
-                        <img [src]="imgURL+User.userPic" alt="..." style="width: 10rem;" class="rounded mb-2 img-thumbnail"><br>
+                        <img *ngIf="User.userPic" [src]="imgURL+User.userPic" alt="..." style="width: 7rem;" class="rounded mb-2 img-thumbnail"><br>
+                        <img *ngIf="!User.userPic" src="../../../assets/images/avatar.png" alt="..." style="width: 7rem;" class="rounded mb-2 img-thumbnail"><br>
+
                     </div> 
                     <div class="media-body mb-5 text-white"> 
                         <h4 class="mt-0 mb-0" >{{User.fullName}}</h4> 
                         <p class="small mb-4"><i class="fas fa-map-marker-alt mr-2"></i>{{User.phoneNumber}}</p> 
-                        <a href="#" class="btn btn-outline-light btn-sm btn-block" [routerLink]="['edit/',User.id]">Edit profile</a>
+                        <a href="#" class="btn btn-outline-light btn-sm btn-block mx-2" [routerLink]="['edit/']">Edit profile</a>
+                        <a href="#" class="btn btn-outline-light btn-sm btn-block mx-2" [routerLink]="['changePassword']">Change Password</a>
+
+                        
+
                         <!-- <div *ngIf="role == 'BusinessOwner'">
                             <a href="#" class="btn btn-outline-light btn-sm btn-block" [routerLink]="['/business/add',User.id]" style="margin: 1rem;">Add Business</a>
                         </div> -->
@@ -38,6 +44,7 @@
                     <p class="font-italic mb-0">Lives in New York</p> 
                     <p class="font-italic mb-0">Photographer</p>  -->
                     <p class="font-italoc mb-0">{{User.email}}</p>
+                    <a href="#" class="btn btn-danger  btn-block my-4" (click)="Delete()" >Delete Account</a>
                 </div> 
             </div> 
             <!-- <div class="py-4 px-4"> 

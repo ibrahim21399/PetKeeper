@@ -176,8 +176,8 @@ namespace Application.Services.Auth
                 user.Email = userDto.Email;
                 if(userDto.UserPic != null)
                 {
-                    var attach = _attachmentRepository.GetById(user.Id);
-                    if (attach.File_Name != userDto.UserPic.FileName)
+                    var attach = _attachmentRepository.GetAll(a=>a.Row_Id == id.ToString()).FirstOrDefault();
+                    if (attach != null&&attach.File_Name != userDto.UserPic.FileName)
                     {
                         _attachmentRepository.PhysiscalDelete(user.Id);
                     }
@@ -210,10 +210,11 @@ namespace Application.Services.Auth
             }
         }
 
-        public async Task<ServiceResponse<int>> ChangePassword(Guid Id,string CurrentPass,String NewPass)
+        public async Task<ServiceResponse<int>> ChangePassword(Guid Id,string ?CurrentPass,String? NewPass)
         {
             try
             {
+                if (CurrentPass ==null || NewPass == null) return new ServiceResponse<int> { Data = 0, Message = "Make Sure that you enter fields", Success = false };
                 var user = _appUserRepository.GetUserById(Id);
                 await _userManager.ChangePasswordAsync(user, CurrentPass, NewPass);
                 await _unitOfWork.CommitAsync();
