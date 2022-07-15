@@ -201,7 +201,7 @@ namespace Application.Services.Auth
             try
             {
                 var user = _appUserRepository.GetUserById(Id);
-                await _appUserRepository.RemoveUser(user);
+                 _appUserRepository.RemoveUser(user);
                 return new ServiceResponse<int> { Success = true, Data = 1, Message="Your Account Deleted" };
             }
             catch (Exception ex)

@@ -70,14 +70,7 @@ export class SharedService {
     return this.http.post<ServiceResponse<number>>(this.baseurl+"Account/ChangePassword",formdata);
   }
   DeleteAccount(){
-   var x= this.http.delete<ServiceResponse<number>>(this.baseurl+"Account/DeleteMyAccount").subscribe(d=>{
-      if (d.success) {
-        this._sw.RunAlert(d.message, true);
-      } 
-      else {
-         this._sw.RunAlert(d.message,false);
-      }
-    });
+   var x= this.http.delete<ServiceResponse<number>>(this.baseurl+"Account/DeleteMyAccount");
     return x;
   }
   //Business Crud Methods from API

@@ -36,22 +36,38 @@ namespace Application.Services.Client
         {
             try
             {
-                if (SceduleId == null||BusinessId==null) return new ServiceResponse<int> { Success = false, Message = "Data Is null", Data = 0 };
-                Booking booking = new Booking();
-                booking.status = false;
-                booking.IsCanceled = false;
-                booking.ScheduleId = SceduleId;
-                booking.BusinessId = BusinessId;
-                booking.BookDate = BookDate.Date;
-                booking.ApplicationUserId = UserId;
-                _bookingRepository.Create(booking);
-               var res= await _unitOfWork.CommitAsync();
-                return new ServiceResponse<int>
+                if (SceduleId == null||BusinessId==null) return new ServiceResponse<int> { Success = false, Message = "Data Is Empty", Data = 0 };
+                var x= await _scheduleRepository.GetByIdAsync(SceduleId);
+
+                if (BookDate.Day.ToString()==x.DayOfWeek)
                 {
-                    Success = true,
-                    Message = "You Booking Was Submitted",
-                    Data = res
-                };
+                    Booking booking = new Booking();
+                    booking.status = false;
+                    booking.IsCanceled = false;
+                    booking.ScheduleId = SceduleId;
+                    booking.BusinessId = BusinessId;
+                    booking.BookDate = BookDate.Date;
+                    booking.ApplicationUserId = UserId;
+                    _bookingRepository.Create(booking);
+                    var res = await _unitOfWork.CommitAsync();
+                    return new ServiceResponse<int>
+                    {
+                        Success = true,
+                        Message = "You Booking Was Submitted",
+                        Data = res
+                    };
+
+                }
+                else
+                {
+                    return new ServiceResponse<int>
+                    {
+                        Success = true,
+                        Message = "you Entered Date with Day not match Schedule Day",
+                        Data = 0
+                    };
+                }
+
 
             }
             catch (Exception ex)

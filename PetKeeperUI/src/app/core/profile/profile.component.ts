@@ -63,8 +63,14 @@ export class ProfileComponent implements OnInit {
   };
 
   Delete(){
+    
     this.Serv.DeleteAccount();
-    this.Serv.Logout();
+     this.router.navigate(['/home'])
+     this.Serv.Logout();
+    
+
+     this._sweetalertService.RunAlert("Your Account was Deleted",true)
+
   }
 
 }
