@@ -18,8 +18,8 @@ body {
   }
   .scene .card {
     position: relative;
-    width: 12rem;
-    height: 12rem;
+    width: 13rem;
+    height: 13rem;
     color: white;
     cursor: pointer;
     transition: 1s ease-in-out;
