@@ -206,8 +206,8 @@ export class SharedService {
     return this.http.delete<ServiceResponse<number>>(this.baseurl+"Client/DeleteComment?CommentId="+commentId);
   };
 
-  Book(date:Date){
-    return this.http.post<ServiceResponse<number>>(this.baseurl+"Client/BookAppoienment",date);
+  Book(date:Date,busId:Guid,scheduleId:Guid){
+    return this.http.post<ServiceResponse<number>>(this.baseurl+"Client/BookAppoienment",[date,busId,scheduleId]);
   };
 
   //admin approve business
