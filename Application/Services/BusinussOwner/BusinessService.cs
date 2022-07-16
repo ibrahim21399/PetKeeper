@@ -187,6 +187,13 @@ namespace Application.Services.BusinussOwner
                     map[i].BusinessPic = x.File_Path;
 
                 }
+                var y = _attachmentRepository.GetAttach(map[i].Id, "BussnuisLincPic");
+                if (y is not null)
+                {
+                    map[i].LicencePic = y.File_Path;
+
+                }
+
                 map[i].MangerName = _appUserRepository.GetUserFullName(businessObj[i].ApplicationUserId);
                 map[i].CityName = _cityRepository.GetById(businessObj[i].CityId).Name;
                 map[i].AreaName = _AreaRepository.GetById(businessObj[i].AreaId).Name;
