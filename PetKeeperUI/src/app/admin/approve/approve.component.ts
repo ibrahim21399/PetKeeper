@@ -24,6 +24,9 @@ export class ApproveComponent implements OnInit {
       this.UnApprovedBusinesses = d.data;
     });
 
+    this.busServ.getAllServices().subscribe(d=>{
+      console.log(d.data.find(d=> d.id == this.UnApprovedBusinesses[0].id));
+    })
   }
 
   Approve(id:Guid){
@@ -32,10 +35,13 @@ export class ApproveComponent implements OnInit {
       console.log(d.message);
       console.log(d.data);
       this.router.navigate(['/admin']);
-    })
+    });
   }
 
-  Decline(item:any){
-    
+  Decline(id:Guid){
+    this.busServ.deleteBusiness(id).subscribe(d=>{
+      console.log(d.data);
+      console.log(d.message);
+    })
   }
 }

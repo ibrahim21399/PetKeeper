@@ -8,7 +8,7 @@
 
 		<article class="postcard dark blue" *ngFor="let item of Businesses" style="background-color: antiquewhite;">
 			<a class="postcard__img_link">
-				<img class="postcard__img" [src]="imgURL+item.businessPic" alt="Image Title" />
+				<img class="postcard__img" [src]="imgURL+item.businessPic" alt="Image Title" style="width: 10rem;"/>
 			</a>
 			<div class="postcard__text">
 				<h1 class="postcard__title blue text-dark">{{item.businessName}}</h1>

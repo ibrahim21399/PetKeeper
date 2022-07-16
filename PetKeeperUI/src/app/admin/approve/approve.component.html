@@ -9,13 +9,13 @@
 			<div class="postcard__text">
 				<h1 class="postcard__title blue text-dark">{{item.businessName}}</h1>
 				<div class="postcard__subtitle small">
-					<!-- <i class="fas fa-calendar-alt mr-2"></i>{{item.serviceId}} -->
+					<i class="fas fa-calendar-alt mr-2"></i>{{item.businussPhone}}
 				</div>
 				<div class="postcard__bar"></div>
 				<div class="postcard__preview-txt text-dark">{{item.businessDesc}}</div>
 				<ul class="postcard__tagbox">
 					<li class="tag__item play blue"><i class="fas fa-tag mr-2"></i><a class="btn" (click)="Approve(item.id)" [routerLink]="['/admin/approve']">Approve</a></li>
-					<li class="tag__item play red"><i class="fas fa-clock mr-2"></i><a class="btn" (click)="Decline(item)" routerLink="/business/delete">Decline</a></li>
+					<li class="tag__item play red"><i class="fas fa-clock mr-2"></i><a class="btn" (click)="Decline(item.id)" routerLink="/business/delete">Decline</a></li>
 				</ul>
 			</div>
 		</article>
