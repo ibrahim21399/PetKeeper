@@ -73,6 +73,7 @@ export class ScheduleClientComponent implements OnInit {
     });
 
     this.role = localStorage.getItem("Role");
+    this.role = this.role.replace(/['"]+/g, '');
   }
 
   Book(){
@@ -83,7 +84,7 @@ export class ScheduleClientComponent implements OnInit {
         showCancelButton: true,
       }).then((result) => {
         if (result.value) {
-          this.Serv.Book(this.date).subscribe(d=>{
+          this.Serv.Book(this.date,this.Businessid,this.schedule.id).subscribe(d=>{
             console.log(d.message);
             console.log(d.data);
           });
