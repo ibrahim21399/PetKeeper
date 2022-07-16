@@ -24,6 +24,7 @@ namespace Application.Services.BusinussOwner
 {
     public class BusinessService : ServiceBase, IBusinessService
     {
+        private readonly IScheduleRepository _scheduleRepository;
         private readonly IBusinessRepository _businussRepository;
         private readonly IServicesRepository _servicesRepository;
         private readonly ICityAreaRepository<City> _cityRepository;
@@ -40,7 +41,9 @@ namespace Application.Services.BusinussOwner
 
 
 
-        public BusinessService(IBusinessRepository businussRepository,
+        public BusinessService(
+        IScheduleRepository scheduleRepository,
+        IBusinessRepository businussRepository,
         IServicesRepository servicesRepository,
         ICityAreaRepository<City> cityRepository,
         ICityAreaRepository<Area> AreaRepository,
@@ -60,6 +63,7 @@ namespace Application.Services.BusinussOwner
             _signInManager=signInManager;
             _appUserRepository = appUserRepository;
             _attachmentRepository = attachmentRepository;
+            _scheduleRepository = scheduleRepository;
         }
 
         public async Task<ServiceResponse<int>> CreateBusiness(CreateBusinessDto createBusinessDto)
@@ -143,12 +147,19 @@ namespace Application.Services.BusinussOwner
         {
             try
             {
-                _businussRepository.Delete(id);
+                _businussRepository.DeleteBusIdOfService(id);
+                var x = _scheduleRepository.GetAll(a => a.BusinessId == id).Select(a=>a.Id);
+                foreach (var item in x)
+                {
+                    _scheduleRepository.Delete(item);
+                }
+                await _unitOfWork.CommitAsync();
                 var att = _attachmentRepository.GetAll(a => a.Row_Id == id.ToString()).Select(a=>a.Row_Id);
                 foreach (var item in att)
                 {
                     _attachmentRepository.PhysiscalDelete(Guid.Parse(item));
                 }
+                _businussRepository.Delete(id);
                 var res = await _unitOfWork.CommitAsync();
                 return new ServiceResponse<int>
                 {
