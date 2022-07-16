@@ -66,7 +66,10 @@ export class ServicesComponent implements OnInit,OnDestroy {
     this.serv.FilterBusiness(this.Serviceid,this.CityId,this.AreaId).subscribe(bs=>{
       this.FilteredBusinesses = bs.data;
       console.log(this.FilteredBusinesses);
-    })
+
+      console.log(this.imgURL);
+    console.log(this.FilteredBusinesses[1].businessPic);
+    });
   }
 
   RowSelected(sr:any){

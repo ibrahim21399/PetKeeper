@@ -199,16 +199,16 @@ export class SharedService {
   }
 
   //Comments
-  AddComment(busId:Guid,Comment:CreateCommentDto){
-    return this.http.post<ServiceResponse<number>>(this.baseurl+"Client/CommentOnBusiness/"+busId,Comment);
+  AddComment(busId:Guid,createCommentDto:CreateCommentDto){
+    return this.http.post<ServiceResponse<number>>(this.baseurl+"Client/CommentOnBusiness?BusId="+busId,createCommentDto);
   };
 
   DeleteComment(commentId:Guid){
     return this.http.delete<ServiceResponse<number>>(this.baseurl+"Client/DeleteComment?CommentId="+commentId);
   };
 
-  Book(date:Date,busId:Guid,scheduleId:Guid){
-    return this.http.post<ServiceResponse<number>>(this.baseurl+"Client/BookAppoienment",[date,busId,scheduleId]);
+  Book(bookDate:Date,busId:Guid,scheduleId:Guid){
+    return this.http.post<ServiceResponse<number>>(this.baseurl+"Client/BookAppoienment",[bookDate,busId,scheduleId]);
   };
 
   //admin approve business

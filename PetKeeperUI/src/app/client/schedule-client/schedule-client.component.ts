@@ -4,8 +4,10 @@ import { DomSanitizer, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Guid } from 'guid-typescript';
 import { Subscription } from 'rxjs';
+import { SweetalertService } from 'src/app/services/Shared/sweetalert.service';
 import { SharedService } from 'src/app/shared.service';
 import { CreateCommentDto } from 'src/app/_Models/CreateCommentDto';
+import { GetAdminBusinessDetailsDto } from 'src/app/_Models/GetAdminBusinessDetailsDto';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -17,7 +19,7 @@ export class ScheduleClientComponent implements OnInit {
 
   sub:Subscription = new Subscription();
   Businessid:any = null;
-  SelectedBusiness:any = null;
+  SelectedBusiness:GetAdminBusinessDetailsDto = new GetAdminBusinessDetailsDto(this.Businessid,'','','','','','',0,this.Businessid,'','');
   
   inp:string = '';
   src:string = '';
@@ -41,9 +43,19 @@ export class ScheduleClientComponent implements OnInit {
   username:any = '';
   usersids:any = null;
 
-  constructor(private sanitizer: DomSanitizer,public route:ActivatedRoute,public Serv:SharedService,public router:Router) { }
+  constructor(private sanitizer: DomSanitizer,public route:ActivatedRoute,public Serv:SharedService,public router:Router,public _sweetalertService: SweetalertService) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('currentUser')){
+      this.Serv.getUser().subscribe(d=>{
+        this.applicationUserId = d.data.id;
+        console.log(this.applicationUserId);
+      });
+
+      this.role = localStorage.getItem("Role");
+      this.role = this.role.replace(/['"]+/g, '');
+    };
+
     this.sub = this.route.params.subscribe(params=>{
       this.Businessid = params['id'];
       console.log(this.Businessid);
@@ -57,6 +69,11 @@ export class ScheduleClientComponent implements OnInit {
       console.log(this.SelectedBusiness);
       this.inp = this.SelectedBusiness.cityName+this.SelectedBusiness.areaName+this.SelectedBusiness.businessName;
       this.src = "https://maps.google.com/maps?q="+this.inp+"&t=&z=13&ie=UTF8&iwloc=&output=embed";
+
+
+      console.log(this.imgURL);
+      console.log(this.SelectedBusiness);
+      console.log(this.SelectedBusiness.businessPic);
     });
 
     this.Serv.GetAllSchedule(this.Businessid).subscribe(d=>{
@@ -72,11 +89,10 @@ export class ScheduleClientComponent implements OnInit {
       console.log(d.data);
     });
 
-    this.role = localStorage.getItem("Role");
-    this.role = this.role.replace(/['"]+/g, '');
+    
   }
 
-  Book(){
+  Book(id:Guid){
     if(localStorage.getItem('currentUser')){
       Swal.fire({  
         title: 'Book an appointment',  
@@ -84,12 +100,18 @@ export class ScheduleClientComponent implements OnInit {
         showCancelButton: true,
       }).then((result) => {
         if (result.value) {
-          this.Serv.Book(this.date,this.Businessid,this.schedule.id).subscribe(d=>{
+          this.Serv.Book(this.date,this.Businessid,id).subscribe(d=>{
             console.log(d.message);
             console.log(d.data);
+            this._sweetalertService.RunAlert(d.message, true);
           });
         }
       });
+      console.log(this.date);
+      console.log(this.Businessid);
+      console.log(this.schedule[0].id);
+      console.log(id);
+
     }
     else{
       this.router.navigate(["/login"])
@@ -98,9 +120,17 @@ export class ScheduleClientComponent implements OnInit {
   }
 
   Submit(){
+    this.comment.comment = this.text;
+    this.comment.rate = this.val;
+    this.comment.applicationUserId = this.applicationUserId;
+    console.log(this.text);
+    console.log(this.val);
+    console.log(this.applicationUserId);
+    console.log(this.comment);
     this.Serv.AddComment(this.Businessid,this.comment).subscribe(d=>{
       console.log(d.message);
       console.log(d.data);
+      this._sweetalertService.RunAlert(d.message, true);
     })
   };
 
