@@ -54,7 +54,7 @@ namespace PetKeeper.Controllers.Admin
             return Ok(res);
         }
         [HttpPost]
-        public async Task<IActionResult> ApproveBusiness(Guid Busid)
+        public async Task<IActionResult> ApproveBusiness([FromForm]Guid Busid)
         {
             var res = await _acceptOrRefuseBusiness.ApproveBusiness(Busid);
             return Ok(res);

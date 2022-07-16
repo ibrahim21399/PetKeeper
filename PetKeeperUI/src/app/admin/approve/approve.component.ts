@@ -27,6 +27,7 @@ export class ApproveComponent implements OnInit {
   }
 
   Approve(id:Guid){
+    console.log(id);
     this.busServ.ApproveBusiness(id).subscribe(d=>{
       console.log(d.message);
       console.log(d.data);
