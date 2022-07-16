@@ -41,8 +41,8 @@ export class SharedService {
     return this.http.get<GetUserDto[]>(this.baseurl+"api/Admin/GetAllBussinessOwner");
   }
 
-  deleteUser(user:GetUserDto){
-    return this.http.delete(this.baseurl+"api/Admin/DeleteUser?id="+user.id);
+  deleteUser(id:Guid){
+    return this.http.delete<ServiceResponse<number>>(this.baseurl+"api/Admin/DeleteUser?id="+id);
   }
 
   //Clients crud
@@ -118,7 +118,7 @@ export class SharedService {
   }
 
   deleteBusiness(id:Guid){
-    return this.http.delete<ServiceResponse<number>>(this.baseurl+"Business/DeleteBusiness"+id);
+    return this.http.delete<ServiceResponse<number>>(this.baseurl+"Business/DeleteBusiness?Id="+id);
   }
 
   //locations

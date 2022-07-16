@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { Guid } from 'guid-typescript';
 import { SharedService } from 'src/app/shared.service';
 import { GetBusinessDto } from 'src/app/_Models/GetBusinessDto';
 
@@ -28,10 +29,10 @@ export class ShowBuisnessComponent implements OnInit {
     this.role = this.role.replace(/['"]+/g, '');
   }
 
-  delete(b:GetBusinessDto){
-    this.busServ.deleteBusiness(b.id).subscribe(a=>{
+  delete(id:Guid){
+    this.busServ.deleteBusiness(id).subscribe(a=>{
       console.log("deleted");
-      this.router.navigate(['/business']);
+      this.router.navigate(['/business/show']);
     })
   }
 
