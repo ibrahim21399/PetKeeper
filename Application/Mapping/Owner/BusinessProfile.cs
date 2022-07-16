@@ -19,6 +19,8 @@ namespace Application.Mapping.Owner
                 .ForMember(a => a.AreaName, a => a.Ignore())
                 .ForMember(a => a.BusinessPic, a => a.Ignore())
                 .ForMember(a => a.Services, a => a.Ignore())
+                .ForMember(a => a.LicencePic, a => a.Ignore())
+
                 .ReverseMap();
             CreateMap<Schedule,ScheduleDto>()
                 .ReverseMap();

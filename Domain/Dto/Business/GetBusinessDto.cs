@@ -21,5 +21,8 @@ namespace Domain.Dto.Business
 
         public ICollection<string> Services{ get; set; }
         public string BusinessPic { get; set; }
+        public string LicencePic { get; set; }
+
+
     }
 }
