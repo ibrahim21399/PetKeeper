@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { Guid } from 'guid-typescript';
 import { SharedService } from 'src/app/shared.service';
 import { GetUserDto } from 'src/app/_Models/GetUserDto';
 
@@ -24,8 +25,8 @@ export class ShowClientComponent implements OnInit {
     console.log(this.Clients[1]);
   }
 
-  delete(b:GetUserDto){
-    this.busServ.deleteUser(b).subscribe(a=>{
+  delete(id:Guid){
+    this.busServ.deleteUser(id).subscribe(a=>{
       console.log("deleted");
       this.router.navigate(['/client']);
     })

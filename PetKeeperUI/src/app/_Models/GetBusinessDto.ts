@@ -12,6 +12,7 @@ export class GetBusinessDto {
         public businessRate : number,
         public services : string[],
         public  businessPic : string,
+        public licencePic :string,
     ) {
         this.id = Guid.create();
     }

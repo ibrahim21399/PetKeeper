@@ -11,13 +11,11 @@ import { SharedService } from 'src/app/shared.service';
 export class ShowAppointmentsComponent implements OnInit {
 
   ClientBookings:any = null;
-  imgURL:string = 'https://localhost:7293/UsersPic/';
-  thumbnail = this.sanitizer.bypassSecurityTrustUrl(this.imgURL);
-
+  
   constructor(public busServ:SharedService, public router:Router,private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
-    this.busServ.GetAllUnApprovedAppointments().subscribe(d=>{
+    this.busServ.GetAppointments().subscribe(d=>{
       console.log(d.message);
       console.log(d.data);
       this.ClientBookings = d.data;

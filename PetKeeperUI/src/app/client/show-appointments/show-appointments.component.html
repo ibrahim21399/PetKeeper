@@ -1,24 +1,43 @@
-<section class="dark">
+<!-- <section class="dark">
 	<div class="container py-4">
 		<h1 class="h1 text-center text-light" id="pageHeaderTitle">My Appointments</h1>
 
 		<article class="postcard dark blue" *ngFor="let item of ClientBookings" style="background-color: antiquewhite;">
-			<!-- <a class="postcard__img_link" href="#">
+			<a class="postcard__img_link" href="#">
 				<img class="postcard__img" [src]="thumbnail" alt="Image Title" />
-			</a> -->
+			</a>
 			<div class="postcard__text">
 				<h1 class="postcard__title blue text-dark">{{item.businessName}}</h1>
 				<div class="postcard__subtitle small">
-					<!-- <i class="fas fa-calendar-alt mr-2"></i>{{item.serviceId}} -->
+					<i class="fas fa-calendar-alt mr-2"></i>{{item.serviceId}}
 				</div>
 				<div class="postcard__bar"></div>
 				<div class="postcard__preview-txt text-dark">{{item.bookDate}}</div>
-				<!-- <ul class="postcard__tagbox">
+				<ul class="postcard__tagbox">
 					<li class="tag__item play blue"><i class="fas fa-tag mr-2"></i><a class="btn" (click)="Approve(item.id)" [routerLink]="['/admin/approve']">Approve</a></li>
 					<li class="tag__item play red"><i class="fas fa-clock mr-2"></i><a class="btn" (click)="Decline(item)" routerLink="/business/delete">Decline</a></li>
-				</ul> -->
+				</ul>
 			</div>
 		</article>
 
 	</div>
-</section>
+</section> -->
+<h1 class="h1 text-center" id="pageHeaderTitle">My Appointments</h1>
+<div *ngIf="ClientBookings.length > 0">
+	<table class="table table-bordered table-hover text-center">
+		<thead>
+			<tr>
+				<th>Business Name</th>
+				<th>Date</th>
+				<th>Appoientment State</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let item of ClientBookings">
+				<th>{{item.businessName}}</th>
+				<th>{{item.bookDate}}</th>
+				<th>{{item.appoientmentState}}</th>
+			</tr>
+		</tbody>
+	</table>
+</div>

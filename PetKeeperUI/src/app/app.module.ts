@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProfileComponent } from './core/profile/profile.component';
 import { GetBusinessOfOwnerComponent } from './businessowner/get-business-of-owner/get-business-of-owner.component';
 import { ChangePasswordComponent } from './core/change-password/change-password.component';
+import { AboutUsComponent } from './about-us/about-us.component';
 
 
 
@@ -30,6 +31,7 @@ import { ChangePasswordComponent } from './core/change-password/change-password.
     ProfileComponent,
     GetBusinessOfOwnerComponent,
     ChangePasswordComponent,
+    AboutUsComponent,
 
 
   ],
