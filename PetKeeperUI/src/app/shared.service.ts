@@ -20,6 +20,7 @@ import { GetAdminBusinessDetailsDto } from './_Models/GetAdminBusinessDetailsDto
 import { Schedule } from './_Models/schedule';
 import { Comments } from './_Models/comments';
 import { SweetalertService } from 'src/app/services/Shared/sweetalert.service';
+import { formatDate } from '@angular/common';
 
 
 @Injectable({
@@ -214,8 +215,11 @@ export class SharedService {
     return this.http.get<ServiceResponse<GetBusinessDto[]>>(this.baseurl+"api/Admin/GetAllUnApprovedBusiness");
   }
 
-  ApproveBusiness(busId:Guid){
-    return this.http.post<ServiceResponse<number>>(this.baseurl+"api/Admin/ApproveBusiness",busId);
+  ApproveBusiness(busid:Guid){
+    const formdata =new FormData();
+    formdata.append("busid",busid+"");
+
+    return this.http.post<ServiceResponse<number>>(this.baseurl+"api/Admin/ApproveBusiness",formdata);
   }
 
   //businessowner approve booking
