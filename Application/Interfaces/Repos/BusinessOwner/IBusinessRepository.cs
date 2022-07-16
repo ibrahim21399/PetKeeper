@@ -15,6 +15,9 @@ namespace Application.Interfaces.Repos.BusinessOwner
         string GetBusinessNameAsync(Guid BusId);
         Task<List<Guid>> GetBusIdForUser(Guid UserId);
         Task updateBusRate(Guid BusId, float rate);
-       
+        void DeleteBusIdOfService(Guid? Busid);
+
+
+
     }
 }

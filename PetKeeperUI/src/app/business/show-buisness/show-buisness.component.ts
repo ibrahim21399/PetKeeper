@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Guid } from 'guid-typescript';
+import { SweetalertService } from 'src/app/services/Shared/sweetalert.service';
 import { SharedService } from 'src/app/shared.service';
 import { GetBusinessDto } from 'src/app/_Models/GetBusinessDto';
 
@@ -18,7 +19,7 @@ export class ShowBuisnessComponent implements OnInit {
   imgURL:string = 'https://localhost:7293/';
   thumbnail = this.sanitizer.bypassSecurityTrustUrl(this.imgURL);
 
-  constructor(public busServ:SharedService, public router:Router,private sanitizer: DomSanitizer) { }
+  constructor(public busServ:SharedService, public router:Router,private sanitizer: DomSanitizer, public _sweetalertService: SweetalertService) { }
 
   ngOnInit(): void {
     this.busServ.getAllBusinesses().subscribe(a=>{this.Businesses = a.data });
@@ -31,8 +32,13 @@ export class ShowBuisnessComponent implements OnInit {
 
   delete(id:Guid){
     this.busServ.deleteBusiness(id).subscribe(a=>{
-      console.log("deleted");
-      this.router.navigate(['/business/show']);
+      if (a.success) {
+        this._sweetalertService.RunAlert(a.message, true);
+        this.router.navigate(['/business/show']);
+
+      } else {
+        this._sweetalertService.RunAlert(a.message, false);
+      }
     })
   }
 

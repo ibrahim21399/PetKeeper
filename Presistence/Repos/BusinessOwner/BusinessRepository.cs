@@ -36,6 +36,12 @@ namespace Presistence.Repos.BusinessOwner
             var BusId = _dbContext.BusinessServices.Where(a => a.ServiceId == SerId).Select(a => a.BusinessId).ToList();
             return BusId;
         }
+        public void DeleteBusIdOfService(Guid? Busid)
+        {
+            var BusId = _dbContext.BusinessServices.Where(a => a.BusinessId == Busid).ToList();
+            _dbContext.BusinessServices.RemoveRange(BusId);
+            _dbContext.SaveChanges();
+        }
 
         public async Task<List<string>> GetServicesNameAsync(Guid BusId)
         {
