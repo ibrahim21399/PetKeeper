@@ -42,8 +42,8 @@
 				<div class="postcard__preview-txt text-dark"><span class="text-primary mx-2">About:</span>{{item.businessDesc}}</div>
                 <div class="postcard__preview-txt text-dark"><span class="text-primary mx-2">Services:</span></div>
                 <div class="row text-dark">
-                    <div *ngFor="let service of item.services;" class="col-1"> 
-                        <div *ngIf="service=='shopping';" ><img class="row" src="../../../assets/images/shop.svg" style="width:40px;"/>{{service}}</div>
+                    <div *ngFor="let service of item.services;" class="col-2"> 
+                        <div *ngIf="service=='Shopping';" ><img class="row" src="../../../assets/images/shop.svg" style="width:40px;"/>{{service}}</div>
                         <div *ngIf="service=='Grooming';" ><img class="row" src="../../../assets/images/Groom.svg" style="width:40px;"/>{{service}}</div>
                         <div *ngIf="service=='Hosting';" ><img class="row" src="../../../assets/images/host.svg"  style="width:40px;"/>{{service}}</div>
                         <div *ngIf="service=='Veterinary Care';" ><img class="row" src="../../../assets/images/Veteriniary.svg" style="width:40px;"/>Veterinary Care</div>
