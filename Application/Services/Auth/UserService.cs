@@ -94,6 +94,10 @@ namespace Application.Services.Auth
                 {
                     user.Status = true;
                 }
+                else
+                {
+                    user.Status = false;    
+                }
                 var result = await _userManager.CreateAsync(user, registerAccountUserDto.Password);
                 //await _fileService.UploadFile(user.Id, scondRowId: null, new List<IFormFile> { registerAccountUserDto.UserPic }, nameof(user), "000", "UsersPic", 500000);
                 if (!result.Succeeded) return new ServiceResponse<int> { Success = false, Message = string.Join(Environment.NewLine, result.Errors.Select(x => x.Description)) };
@@ -102,7 +106,7 @@ namespace Application.Services.Auth
                     await _appUserRepository.AddRoleToUser(user, RolesName.Client);
                     
                 }
-                else
+                else if (status == false)
                 {
                     await _appUserRepository.AddRoleToUser(user, RolesName.BusinessOwner);
                    

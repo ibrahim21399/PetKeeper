@@ -21,6 +21,7 @@ import { Schedule } from './_Models/schedule';
 import { Comments } from './_Models/comments';
 import { SweetalertService } from 'src/app/services/Shared/sweetalert.service';
 import { formatDate } from '@angular/common';
+import { EventListenerFocusTrapInertStrategy } from '@angular/cdk/a11y';
 
 
 @Injectable({
@@ -151,7 +152,7 @@ export class SharedService {
       // formdata.append("userPic", register.userPic ,register.userPic.name);
       return this.http.post<ServiceResponse<number>>(this.baseurl + 'Auth/ClientRegister',register);
     }
-    else{
+     else{
       // const formdata = new FormData();
       // formdata.append("fullName", register.fullName);
       // formdata.append("email", register.email);

@@ -81,8 +81,12 @@ export class AddBuisnessComponent implements OnInit {
   }
   
   onChange(event:any) {
+    if(event!=null){
     this.businessPic = event.target.files[0];
     console.log(this.businessPic);
+    }else{
+      this.itemImageUrl="../../../assets/images/petcare.jpg"
+    }
    localStorage.setItem('imgData',this.businessPic);
 
    const reader =new FileReader();

@@ -38,16 +38,20 @@ export class RegisterComponent implements OnInit {
       );
       return;
     }
-    this.regServ.RegisterServ(this.RegisterForm.value,this.val).subscribe((res) => {
-      if (res.success) {
-        this._sweetalertService.RunAlert(res.message, true);
-        this.router.navigate(['/login']).then(() => {
-          window.location.reload();
-        });
-      } else {
-        this._sweetalertService.RunAlert(res.message, false);
-      }
-    });
+    if(this.val == 1 || this.val ==0){
+      console.log(this.val)
+      this.regServ.RegisterServ(this.RegisterForm.value,this.val).subscribe((res) => {
+        if (res.success) {
+          this._sweetalertService.RunAlert(res.message, true);
+          this.router.navigate(['/login']).then(() => {
+            window.location.reload();
+          });
+        } else {
+          this._sweetalertService.RunAlert(res.message, false);
+        }
+      });
+    }
+
   }
 
 
