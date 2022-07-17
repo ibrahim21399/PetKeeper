@@ -210,7 +210,7 @@ export class SharedService {
   Book(date:Date,busId:Guid,scheduleId:Guid){
     return this.http.post<ServiceResponse<number>>(this.baseurl+"Client/BookAppoienment",[date,busId,scheduleId]);
   };
-
+  
   //admin approve business
   GetAllUnApprovedBusiness(){
     return this.http.get<ServiceResponse<GetBusinessDto[]>>(this.baseurl+"api/Admin/GetAllUnApprovedBusiness");

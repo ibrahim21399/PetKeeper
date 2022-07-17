@@ -80,7 +80,7 @@ export class ScheduleClientComponent implements OnInit {
     if(localStorage.getItem('currentUser')){
       Swal.fire({  
         title: 'Book an appointment',  
-        html: '<input type="date" [(ngModel)]="date" class="form-control">',
+        html: '<input type="date" [(ngModel)]="date" class="form-control" required>',
         showCancelButton: true,
       }).then((result) => {
         if (result.value) {

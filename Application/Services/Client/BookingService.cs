@@ -37,7 +37,7 @@ namespace Application.Services.Client
             try
             {
                 if (SceduleId == null||BusinessId==null) return new ServiceResponse<int> { Success = false, Message = "Data Is Empty", Data = 0 };
-                var x=  _scheduleRepository.GetById(SceduleId);
+                var x = _scheduleRepository.GetAll(a => a.Id == SceduleId).FirstOrDefault();
 
                 if (BookDate.Day.ToString()==x.DayOfWeek)
                 {
