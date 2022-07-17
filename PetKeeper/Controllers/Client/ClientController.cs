@@ -17,11 +17,11 @@ namespace PetKeeper.Controllers.Client
             _commentService = commentService;
         }
         [HttpPost]
-        public async Task<IActionResult> BookAppoienment(DateTime BookDate,Guid BusId,Guid ScheduleId)
+        public async Task<IActionResult> BookAppoienment(BookDto bookDto)
         {
             //Guid BusId = Guid.Parse("9568E0FAD4F94E0C2D1A08DA4FCC07C9");
             //Guid SceduleId = Guid.Parse("BF9B04FBE5984DCD07EA08DA4FCC07DA");
-            var res = await _clientBookingService.BooKBusiness(ScheduleId,BusId,Guid.Parse(CurrentUserId), BookDate.Date);
+            var res = await _clientBookingService.BooKBusiness(bookDto,Guid.Parse(CurrentUserId));
             return Ok(res);
         }
 

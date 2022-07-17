@@ -32,21 +32,21 @@ namespace Application.Services.Client
             _scheduleRepository = scheduleRepository;
         }
 
-        public async Task<ServiceResponse<int>> BooKBusiness(Guid SceduleId,Guid BusinessId,Guid UserId,DateTime BookDate)
+        public async Task<ServiceResponse<int>> BooKBusiness(BookDto bookDto,Guid UserId)
         {
             try
             {
-                if (SceduleId == null||BusinessId==null) return new ServiceResponse<int> { Success = false, Message = "Data Is Empty", Data = 0 };
-                var x = _scheduleRepository.GetAll(a => a.Id == SceduleId).FirstOrDefault();
+                if (bookDto.busId == null||bookDto.scheduleId==null) return new ServiceResponse<int> { Success = false, Message = "Data Is Empty", Data = 0 };
+                var x = _scheduleRepository.GetAll(a => a.Id == bookDto.scheduleId).FirstOrDefault();
 
-                if (BookDate.Day.ToString()==x.DayOfWeek)
+                if (bookDto.bookDate.DayOfWeek.ToString()==x.DayOfWeek)
                 {
                     Booking booking = new Booking();
                     booking.status = false;
                     booking.IsCanceled = false;
-                    booking.ScheduleId = SceduleId;
-                    booking.BusinessId = BusinessId;
-                    booking.BookDate = BookDate.Date;
+                    booking.ScheduleId = bookDto.scheduleId;
+                    booking.BusinessId = bookDto.busId;
+                    booking.BookDate =bookDto.bookDate;
                     booking.ApplicationUserId = UserId;
                     _bookingRepository.Create(booking);
                     var res = await _unitOfWork.CommitAsync();
@@ -96,7 +96,7 @@ namespace Application.Services.Client
                     {
                         getClientBookingDto.AppoientmentState = "Approved"; 
                     }
-                    else if(book.status ==false && book.IsCanceled==true)
+                    else if(book.status ==false && book.IsCanceled==false)
                     {
                     getClientBookingDto.AppoientmentState = "Waiting";
                     }

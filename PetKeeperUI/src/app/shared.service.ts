@@ -21,8 +21,8 @@ import { Schedule } from './_Models/schedule';
 import { Comments } from './_Models/comments';
 import { SweetalertService } from 'src/app/services/Shared/sweetalert.service';
 import { formatDate } from '@angular/common';
-import { EventListenerFocusTrapInertStrategy } from '@angular/cdk/a11y';
-
+import { BookDto } from './_Models/BookDto';
+import { FilterDto } from './_Models/FilterDto';
 
 @Injectable({
   providedIn: 'root'
@@ -133,9 +133,11 @@ export class SharedService {
   getAllServices(){
     return this.http.get<ServiceResponse<DropDownGuid[]>>(this.baseurl+"Home/GetServices");
   }
-
-  FilterBusiness(serviceId:Guid,cityId:number,areaId:number){
-    return this.http.post<ServiceResponse<GetBusinessDto[]>>(this.baseurl+"Home/FilterBusiness",[{'serviceId' : serviceId, 'cityId' : cityId , 'areaId' : areaId}]);
+  FilterBusiness(filterDto:FilterDto){
+    
+    let headers = new HttpHeaders().set('Content-Type', 'application/json'); 
+    let body = JSON.stringify({'serviceId' : filterDto.serviceId, 'cityId' : filterDto.cityId , 'areaId' : filterDto.areaId});
+    return this.http.post<ServiceResponse<GetBusinessDto[]>>(this.baseurl+"Home/FilterBusiness",body,{headers});
     //?ServiceId=2e5c418c-d2d2-4d29-bb75-4689d99776b0&CityId=1&AreaId=1
   }
 
@@ -207,8 +209,10 @@ export class SharedService {
     return this.http.delete<ServiceResponse<number>>(this.baseurl+"Client/DeleteComment?CommentId="+commentId);
   };
 
-  Book(bookDate:Date,busId:Guid,scheduleId:Guid){
-    return this.http.post<ServiceResponse<number>>(this.baseurl+"Client/BookAppoienment",[bookDate,busId,scheduleId]);
+  Book(bookDto:BookDto){
+    let headers = new HttpHeaders().set('Content-Type', 'application/json'); 
+    let body = JSON.stringify({ 'booKDate': bookDto.bookDate, 'busId': bookDto.busId,'scheduleId':bookDto.scheduleId });
+    return this.http.post<ServiceResponse<number>>(this.baseurl+"Client/BookAppoienment",body,{headers});
   };
   
   //admin approve business

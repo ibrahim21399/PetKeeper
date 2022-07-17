@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces.Repos.General;
 using Application.Interfaces.Services.BusinessOwner;
 using Application.Interfaces.Services.General;
+using Domain.Dto.General;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -40,10 +41,9 @@ namespace PetKeeper.Controllers.General
         }
 
         [HttpPost]
-        public async Task<IActionResult> FilterBusiness(Guid? ServiceId, int? CityId ,int? AreaId)
+        public async Task<IActionResult> FilterBusiness(FilterDto filterDto)
         {
-
-            var response = await _homeService.FilterBusiness(ServiceId,CityId,AreaId);
+            var response = await _homeService.FilterBusiness(filterDto.ServiceId,filterDto.CityId,filterDto.AreaId);
             return Ok(response);
         }
 

@@ -11,7 +11,7 @@ namespace PetKeeper.Controllers.BusinessOwner
 {
     [ApiController]
     [Route("[Controller]/[Action]")]
-    //[Authorize (Roles =RolesName.BusinessOwner)]
+    [Authorize (Roles =RolesName.BusinessOwner)]
     public class BusinessController : ApiBaseController
     {
         private readonly IBusinessService _createBusinessService;
@@ -48,14 +48,14 @@ namespace PetKeeper.Controllers.BusinessOwner
         [HttpGet]
         public async Task<IActionResult> GetAllOwnerAppoientments()
         {
-            var res = await _bookingService.GetAllOwnerBooking(Guid.Parse("9BC658B1401942CD7EFF08DA4A964E04"));
+            var res = await _bookingService.GetAllOwnerBooking(Guid.Parse(CurrentUserId));
 
             return Ok(res);
         }
         [HttpGet]
         public async Task<IActionResult> GetAllUnApprovedAppoientments()
         {
-            var res = await _bookingService.GetAllUnApproveBooking(Guid.Parse("9BC658B1401942CD7EFF08DA4A964E04"));
+            var res = await _bookingService.GetAllUnApproveBooking(Guid.Parse(CurrentUserId));
 
             return Ok(res);
         }

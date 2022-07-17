@@ -11,7 +11,7 @@ namespace Application.Interfaces.Services.CLient
 {
     public interface IBookingService
     {
-        Task<ServiceResponse<int>> BooKBusiness(Guid SceduleId, Guid BusinessId, Guid UserId, DateTime BookDate);
+        Task<ServiceResponse<int>> BooKBusiness(BookDto bookDto, Guid UserId);
         Task<ServiceResponse<List<GetBookingDto>>> GetAllClientBooking(Guid userId);
         Task<ServiceResponse<List<GetBOwnerBookingDto>>> GetAllUnApproveBooking(Guid UserId);
         Task<ServiceResponse<List<GetBookingDto>>> GetAllOwnerBooking(Guid UserId);

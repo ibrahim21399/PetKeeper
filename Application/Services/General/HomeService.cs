@@ -237,7 +237,7 @@ namespace Application.Services.General
                 {
                     return new ServiceResponse<List<GetBusinessDto>>
                     {
-                        Success = true,
+                        Success = false,
                         Data = res,
                         Message = "No Matched Business Found"
                     };

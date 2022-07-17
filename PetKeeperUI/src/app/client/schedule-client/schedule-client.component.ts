@@ -1,4 +1,4 @@
-import { registerLocaleData } from '@angular/common';
+import { DatePipe, registerLocaleData } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Route, Router } from '@angular/router';
@@ -6,6 +6,7 @@ import { Guid } from 'guid-typescript';
 import { Subscription } from 'rxjs';
 import { SweetalertService } from 'src/app/services/Shared/sweetalert.service';
 import { SharedService } from 'src/app/shared.service';
+import { BookDto } from 'src/app/_Models/BookDto';
 import { CreateCommentDto } from 'src/app/_Models/CreateCommentDto';
 import { GetAdminBusinessDetailsDto } from 'src/app/_Models/GetAdminBusinessDetailsDto';
 import Swal from 'sweetalert2';
@@ -32,12 +33,13 @@ export class ScheduleClientComponent implements OnInit {
   text:string ='' ;
   val:number = 0;
   applicationUserId:any = null;
+  book!:BookDto;
 
   comment:CreateCommentDto = new CreateCommentDto('',0,this.applicationUserId);
 
   Comments:any = null;
   length:number = 0;
-  date:Date = new Date();
+  date:Date=new Date();
 
   role:any ='';
   username:any = '';
@@ -96,14 +98,22 @@ export class ScheduleClientComponent implements OnInit {
     if(localStorage.getItem('currentUser')){
       Swal.fire({  
         title: 'Book an appointment',  
-        html: '<input type="date" [(ngModel)]="date" class="form-control" required>',
+        html: '<input type="date" [(ngModel)]="date" class="form-control">',
         showCancelButton: true,
       }).then((result) => {
         if (result.value) {
-          this.Serv.Book(this.date,this.Businessid,id).subscribe(d=>{
+          console.log(this.book)
+          this.book=new BookDto(this.date,this.Businessid,id);
+          console.log(this.book)
+          this.Serv.Book(this.book).subscribe(d=>{
             console.log(d.message);
             console.log(d.data);
-            this._sweetalertService.RunAlert(d.message, true);
+            if(d.success){
+              this._sweetalertService.RunAlert(d.message, true);
+
+            }else{
+              this._sweetalertService.RunAlert(d.message, true);
+            }
           });
         }
       });

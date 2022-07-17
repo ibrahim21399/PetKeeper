@@ -37,8 +37,9 @@
         <div class="grid-1-5" *ngFor="let s of schedule" style="padding-top: 7rem;">
             <h2>{{s.dayOfWeek}}</h2>
             <label>Avaliable Time</label>
-            <h4><span class="uppercase">From :{{s.startTime}}</span></h4>
-            <h4><span class="uppercase">To : {{s.endTime}}</span></h4>
+            <h3><span class="uppercase">From :{{s.startTime}}</span></h3>
+            <h3><span class="uppercase">To : {{s.endTime}}</span></h3>
+
             <a [routerLink]="['/client/schedule',SelectedBusiness.id]" class="button" (click)="Book(s.id)">Book</a>
         </div>
     </div>
@@ -63,12 +64,10 @@
                 	        <button type="submit" class="btn pull-right text-light" style="margin: 1rem;background-color: #9c83aa;" (click)="Submit()">Submit</button>
                             <fieldset>
                                 <div class="row">
-                                    <!-- <div class="col-sm-3 col-lg-2 hidden-xs">
+                                    <div class="col-sm-3 col-lg-2 hidden-xs">
                             	        <img class="img-responsive" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" style="width: 6rem;">
-                                    </div> -->
-                                    <div class="form-group col-md-12 col-sm-9 col-lg-12">
-                                        {{val}}
-                                        {{text}}
+                                    </div>
+                                    <div class="form-group col-xs-12 col-sm-9 col-lg-10">
                                         <textarea [(ngModel)]="text" class="form-control" id="message" placeholder="Your message" required=""></textarea>
 								        <p-rating style="margin: 1rem;" [(ngModel)]="val" [cancel]="false"></p-rating>
                                     </div>
@@ -85,7 +84,7 @@
                             <p>{{comment.comment}}</p>
                             <p-rating class="pull-left" style="margin: 1rem;display: inline;" [(ngModel)]="comment.rate" [cancel]="false" [readonly]="true"></p-rating>
                             <ul class="list-unstyled list-inline media-detail pull-right">
-                                <li><a class="btn btn-danger" [routerLink]="['/client/comment/delete']" (click)="delete(comment.id)" >Delete</a></li>
+                                <li><a class="btn btn-danger" [routerLink]="['/client/comment/delete']" (click)="delete(comment.commentId)" >Delete</a></li>
                             </ul>
                         </div>
                     </div>

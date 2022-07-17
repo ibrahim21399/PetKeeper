@@ -5,7 +5,9 @@ import { Guid } from 'guid-typescript';
 import { Subscription } from 'rxjs';
 import { SharedService } from 'src/app/shared.service';
 import { DropDownId } from 'src/app/_Models/DropDownId';
+import { FilterDto } from 'src/app/_Models/FilterDto';
 import { GetBusinessDto } from 'src/app/_Models/GetBusinessDto';
+import { SweetalertService } from '../Shared/sweetalert.service';
 
 @Component({
   selector: 'app-services',
@@ -17,7 +19,7 @@ export class ServicesComponent implements OnInit,OnDestroy {
   Serviceid:Guid = Guid.create();
   sub:Subscription = new Subscription();
   shopSrc:string="../../../assets/images/shop.svg";
-
+  filterD!:FilterDto;
   cities:DropDownId[] = [];
   areas:DropDownId[] = [];
   CityId:number = 0;
@@ -36,7 +38,7 @@ export class ServicesComponent implements OnInit,OnDestroy {
   imgURL:string = 'https://localhost:7293/';
   thumbnail = this.sanitizer.bypassSecurityTrustUrl(this.imgURL);
 
-  constructor(public route: ActivatedRoute, public serv:SharedService,private sanitizer: DomSanitizer) {}
+  constructor(public route: ActivatedRoute, public serv:SharedService,private sanitizer: DomSanitizer ,public _sweetalertService: SweetalertService) {}
   
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params=>{
@@ -63,7 +65,12 @@ export class ServicesComponent implements OnInit,OnDestroy {
   }
 
   Filter(){
-    this.serv.FilterBusiness(this.Serviceid,this.CityId,this.AreaId).subscribe(bs=>{
+    this.filterD=new FilterDto(this.Serviceid,this.CityId,this.AreaId);
+    this.serv.FilterBusiness(this.filterD).subscribe(bs=>{
+      if(!bs.success){
+        this._sweetalertService.RunAlert(bs.message,false);
+
+      }
       this.FilteredBusinesses = bs.data;
       console.log(this.FilteredBusinesses);
 
