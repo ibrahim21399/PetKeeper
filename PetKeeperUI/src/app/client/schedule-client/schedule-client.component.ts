@@ -30,12 +30,12 @@ export class ScheduleClientComponent implements OnInit {
 
   schedule:any = null;
 
-  text:string ='' ;
-  val:number = 0;
+  text!:string;
+  val!:number;
   applicationUserId:any = null;
   book!:BookDto;
 
-  comment:CreateCommentDto = new CreateCommentDto('',0,this.applicationUserId);
+  comment!:CreateCommentDto;
 
   Comments:any = null;
   length:number = 0;
@@ -129,24 +129,30 @@ export class ScheduleClientComponent implements OnInit {
     
   }
 
-  Submit(){
-    this.comment.comment = this.text;
-    this.comment.rate = this.val;
-    this.comment.applicationUserId = this.applicationUserId;
-    console.log(this.text);
-    console.log(this.val);
-    console.log(this.applicationUserId);
-    console.log(this.comment);
+  Submit(c:string,r:number){
+    this.comment=new CreateCommentDto(c,r,this.applicationUserId);
+    console.log(this.comment+"From");
     this.Serv.AddComment(this.Businessid,this.comment).subscribe(d=>{
       console.log(d.message);
       console.log(d.data);
-      this._sweetalertService.RunAlert(d.message, true);
+      if(d.success){
+        this._sweetalertService.RunAlert(d.message, true);
+
+      }else{
+        this._sweetalertService.RunAlert(d.message, false);
+      }
     })
   };
 
   delete(commentId:Guid){
     this.Serv.DeleteComment(commentId).subscribe(d=>{
       console.log(d.message);
+      if(d.success){
+        this._sweetalertService.RunAlert(d.message, true);
+
+      }else{
+        this._sweetalertService.RunAlert(d.message, false);
+      }
       console.log(d.data);
     })
   }

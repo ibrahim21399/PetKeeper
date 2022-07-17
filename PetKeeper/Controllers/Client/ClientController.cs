@@ -35,7 +35,7 @@ namespace PetKeeper.Controllers.Client
         }
 
         [HttpPost]
-        public async Task<IActionResult> CommentOnBusiness(Guid BusId,CreateCommentDto createCommentDto)
+        public async Task<IActionResult> CommentOnBusiness([FromQuery]Guid BusId,[FromBody]CreateCommentDto createCommentDto)
         {
             createCommentDto.ApplicationUserId=Guid.Parse(CurrentUserId);
             var res = await _commentService.AddComment(BusId,createCommentDto);

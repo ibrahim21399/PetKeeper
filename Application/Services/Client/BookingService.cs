@@ -77,7 +77,7 @@ namespace Application.Services.Client
             }
         }
         public async Task<ServiceResponse<List<GetBookingDto>>> GetAllClientBooking(Guid userId)
-        {
+            {
 
             var UserBookings =  _bookingRepository.GetAll(a => a.ApplicationUserId == userId);
 

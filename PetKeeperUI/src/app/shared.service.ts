@@ -202,7 +202,12 @@ export class SharedService {
 
   //Comments
   AddComment(busId:Guid,createCommentDto:CreateCommentDto){
-    return this.http.post<ServiceResponse<number>>(this.baseurl+"Client/CommentOnBusiness?BusId="+busId,createCommentDto);
+    console.log(createCommentDto)
+    
+    let headers = new HttpHeaders().set('Content-Type', 'application/json'); 
+    let body = JSON.stringify({'comment' : createCommentDto.comment, 'rate' : createCommentDto.rate , 'applicationUserId' : createCommentDto.applicationUserId});
+   
+    return this.http.post<ServiceResponse<number>>(this.baseurl+"Client/CommentOnBusiness?BusId="+busId,body,{headers});
   };
 
   DeleteComment(commentId:Guid){

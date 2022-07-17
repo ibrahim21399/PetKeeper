@@ -20,6 +20,8 @@ namespace Application.Mapping.Client
             CreateMap<Booking, GetBOwnerBookingDto>()
                  .ForMember(a => a.BusinessName, a => a.Ignore())
                  .ReverseMap();
+            CreateMap<Comments, CreateCommentDto>()
+                 .ReverseMap();
 
 
 

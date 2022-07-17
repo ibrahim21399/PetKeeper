@@ -61,15 +61,15 @@
                     <div *ngIf="role == 'Client'">
                         <form>
                 	        <h3 class="pull-left">New Comment</h3>
-                	        <button type="submit" class="btn pull-right text-light" style="margin: 1rem;background-color: #9c83aa;" (click)="Submit()">Submit</button>
+                	        <button type="submit" class="btn pull-right text-light" style="margin: 1rem;background-color: #9c83aa;" (click)="Submit(comment.value,rate.value)">Submit</button>
                             <fieldset>
                                 <div class="row">
                                     <div class="col-sm-3 col-lg-2 hidden-xs">
                             	        <img class="img-responsive" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" style="width: 6rem;">
                                     </div>
                                     <div class="form-group col-xs-12 col-sm-9 col-lg-10">
-                                        <textarea [(ngModel)]="text" class="form-control" id="message" placeholder="Your message" required=""></textarea>
-								        <p-rating style="margin: 1rem;" [(ngModel)]="val" [cancel]="false"></p-rating>
+                                        <textarea [(ngModel)]="text" class="form-control" id="message" placeholder="Your message" required  #comment></textarea>
+								        <p-rating style="margin: 1rem;" [(ngModel)]="val" [cancel]="false" #rate></p-rating>
                                     </div>
                                 </div>  	
                             </fieldset>
